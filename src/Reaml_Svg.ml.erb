@@ -1,0 +1,5 @@
+<% svg_elements.each do |name| %>
+let <%= quote.(name) %> = Reaml_Core.element "<%= unquote.(name) %>"<% end %>
+
+<% svg_attributes.each do |(name, type)| %>
+let <%= quote.(name) %> (value: <%= type %>) = Reaml_Core.property "<%= unquote.(name) %>" value<% end %>

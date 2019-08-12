@@ -1,0 +1,89 @@
+require "cgi"
+require "erb"
+
+NO_MAIN = ["AnimationFrame.ml"]
+
+def write(path, template, binding)
+  File.write(path, ERB.new(template).result(binding))
+end
+
+head = <<HTML
+<link rel="stylesheet" href="../node_modules/highlight.js/styles/atom-one-dark.css">
+<link rel="stylesheet" href="style.css">
+HTML
+
+footer = <<HTML
+<footer>
+  Powered by <a href="https://github.com/utkarshkukreti/reaml">reaml</a>.
+</footer>
+HTML
+
+task :default do
+  files = FileList["*.{re,ml}"].reject { |file| NO_MAIN.any? { |nm| name(nm) == name(file) } }
+
+  files.each do |file|
+    name = name(file)
+    code = File.read(file)
+    used_files = [file]
+    NO_MAIN.each do |file|
+      if code.include?("#{name(file)}.")
+        used_files << file
+      end
+    end
+
+    write "#{name}.html", <<ERB, binding
+<!doctype html>
+<html>
+  <head>
+    <title><%= name %></title>
+    <%= head %>
+  </head>
+  <body>
+    <h1><%= name %></h1>
+    <main></main>
+    <% used_files.each do |used_file| %>
+      <h2><%= used_file %></h2>
+      <pre><code class="ocaml"><%= CGI.escape_html(File.read(used_file)) %></code></pre>
+    <% end %>
+    <%= footer %>
+    <script src="<%= name %>.bs.js"></script>
+    <script src="highlight.js"></script>
+  </body>
+</html>
+ERB
+  end
+
+  write "index.html", <<ERB, binding
+<!doctype html>
+<html>
+  <head>
+    <title>Examples</title>
+    <%= head %>
+  </head>
+  <body>
+    <h1>reaml Examples</h1>
+    <h3>OCaml</h3>
+    <ul>
+      <% files.select { |file| file =~ /\.ml$/ }.each do |file| name = name(file) %>
+        <li>
+          <a href="<%= name %>.html"><%= name %></a>
+        </li>
+      <% end %>
+    </ul>
+    <h3>ReasonML</h3>
+    <ul>
+      <% files.select { |file| file =~ /\.re$/ }.each do |file| name = name(file) %>
+        <li>
+          <a href="<%= name %>.html"><%= name %></a>
+        </li>
+      <% end %>
+    </ul>
+    <%= footer %>
+  </body>
+</html>
+ERB
+end
+
+def name(string)
+  string.split(".").first
+end

@@ -1,0 +1,24 @@
+<% html_elements.each do |name| %>
+let <%= name %> = Reaml_Core.element "<%= unquote.(name) %>"<% end %>
+
+let ref (value: Dom.element option -> unit) =
+  Reaml_Core.property "ref" (fun (element: Dom.element Js.Nullable.t) ->
+    value (Js.Nullable.toOption element))
+
+<% html_attributes.each do |(name, type)| %>
+let <%= quote.(name) %> (value: <%= type %>) = Reaml_Core.property "<%= unquote.(name) %>" value<% end %>
+
+<% events.each do |(name, event_type)| %>
+let <%= name %> (handler: Reaml_Event.<%= event_type %>.t -> unit) = Reaml_Core.on "<%= unquote.(name[2..-1]) %>" (fun event -> handler (Obj.magic event))<% end %>
+
+let onInputValue (handler : string -> unit) =
+  onChange (fun event ->
+      match (Obj.magic event)##target##value with
+      | Some value -> handler value
+      | None -> handler "")
+
+let onCheck (handler : bool -> unit) =
+  onChange (fun event ->
+      match (Obj.magic event)##target##checked with
+      | Some checked -> handler checked
+      | None -> handler false)

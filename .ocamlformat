@@ -1,0 +1,3 @@
+profile = janestreet
+let-binding-spacing = compact
+module-item-spacing = compact

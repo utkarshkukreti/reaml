@@ -1,0 +1,76 @@
+module Reaml = struct
+  type undefined
+
+  let undefined : undefined = Obj.magic ()
+  let useState _ _ = Obj.magic ()
+  let useReducer _ _ _ = Obj.magic ()
+  let component _ _ = Obj.magic ()
+end
+
+let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let[@reaml] _count, _setCount = Reaml.useState () in
+  ()
+
+let useThing =
+ fun [@reaml.hook] _ ->
+  let[@reaml] count, _setCount = Reaml.useState () in
+  let () = Js.log "in useThing!" in
+  let[@reaml] value, _dispatch = Reaml.useReducer () () in
+  count, value
+
+let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let[@reaml] _count, _setCount = Reaml.useState () in
+  let[@reaml] _value, _dispatch = Reaml.useReducer () () in
+  let[@reaml] _, _ = useThing () in
+  ()
+
+(* Mainly for ReasonML *)
+let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let ((_count, _setCount)[@reaml]) = Reaml.useState () in
+  let ((_value, _dispatch)[@reaml]) = Reaml.useReducer () () in
+  let ((_, _)[@reaml]) = useThing () in
+  ()
+
+(* These should produce errors. *)
+
+(* let _foo _ =
+  let[@reaml] _ = () in
+  () *)
+
+(* let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let[@reaml] _count, _setCount =
+    if true then Reaml.useState () else Reaml.useState ()
+  in
+  () *)
+
+(* let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  if true
+  then (
+    let[@reaml] _count, _setCount = Reaml.useState () in
+    ())
+  else () *)
+
+(* let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let[@reaml] () = () in
+  () *)
+
+(* let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let[@reaml] _count, _setCount = Reaml.useState 0 in
+  let[@reaml] () = () in
+  () *)
+
+(* let _foo =
+ fun [@reaml.component "Foo"] _ ->
+  let _ =
+   fun () ->
+    let[@reaml] () = () in
+    ()
+  in
+  () *)
