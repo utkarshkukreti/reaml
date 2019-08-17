@@ -1489,10 +1489,10 @@ bs-webapi@^0.15.2:
   resolved "https://registry.yarnpkg.com/bs-webapi/-/bs-webapi-0.15.2.tgz#0bf4174cffafde748df19c4ae42f6e8e6c6a22b1"
   integrity sha512-P3YNG9i29FjGxBLN4UkhiQpBwB4ok+xiGK6kCiUixBB/mb/hwnFGPbxAY/Q2owx0/8ehM+BwRT6vFd01T0GRRQ==
 
-bsb-native@^4.0.7000:
-  version "4.0.7000"
-  resolved "https://registry.yarnpkg.com/bsb-native/-/bsb-native-4.0.7000.tgz#04031ae81a3cd53d48868593fe059c1d5752403b"
-  integrity sha512-RcmbmdwvGHnQBhxkz6B7+J0d4cTUhWDGIJ94DmjHDlwgH7cnzWTTKqASWkPiPTqlNFyZtQxZ9qTvAQrsE/iMpw==
+bsb-native@^4.0.1100:
+  version "4.0.1100"
+  resolved "https://registry.yarnpkg.com/bsb-native/-/bsb-native-4.0.1100.tgz#c61e02afc12ec393b63dfb440ba7b309968e107f"
+  integrity sha512-XQ6farp7NBctlw1EOMQDvWEyOAGzwqP5G9N37Jb9KgvD/eiSNPclcMFi6BpFlNeHDYPyX4T0rSaFK7tvQFb5/Q==
   dependencies:
     yauzl "^2.9.1"
 
@@ -5544,12 +5544,12 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-reaml-ppx@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/reaml-ppx/-/reaml-ppx-0.1.0.tgz#a90a63efb67c9f2919d4559dc8d7b649c059cf05"
-  integrity sha512-PWit1/qlMPS8EGkMDG7lF4U5LZgFBMiKEkxuO4MU0b6gJ8uGbxZBRL4abZp/ml0WEBe1iHSUnPWHqD2mbMfPVQ==
+reaml-ppx@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/reaml-ppx/-/reaml-ppx-0.1.1.tgz#e5968f670da896e86c45a2544af6d2813e69d423"
+  integrity sha512-t4NP9cwZ91MUB3coZjlc6LlRGm8Zt6G5q1P4W3g2ydKaOPexfhQLVcTkFDFEDfxVVU23EnqBn9IfYNlB5Eqcmw==
   dependencies:
-    bsb-native "^4.0.7000"
+    bsb-native "^4.0.1100"
 
 regenerate-unicode-properties@^8.1.0:
   version "8.1.0"
