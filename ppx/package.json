@@ -1,6 +1,6 @@
 {
   "name": "reaml-ppx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "files": [
     "bsconfig.json",
@@ -14,6 +14,6 @@
     "postinstall": "bsb -make-world -backend native && cp lib/bs/native/reaml_ppx.native ppx"
   },
   "dependencies": {
-    "bsb-native": "^4.0.7000"
+    "bsb-native": "^4.0.1100"
   }
 }
