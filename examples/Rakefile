@@ -14,7 +14,7 @@ HTML
 
 footer = <<HTML
 <footer>
-  Powered by <a href="https://github.com/utkarshkukreti/reaml">reaml</a>.
+  Powered by <a href="https://github.com/utkarshkukreti/reaml">Reaml</a>.
 </footer>
 HTML
 
@@ -61,7 +61,7 @@ ERB
     <%= head %>
   </head>
   <body>
-    <h1>reaml Examples</h1>
+    <h1>Reaml Examples</h1>
     <h3>OCaml</h3>
     <ul>
       <% files.select { |file| file =~ /\.ml$/ }.each do |file| name = name(file) %>
