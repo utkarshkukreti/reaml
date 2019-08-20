@@ -4,7 +4,7 @@
 > compile time enforcement of the ["Rules of Hooks"](https://reactjs.org/docs/hooks-rules.html)
 > ([How?](#how-are-the-rules-of-hooks-enforced-at-compile-time)).
 
-> [Live Demos](https://reaml.netlify.com) | [Starter](https://github.com/utkarshkukreti/reaml-starter)
+> [Live Examples](https://reaml.netlify.com) | [Starter](https://github.com/utkarshkukreti/reaml-starter)
 
 ## Overview
 
