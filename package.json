@@ -5,7 +5,7 @@
   "files": [
     "bsconfig.json",
     "examples/*.ml",
-    "src/*.{ml,bs.js}"
+    "src/*.ml"
   ],
   "scripts": {
     "start": "npm-run-all -s build:rake build:bsb -p start:bsb start:parcel",
