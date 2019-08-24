@@ -151,6 +151,15 @@ let class' name = Class name
 let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 
+let classes (pairs : (string * bool) list) =
+  Class
+    (pairs
+    |. Belt.List.keepMap (function
+           | name, true -> Some name
+           | _ -> None)
+    |. Belt.List.toArray
+    |> Js.Array.joinWith " ")
+
 (* Create Empty Node *)
 external null : vnode = "#null"
 
