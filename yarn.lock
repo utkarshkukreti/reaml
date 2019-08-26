@@ -5544,10 +5544,10 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-reaml-ppx@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/reaml-ppx/-/reaml-ppx-0.1.1.tgz#e5968f670da896e86c45a2544af6d2813e69d423"
-  integrity sha512-t4NP9cwZ91MUB3coZjlc6LlRGm8Zt6G5q1P4W3g2ydKaOPexfhQLVcTkFDFEDfxVVU23EnqBn9IfYNlB5Eqcmw==
+reaml-ppx@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/reaml-ppx/-/reaml-ppx-0.1.2.tgz#889ff63d0f3e2c9d5cd0219411cae88a5b3c0520"
+  integrity sha512-YvmFca36zOb1y4i306io7qTIPanKXrECaGtwWHcV4fxT9aB90GFy+++mSef1OJP9kJ72Hl+PiI1zTERY2KQ86Q==
   dependencies:
     bsb-native "^4.0.1100"
 

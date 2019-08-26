@@ -1,6 +1,6 @@
 {
   "name": "reaml",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "files": [
     "bsconfig.json",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "bs-webapi": "^0.15.2",
-    "reaml-ppx": "^0.1.1"
+    "reaml-ppx": "^0.1.2"
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.9",

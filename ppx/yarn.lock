@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-bsb-native@^4.0.7000:
-  version "4.0.7000"
-  resolved "https://registry.yarnpkg.com/bsb-native/-/bsb-native-4.0.7000.tgz#04031ae81a3cd53d48868593fe059c1d5752403b"
-  integrity sha512-RcmbmdwvGHnQBhxkz6B7+J0d4cTUhWDGIJ94DmjHDlwgH7cnzWTTKqASWkPiPTqlNFyZtQxZ9qTvAQrsE/iMpw==
+bsb-native@^4.0.1100:
+  version "4.0.1100"
+  resolved "https://registry.yarnpkg.com/bsb-native/-/bsb-native-4.0.1100.tgz#c61e02afc12ec393b63dfb440ba7b309968e107f"
+  integrity sha512-XQ6farp7NBctlw1EOMQDvWEyOAGzwqP5G9N37Jb9KgvD/eiSNPclcMFi6BpFlNeHDYPyX4T0rSaFK7tvQFb5/Q==
   dependencies:
     yauzl "^2.9.1"
 
