@@ -1,0 +1,6 @@
+(executable
+  (name Reaml_Ppx_Bin)
+  (public_name Reaml_Ppx_Bin)
+  (package Reaml_Ppx_Bin)
+  (libraries Reaml_Ppx)
+  (ocamlopt_flags ( -linkall )))

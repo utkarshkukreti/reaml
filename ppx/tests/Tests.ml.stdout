@@ -1,29 +1,29 @@
 module Reaml =
   struct
     type undefined
-    let undefined: undefined = Obj.magic ()
+    let undefined : undefined = Obj.magic ()
     let useState _ _ = Obj.magic ()
     let useReducer _ _ _ = Obj.magic ()
     let component _ _ = Obj.magic ()
   end
 let _foo =
   Reaml.component "Foo"
-    (fun _  ->
-       let (_count,_setCount) = Reaml.useState () Reaml.undefined in ())
+    (fun _ ->
+       let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
 let useThing _ (_ : Reaml.undefined) =
-  let (count,_setCount) = Reaml.useState () Reaml.undefined in
+  let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in
-  let (value,_dispatch) = Reaml.useReducer () () Reaml.undefined in
+  let (value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
   (count, value)
 let _foo =
   Reaml.component "Foo"
-    (fun _  ->
-       let (_count,_setCount) = Reaml.useState () Reaml.undefined in
-       let (_value,_dispatch) = Reaml.useReducer () () Reaml.undefined in
-       let (_,_) = useThing () Reaml.undefined in ())
+    (fun _ ->
+       let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+       let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+       let (_, _) = useThing () Reaml.undefined in ())
 let _foo =
   Reaml.component "Foo"
-    (fun _  ->
-       let (_count,_setCount) = Reaml.useState () Reaml.undefined in
-       let (_value,_dispatch) = Reaml.useReducer () () Reaml.undefined in
-       let (_,_) = useThing () Reaml.undefined in ())
+    (fun _ ->
+       let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+       let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+       let (_, _) = useThing () Reaml.undefined in ())

@@ -1,4 +1,5 @@
 *.exe
+!/ppx.exe
 *.obj
 *.out
 *.compile
@@ -27,6 +28,7 @@ lib/bs
 node_modules
 *.bs.js
 /.cache
+/_esy
 /dist
 /examples/*.html
 /lib

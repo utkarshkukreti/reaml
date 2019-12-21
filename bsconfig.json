@@ -6,7 +6,7 @@
     { "dir": "examples", "subdirs": true, "type": "dev" },
     { "dir": "tests", "subdirs": true, "type": "dev" }
   ],
-  "ppx-flags": ["reaml-ppx/ppx"],
+  "ppx-flags": ["./ppx.exe"],
   "package-specs": [
     {
       "module": "es6",
