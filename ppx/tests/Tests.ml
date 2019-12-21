@@ -5,6 +5,7 @@ module Reaml = struct
   let useState _ _ = Obj.magic ()
   let useReducer _ _ _ = Obj.magic ()
   let component _ _ = Obj.magic ()
+  let recursiveComponent _ _ = Obj.magic ()
 end
 
 let _foo =
@@ -19,12 +20,12 @@ let useThing =
   let[@reaml] value, _dispatch = Reaml.useReducer () () in
   count, value
 
-let _foo =
- fun [@reaml.component "Foo"] _ ->
+let rec _foo =
+ fun [@reaml.component.recursive "Foo"] foo _ ->
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
-  ()
+  foo ()
 
 (* Mainly for ReasonML *)
 let _foo =

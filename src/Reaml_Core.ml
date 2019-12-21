@@ -196,6 +196,16 @@ let component name fn =
   Internal.setDisplayName fn name;
   fun props -> Internal.createComponentElement fn [%bs.obj { ___ = props }]
 
+(* Create Recursive Component *)
+let recursiveComponent name fn =
+  let rec fn' x =
+    fn
+      (fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }])
+      x##___
+  in
+  Internal.setDisplayName fn' name;
+  fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }]
+
 (* Render *)
 external render : vnode -> element -> unit = "render" [@@bs.module "react-dom"]
 

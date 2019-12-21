@@ -5,6 +5,7 @@ module Reaml =
     let useState _ _ = Obj.magic ()
     let useReducer _ _ _ = Obj.magic ()
     let component _ _ = Obj.magic ()
+    let recursiveComponent _ _ = Obj.magic ()
   end
 let _foo =
   Reaml.component "Foo"
@@ -15,12 +16,13 @@ let useThing _ (_ : Reaml.undefined) =
   let () = Js.log "in useThing!" in
   let (value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
   (count, value)
-let _foo =
-  Reaml.component "Foo"
-    (fun _ ->
-       let (_count, _setCount) = Reaml.useState () Reaml.undefined in
-       let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
-       let (_, _) = useThing () Reaml.undefined in ())
+let rec _foo =
+  Reaml.recursiveComponent "Foo"
+    (fun foo ->
+       fun _ ->
+         let (_count, _setCount) = Reaml.useState ()[@@reaml ] in
+         let (_value, _dispatch) = Reaml.useReducer () ()[@@reaml ] in
+         let (_, _) = useThing ()[@@reaml ] in foo ())
 let _foo =
   Reaml.component "Foo"
     (fun _ ->

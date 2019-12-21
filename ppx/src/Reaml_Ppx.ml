@@ -83,7 +83,7 @@ let mapper _ _ =
           (match expr with
           | { pexp_desc = Pexp_fun ("", None, args, expr)
             ; pexp_attributes =
-                [ ( { txt = "reaml.component" }
+                [ ( { txt = ("reaml.component" | "reaml.component.recursive") as txt }
                   , PStr
                       [ { pstr_desc =
                             Pstr_eval
@@ -98,9 +98,15 @@ let mapper _ _ =
             let inner =
               Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr)
             in
+            let fn =
+              match txt with
+              | "reaml.component" -> "component"
+              | "reaml.component.recursive" -> "recursiveComponent"
+              | _ -> "unreachable!"
+            in
             Ast_helper.Exp.apply
               { pexp_desc =
-                  Pexp_ident { txt = Ldot (Lident "Reaml", "component"); loc = pexp_loc }
+                  Pexp_ident { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc }
               ; pexp_loc
               ; pexp_attributes = []
               }
