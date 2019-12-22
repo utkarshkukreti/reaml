@@ -19,8 +19,8 @@ type vnode
 type 'props component = 'props -> vnode
 
 module Internal = struct
-  external createElement : string -> 'a Js.t -> vnode = "createElement"
-    [@@bs.module "react"]
+  external createElement : string -> 'a Js.t -> vnode array -> vnode = "createElement"
+    [@@bs.variadic] [@@bs.module "react"]
 
   external createComponentElement
     :  'a Js.t component
@@ -177,10 +177,7 @@ let element name props (children : vnode list) =
       | Class name -> class' := if !class' = "" then name else !class' ^ " " ^ name);
   if !hasStyle then Js.Dict.set props' "style" (any style) else ();
   if !class' = "" then () else Js.Dict.set props' "className" (any !class');
-  (match children with
-  | [] -> ()
-  | _ -> Js.Dict.set props' "children" (any (Belt.List.toArray children)));
-  Internal.createElement name (Obj.magic props')
+  Internal.createElement name (Obj.magic props') (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
