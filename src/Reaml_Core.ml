@@ -176,7 +176,7 @@ let element name props (children : vnode list) =
         Js.Dict.set style name value
       | Class name -> class' := if !class' = "" then name else !class' ^ " " ^ name);
   if !hasStyle then Js.Dict.set props' "style" (any style) else ();
-  if !class' = "" then () else Js.Dict.set props' "class" (any !class');
+  if !class' = "" then () else Js.Dict.set props' "className" (any !class');
   (match children with
   | [] -> ()
   | _ -> Js.Dict.set props' "children" (any (Belt.List.toArray children)));
