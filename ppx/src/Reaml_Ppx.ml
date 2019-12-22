@@ -26,7 +26,7 @@ let check expr =
 let rec rewrite_let = function
   | { pexp_desc =
         Pexp_let
-          ( Nonrecursive
+          ( recursive
           , [ { pvb_pat
               ; pvb_expr =
                   { pexp_desc =
@@ -40,7 +40,7 @@ let rec rewrite_let = function
     }
   | { pexp_desc =
         Pexp_let
-          ( Nonrecursive
+          ( recursive
           , [ { pvb_pat =
                   { ppat_attributes = [ ({ txt = "reaml" }, PStr []) ] } as pvb_pat
               ; pvb_expr =
@@ -63,7 +63,7 @@ let rec rewrite_let = function
         ]
     in
     Ast_helper.Exp.let_
-      Nonrecursive
+      recursive
       [ { pvb_pat = { pvb_pat with ppat_attributes = [] }
         ; pvb_expr = Ast_helper.Exp.apply ident args
         ; pvb_attributes = []
@@ -95,14 +95,29 @@ let mapper _ _ =
                 ]
             ; pexp_loc
             } ->
-            let inner =
-              Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr)
-            in
-            let fn =
+            let inner, fn =
               match txt with
-              | "reaml.component" -> "component"
-              | "reaml.component.recursive" -> "recursiveComponent"
-              | _ -> "unreachable!"
+              | "reaml.component" ->
+                ( Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr)
+                , "component" )
+              | "reaml.component.recursive" ->
+                (match expr with
+                | { pexp_desc = Pexp_fun ("", None, args', expr) } ->
+                  ( Ast_helper.Exp.fun_
+                      ~loc:pexp_loc
+                      ""
+                      None
+                      args
+                      (Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args' (rewrite_let expr))
+                  , "recursiveComponent" )
+                | _ ->
+                  raise
+                    (Location.Error
+                       (Location.error
+                          ~loc:pexp_loc
+                          "a recursive component should take exactly 2 arguments")))
+              | _ ->
+                raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
             Ast_helper.Exp.apply
               { pexp_desc =

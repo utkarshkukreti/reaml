@@ -7,7 +7,7 @@ module Tree = struct
 
   let make =
    fun [@reaml.component.recursive "Tree"] make t ->
-    let[@reaml] collapsed, setCollapsed = R.useState false R.undefined in
+    let[@reaml] collapsed, setCollapsed = R.useState false in
     match t with
     | Many (value, many) ->
       R.div
