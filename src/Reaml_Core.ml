@@ -52,9 +52,7 @@ module Context = struct
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
   let provide (context : 'a t) (value : 'a) vnode =
-    Internal.createElement
-      (Obj.magic context)##_Provider
-      [%bs.obj { value; children = [| vnode |] }]
+    Internal.createElement (Obj.magic context)##_Provider [%bs.obj { value }] [| vnode |]
 end
 
 (* Ref *)
