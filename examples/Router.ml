@@ -41,7 +41,7 @@ module Router_ = struct
     let push t _ = Router.push t in
     let replace t _ = Router.replace t in
     R.div
-      [ R.style "text-align" "center" ]
+      [ R.style "textAlign" "center" ]
       [ R.button [ R.onClick (push Router.Home) ] [ R.string "PUSH Home" ]
       ; R.button [ R.onClick (push Router.Posts) ] [ R.string "PUSH Posts" ]
       ; R.button [ R.onClick (push (Router.Post 123)) ] [ R.string "PUSH Post 123" ]

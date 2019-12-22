@@ -11,7 +11,7 @@ module RouterRaw = struct
       R.Router.Url.replace R.Router.Hash (R.Router.Url.fromString string)
     in
     R.div
-      [ R.style "text-align" "center" ]
+      [ R.style "textAlign" "center" ]
       [ R.button [ R.onClick (push "/foo") ] [ R.string "PUSH /foo" ]
       ; R.button [ R.onClick (push "/bar") ] [ R.string "PUSH /bar" ]
       ; R.button [ R.onClick (replace "/foo") ] [ R.string "REPLACE /foo" ]

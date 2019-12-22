@@ -15,7 +15,7 @@ module Clicks = struct
       ; R.style "padding" "1rem"
       ; R.style "background" "#ffc"
       ; R.style "overflow" "scroll"
-      ; R.style "margin-bottom" "2rem"
+      ; R.style "marginBottom" "2rem"
       ; R.onClick (fun event ->
             dispatch R.Event.Mouse.(Clicked (clientX event, clientY event)))
       ]
