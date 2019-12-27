@@ -129,8 +129,7 @@ external useMemo : (unit -> 'a) -> any array option -> undefined -> 'a = "useMem
   [@@bs.module "react"]
 
 (* Context *)
-external useContext : 'a Context.t -> undefined -> 'a = "useContext"
-  [@@bs.module "react"]
+external useContext : 'a Context.t -> undefined -> 'a = "useContext" [@@bs.module "react"]
 
 (* Ref *)
 external useRef : 'a -> undefined -> 'a Ref.t = "useRef" [@@bs.module "react"]
@@ -194,9 +193,7 @@ let component name fn =
 (* Create Recursive Component *)
 let recursiveComponent name fn =
   let rec fn' x =
-    fn
-      (fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }])
-      x##___
+    fn (fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }]) x##___
   in
   Internal.setDisplayName fn' name;
   fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }]

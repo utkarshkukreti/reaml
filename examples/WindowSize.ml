@@ -17,9 +17,7 @@ module WindowSize = struct
 
   let use =
    fun [@reaml.hook] () ->
-    let[@reaml] size, setSize =
-      R.useState { width = innerWidth; height = innerHeight }
-    in
+    let[@reaml] size, setSize = R.useState { width = innerWidth; height = innerHeight } in
     let[@reaml] () =
       R.useEffect
         (fun () ->

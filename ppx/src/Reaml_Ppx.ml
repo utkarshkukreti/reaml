@@ -87,8 +87,8 @@ let mapper _ _ =
                   , PStr
                       [ { pstr_desc =
                             Pstr_eval
-                              ( ({ pexp_desc = Pexp_constant (Const_string (_, None)) }
-                                as name)
+                              ( ({ pexp_desc = Pexp_constant (Const_string (_, None)) } as
+                                name)
                               , _ )
                         }
                       ] )
@@ -120,8 +120,7 @@ let mapper _ _ =
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
             Ast_helper.Exp.apply
-              { pexp_desc =
-                  Pexp_ident { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc }
+              { pexp_desc = Pexp_ident { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc }
               ; pexp_loc
               ; pexp_attributes = []
               }

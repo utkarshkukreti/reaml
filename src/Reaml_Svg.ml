@@ -191,10 +191,7 @@ let overlinePosition (value : float) = Reaml_Core.property "overline-position" v
 let overlineThickness (value : float) = Reaml_Core.property "overline-thickness" value
 let paintOrder (value : string) = Reaml_Core.property "paint-order" value
 let pathLength (value : float) = Reaml_Core.property "pathLength" value
-
-let patternContentUnits (value : string) =
-  Reaml_Core.property "patternContentUnits" value
-
+let patternContentUnits (value : string) = Reaml_Core.property "patternContentUnits" value
 let patternTransform (value : string) = Reaml_Core.property "patternTransform" value
 let patternUnits (value : string) = Reaml_Core.property "patternUnits" value
 let pointerEvents (value : string) = Reaml_Core.property "pointer-events" value
@@ -203,10 +200,7 @@ let pointsAtX (value : float) = Reaml_Core.property "pointsAtX" value
 let pointsAtY (value : float) = Reaml_Core.property "pointsAtY" value
 let pointsAtZ (value : float) = Reaml_Core.property "pointsAtZ" value
 let preserveAlpha (value : bool) = Reaml_Core.property "preserveAlpha" value
-
-let preserveAspectRatio (value : string) =
-  Reaml_Core.property "preserveAspectRatio" value
-
+let preserveAspectRatio (value : string) = Reaml_Core.property "preserveAspectRatio" value
 let primitiveUnits (value : string) = Reaml_Core.property "primitiveUnits" value
 let r (value : string) = Reaml_Core.property "r" value
 let radius (value : string) = Reaml_Core.property "radius" value

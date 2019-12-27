@@ -105,8 +105,7 @@ module Parser = struct
     Parser
       (fun state ->
         p { state with value }
-        |. Belt.List.map (fun state' -> { state' with value = state.value state'.value })
-        )
+        |. Belt.List.map (fun state' -> { state' with value = state.value state'.value }))
 
   let parse (Parser p) url =
     let state = { url; value = (fun x -> x) } in
