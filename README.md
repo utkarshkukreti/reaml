@@ -36,8 +36,10 @@ Components are defined using a syntax extension
 module R = Reaml
 
 module Counter = struct
+  type props = { initial : int }
+
   let make =
-   fun [@reaml.component "Counter"] initial ->
+   fun [@reaml.component "Counter"] { initial } ->
     R.div [] [R.int initial]
 end
 ```
@@ -45,7 +47,7 @@ end
 Components are initialized using simple function calls:
 
 ```ocaml
-let main = Counter.make 0
+let main = Counter.make { initial = 0 }
 ```
 
 Hooks are invoked using a `[@reaml]` annotation on `let` expressions:
@@ -62,8 +64,10 @@ decrement the value ([full source](examples/Counter.ml)):
 
 ```ocaml
 module Counter = struct
+  type props = { initial : int }
+
   let make =
-   fun [@reaml.component "Counter"] initial ->
+   fun [@reaml.component "Counter"] { initial } ->
     let[@reaml] count, setCount = R.useState initial in
     R.div
       []
