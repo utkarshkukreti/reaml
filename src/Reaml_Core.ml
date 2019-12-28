@@ -43,12 +43,17 @@ let _7 a b c d e f g = Some [| any a; any b; any c; any d; any e; any f; any g |
 
 (* Context *)
 module Context = struct
-  type 'a t
+  type 'a t = { provider : 'a props -> vnode [@bs.as "Provider"] }
+
+  and 'a props =
+    { value : 'a
+    ; children : vnode
+    }
 
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
   let provide (context : 'a t) (value : 'a) vnode =
-    Internal.createElement (Obj.magic context)##_Provider [%bs.obj { value }] [| vnode |]
+    Internal.createComponentElement context.provider { value; children = vnode }
 end
 
 (* Ref *)
