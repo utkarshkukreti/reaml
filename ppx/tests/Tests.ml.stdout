@@ -10,7 +10,8 @@ module Reaml =
   end
 type props = {
   foo: int }
-external _foo : props -> Reaml.vnode = "foo"[@@reaml.component ]
+external _foo : props -> Reaml.vnode = "foo"[@@reaml.component ][@@bs.val
+                                                                  "foo"]
 let _foo props = Reaml.Internal.createComponentElement _foo props
 let _foo =
   Reaml.component "Foo"
@@ -36,3 +37,12 @@ let _foo =
        let (_count, _setCount) = Reaml.useState () Reaml.undefined in
        let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
        let (_, _) = useThing () Reaml.undefined in ())
+module Counter =
+  struct
+    type props = {
+      initial: int }
+    external make : props -> Reaml.vnode = "Counter"[@@bs.module
+                                                      "./Interop.js"]
+    [@@reaml.component ]
+    let make props = Reaml.Internal.createComponentElement make props
+  end

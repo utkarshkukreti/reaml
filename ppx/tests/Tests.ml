@@ -11,7 +11,7 @@ end
 
 type props = { foo : int }
 
-external _foo : props -> Reaml.vnode = "foo" [@@reaml.component]
+external _foo : props -> Reaml.vnode = "foo" [@@reaml.component] [@@bs.val "foo"]
 
 let _foo =
  fun [@reaml.component "Foo"] () ->
@@ -41,6 +41,13 @@ let _foo =
   let ((_value, _dispatch)[@reaml]) = Reaml.useReducer () () in
   let ((_, _)[@reaml]) = useThing () in
   ()
+
+module Counter = struct
+  type props = { initial : int }
+
+  external make : props -> Reaml.vnode = "Counter"
+    [@@bs.module "./Interop.js"] [@@reaml.component]
+end
 
 (* These should produce errors. *)
 
