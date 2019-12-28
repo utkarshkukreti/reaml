@@ -9,23 +9,25 @@ module Reaml =
   end
 let _foo =
   Reaml.component "Foo"
-    (fun _ ->
+    (fun () ->
        let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
 let useThing _ (_ : Reaml.undefined) =
   let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in
   let (value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
   (count, value)
-let rec _foo =
+type foo = {
+  foo: string }
+let _foo =
   Reaml.recursiveComponent "Foo"
-    (fun foo ->
-       fun _ ->
+    (fun { foo = _ } ->
+       fun foo ->
          let (_count, _setCount) = Reaml.useState () Reaml.undefined in
          let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
-         let (_, _) = useThing () Reaml.undefined in foo ())
+         let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
 let _foo =
   Reaml.component "Foo"
-    (fun _ ->
+    (fun () ->
        let (_count, _setCount) = Reaml.useState () Reaml.undefined in
        let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
        let (_, _) = useThing () Reaml.undefined in ())

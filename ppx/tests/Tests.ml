@@ -9,7 +9,7 @@ module Reaml = struct
 end
 
 let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   let[@reaml] _count, _setCount = Reaml.useState () in
   ()
 
@@ -20,16 +20,18 @@ let useThing =
   let[@reaml] value, _dispatch = Reaml.useReducer () () in
   count, value
 
-let rec _foo =
- fun [@reaml.component.recursive "Foo"] foo _ ->
+type foo = { foo : string }
+
+let _foo =
+ fun [@reaml.component.recursive "Foo"] { foo = _ } foo ->
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
-  foo ()
+  foo { foo = "foo" }
 
 (* Mainly for ReasonML *)
 let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   let ((_count, _setCount)[@reaml]) = Reaml.useState () in
   let ((_value, _dispatch)[@reaml]) = Reaml.useReducer () () in
   let ((_, _)[@reaml]) = useThing () in

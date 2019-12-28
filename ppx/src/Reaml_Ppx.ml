@@ -95,6 +95,18 @@ let mapper _ _ =
                 ]
             ; pexp_loc
             } ->
+            let () =
+              match args with
+              | { ppat_desc = Ppat_construct ({ txt = Lident "()" }, None) }
+              | { ppat_desc = Ppat_record _ } -> ()
+              | { ppat_loc } ->
+                raise
+                  (Location.Error
+                     (Location.error
+                        ~loc:ppat_loc
+                        "the argument to a component must either be unit (`()`) or a \
+                         record pattern (`{foo = foo; bar = _}`)"))
+            in
             let inner, fn =
               match txt with
               | "reaml.component" ->

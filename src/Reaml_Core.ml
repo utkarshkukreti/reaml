@@ -22,11 +22,7 @@ module Internal = struct
   external createElement : string -> 'a Js.t -> vnode array -> vnode = "createElement"
     [@@bs.variadic] [@@bs.module "react"]
 
-  external createComponentElement
-    :  'a Js.t component
-    -> 'a Js.t
-    -> vnode
-    = "createElement"
+  external createComponentElement : 'a component -> 'a -> vnode = "createElement"
     [@@bs.module "react"]
 
   external fragment : vnode array -> vnode = "%identity"
@@ -186,17 +182,14 @@ let fragment list = Internal.fragment (Belt.List.toArray list)
 
 (* Create Component *)
 let component name fn =
-  let fn x = fn x##___ in
   Internal.setDisplayName fn name;
-  fun props -> Internal.createComponentElement fn [%bs.obj { ___ = props }]
+  fun props -> Internal.createComponentElement fn props
 
 (* Create Recursive Component *)
 let recursiveComponent name fn =
-  let rec fn' x =
-    fn (fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }]) x##___
-  in
+  let rec fn' x = fn x (fun props -> Internal.createComponentElement fn' props) in
   Internal.setDisplayName fn' name;
-  fun props -> Internal.createComponentElement fn' [%bs.obj { ___ = props }]
+  fun props -> Internal.createComponentElement fn' props
 
 (* Render *)
 external render : vnode -> element -> unit = "render" [@@bs.module "react-dom"]
