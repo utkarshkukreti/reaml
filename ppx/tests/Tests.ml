@@ -1,5 +1,6 @@
 module Reaml = struct
   type undefined
+  type vnode
 
   let undefined : undefined = Obj.magic ()
   let useState _ _ = Obj.magic ()
@@ -7,6 +8,10 @@ module Reaml = struct
   let component _ _ = Obj.magic ()
   let recursiveComponent _ _ = Obj.magic ()
 end
+
+type props = { foo : int }
+
+external _foo : props -> Reaml.vnode = "foo" [@@reaml.component]
 
 let _foo =
  fun [@reaml.component "Foo"] () ->

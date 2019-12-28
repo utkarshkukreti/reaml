@@ -169,6 +169,78 @@ let mapper _ _ =
                  }
                  (rewrite_let expr))
           | _ -> Ast_mapper.default_mapper.expr mapper expr))
+  ; structure =
+      (fun mapper structures ->
+        let f structure return =
+          match structure with
+          | { pstr_desc =
+                Pstr_primitive
+                  { pval_attributes = [ ({ txt = "reaml.component" }, PStr []) ]
+                  ; pval_name = { txt; loc }
+                  }
+            } as s ->
+            let maker =
+              { pstr_desc =
+                  Pstr_value
+                    ( Nonrecursive
+                    , [ { pvb_pat =
+                            { ppat_desc = Ppat_var { txt; loc }
+                            ; ppat_attributes = []
+                            ; ppat_loc = loc
+                            }
+                        ; pvb_expr =
+                            { pexp_desc =
+                                Pexp_fun
+                                  ( ""
+                                  , None
+                                  , { ppat_desc = Ppat_var { txt = "props"; loc }
+                                    ; ppat_attributes = []
+                                    ; ppat_loc = loc
+                                    }
+                                  , { pexp_desc =
+                                        Pexp_apply
+                                          ( { pexp_desc =
+                                                Pexp_ident
+                                                  { txt =
+                                                      Ldot
+                                                        ( Ldot (Lident "Reaml", "Internal")
+                                                        , "createComponentElement" )
+                                                  ; loc
+                                                  }
+                                            ; pexp_loc = loc
+                                            ; pexp_attributes = []
+                                            }
+                                          , [ ( ""
+                                              , { pexp_desc =
+                                                    Pexp_ident { txt = Lident txt; loc }
+                                                ; pexp_loc = loc
+                                                ; pexp_attributes = []
+                                                } )
+                                            ; ( ""
+                                              , { pexp_desc =
+                                                    Pexp_ident
+                                                      { txt = Lident "props"; loc }
+                                                ; pexp_loc = loc
+                                                ; pexp_attributes = []
+                                                } )
+                                            ] )
+                                    ; pexp_loc = loc
+                                    ; pexp_attributes = []
+                                    } )
+                            ; pexp_loc = loc
+                            ; pexp_attributes = []
+                            }
+                        ; pvb_loc = loc
+                        ; pvb_attributes = []
+                        }
+                      ] )
+              ; pstr_loc = loc
+              }
+            in
+            s :: maker :: return
+          | s -> s :: return
+        in
+        Ast_mapper.default_mapper.structure mapper (List.fold_right f structures []))
   }
 
 let () =
