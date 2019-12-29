@@ -61,10 +61,10 @@ let rec rewrite_let = function
               { txt = Ldot (Lident "Reaml", "undefined"); loc = pvb_loc } )
         ]
     in
-    Ast_helper.Exp.let_
+    Exp.let_
       recursive
       [ { pvb_pat = { pvb_pat with ppat_attributes = [] }
-        ; pvb_expr = Ast_helper.Exp.apply ident args
+        ; pvb_expr = Exp.apply ident args
         ; pvb_attributes = []
         ; pvb_loc
         }
@@ -109,17 +109,16 @@ let mapper _ _ =
             let inner, fn =
               match txt with
               | "reaml.component" ->
-                ( Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr)
-                , "component" )
+                Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr), "component"
               | "reaml.component.recursive" ->
                 (match expr with
                 | { pexp_desc = Pexp_fun ("", None, args', expr) } ->
-                  ( Ast_helper.Exp.fun_
+                  ( Exp.fun_
                       ~loc:pexp_loc
                       ""
                       None
                       args
-                      (Ast_helper.Exp.fun_ ~loc:pexp_loc "" None args' (rewrite_let expr))
+                      (Exp.fun_ ~loc:pexp_loc "" None args' (rewrite_let expr))
                   , "recursiveComponent" )
                 | _ ->
                   raise
@@ -130,7 +129,7 @@ let mapper _ _ =
               | _ ->
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
-            Ast_helper.Exp.apply
+            Exp.apply
               (Exp.ident
                  ~loc:pexp_loc
                  { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc })
@@ -139,11 +138,11 @@ let mapper _ _ =
             ; pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ]
             ; pexp_loc
             } ->
-            Ast_helper.Exp.fun_
+            Exp.fun_
               ""
               None
               args
-              (Ast_helper.Exp.fun_
+              (Exp.fun_
                  ~loc:pexp_loc
                  ""
                  None
