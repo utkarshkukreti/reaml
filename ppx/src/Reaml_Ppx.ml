@@ -1,6 +1,7 @@
 open Migrate_parsetree
 open Ast_402
 open Ast_402.Parsetree
+open Ast_helper
 
 (* Check that there are no reaml attributes left after the code is processed. *)
 let check expr =
@@ -55,11 +56,9 @@ let rec rewrite_let = function
     let args =
       args
       @ [ ( ""
-          , { pexp_desc =
-                Pexp_ident { txt = Ldot (Lident "Reaml", "undefined"); loc = pvb_loc }
-            ; pexp_loc = pvb_loc
-            ; pexp_attributes = []
-            } )
+          , Exp.ident
+              ~loc:pvb_loc
+              { txt = Ldot (Lident "Reaml", "undefined"); loc = pvb_loc } )
         ]
     in
     Ast_helper.Exp.let_
@@ -132,10 +131,9 @@ let mapper _ _ =
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
             Ast_helper.Exp.apply
-              { pexp_desc = Pexp_ident { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc }
-              ; pexp_loc
-              ; pexp_attributes = []
-              }
+              (Exp.ident
+                 ~loc:pexp_loc
+                 { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc })
               [ "", name; "", inner ]
           | { pexp_desc = Pexp_fun ("", None, args, expr)
             ; pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ]
@@ -201,31 +199,21 @@ let mapper _ _ =
                                      }
                                    , { pexp_desc =
                                          Pexp_apply
-                                           ( { pexp_desc =
-                                                 Pexp_ident
-                                                   { txt =
-                                                       Ldot
-                                                         ( Ldot
-                                                             (Lident "Reaml", "Internal")
-                                                         , "createComponentElement" )
-                                                   ; loc
-                                                   }
-                                             ; pexp_loc = loc
-                                             ; pexp_attributes = []
-                                             }
+                                           ( Exp.ident
+                                               ~loc
+                                               { txt =
+                                                   Ldot
+                                                     ( Ldot (Lident "Reaml", "Internal")
+                                                     , "createComponentElement" )
+                                               ; loc
+                                               }
                                            , [ ( ""
-                                               , { pexp_desc =
-                                                     Pexp_ident { txt = Lident txt; loc }
-                                                 ; pexp_loc = loc
-                                                 ; pexp_attributes = []
-                                                 } )
+                                               , Exp.ident ~loc { txt = Lident txt; loc }
+                                               )
                                              ; ( ""
-                                               , { pexp_desc =
-                                                     Pexp_ident
-                                                       { txt = Lident "props"; loc }
-                                                 ; pexp_loc = loc
-                                                 ; pexp_attributes = []
-                                                 } )
+                                               , Exp.ident
+                                                   ~loc
+                                                   { txt = Lident "props"; loc } )
                                              ] )
                                      ; pexp_loc = loc
                                      ; pexp_attributes = []
