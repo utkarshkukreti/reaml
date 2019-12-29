@@ -5,18 +5,16 @@ let use =
   let[@reaml] () =
     R.useEffect
       (fun () ->
-        let id = ref None in
+        let isRunning = ref enabled in
         let rec loop t =
-          func t;
-          id := Some (Webapi.requestCancellableAnimationFrame loop);
-          ()
+          if !isRunning
+          then (
+            func t;
+            Webapi.requestAnimationFrame loop)
+          else ()
         in
-        if enabled then id := Some (Webapi.requestCancellableAnimationFrame loop) else ();
-        Some
-          (fun () ->
-            match !id with
-            | Some id -> Webapi.cancelAnimationFrame id
-            | None -> ()))
+        Webapi.requestAnimationFrame loop;
+        Some (fun () -> isRunning := false))
       (R._1 enabled)
   in
   ()
