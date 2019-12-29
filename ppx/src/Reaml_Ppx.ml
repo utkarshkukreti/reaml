@@ -175,8 +175,10 @@ let mapper _ _ =
        fun mapper structures ->
          let f structure return =
            match structure with
-           | { pstr_desc = Pstr_primitive { pval_attributes; pval_name = { txt; loc } } }
-             as s
+           | { pstr_desc =
+                 Pstr_primitive
+                   ({ pval_attributes; pval_name = { txt; loc } } as pstr_primitive)
+             } as s
              when List.exists isReamlComponent pval_attributes ->
              let maker =
                { pstr_desc =
@@ -214,6 +216,16 @@ let mapper _ _ =
                          }
                        ] )
                ; pstr_loc = loc
+               }
+             in
+             let s =
+               { s with
+                 pstr_desc =
+                   Pstr_primitive
+                     { pstr_primitive with
+                       pval_attributes =
+                         List.filter (fun a -> not (isReamlComponent a)) pval_attributes
+                     }
                }
              in
              s :: maker :: return

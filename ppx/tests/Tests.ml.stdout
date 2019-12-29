@@ -10,8 +10,7 @@ module Reaml =
   end
 type props = {
   foo: int }
-external _foo : props -> Reaml.vnode = "foo"[@@reaml.component ][@@bs.val
-                                                                  "foo"]
+external _foo : props -> Reaml.vnode = "foo"[@@bs.val "foo"]
 let _foo props = Reaml.Internal.createComponentElement _foo props
 let _foo =
   Reaml.component "Foo"
@@ -43,6 +42,5 @@ module Counter =
       initial: int }
     external make : props -> Reaml.vnode = "Counter"[@@bs.module
                                                       "./Interop.js"]
-    [@@reaml.component ]
     let make props = Reaml.Internal.createComponentElement make props
   end
