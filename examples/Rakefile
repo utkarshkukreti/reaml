@@ -14,6 +14,7 @@ HTML
 
 footer = <<HTML
 <footer>
+  <a href="/">Index</a> ·
   Powered by <a href="https://github.com/utkarshkukreti/reaml">Reaml</a>.
 </footer>
 HTML
