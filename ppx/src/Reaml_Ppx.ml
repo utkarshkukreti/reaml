@@ -146,24 +146,13 @@ let mapper _ _ =
                  ~loc:pexp_loc
                  ""
                  None
-                 { ppat_loc = pexp_loc
-                 ; ppat_attributes = []
-                 ; ppat_desc =
-                     Ppat_constraint
-                       ( { ppat_loc = pexp_loc
-                         ; ppat_attributes = []
-                         ; ppat_desc = Ppat_any
-                         }
-                       , { ptyp_loc = pexp_loc
-                         ; ptyp_attributes = []
-                         ; ptyp_desc =
-                             Ptyp_constr
-                               ( { txt = Ldot (Lident "Reaml", "undefined")
-                                 ; loc = pexp_loc
-                                 }
-                               , [] )
-                         } )
-                 }
+                 (Pat.constraint_
+                    ~loc:pexp_loc
+                    (Pat.any ~loc:pexp_loc ())
+                    (Typ.constr
+                       ~loc:pexp_loc
+                       { txt = Ldot (Lident "Reaml", "undefined"); loc = pexp_loc }
+                       []))
                  (rewrite_let expr))
           | _ -> Ast_mapper.default_mapper.expr mapper expr))
   ; structure =
@@ -194,10 +183,7 @@ let mapper _ _ =
                                ~loc
                                ""
                                None
-                               { ppat_desc = Ppat_var { txt = "props"; loc }
-                               ; ppat_attributes = []
-                               ; ppat_loc = loc
-                               }
+                               (Pat.var ~loc { txt = "props"; loc })
                                (Exp.apply
                                   ~loc
                                   (Exp.ident
