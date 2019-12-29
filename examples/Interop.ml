@@ -3,7 +3,7 @@ module R = Reaml
 module Counter = struct
   type props = { initial : int }
 
-  external make : props -> Reaml.vnode = "Counter"
+  external make : props Reaml.component = "Counter"
     [@@bs.module "./Interop.js"] [@@reaml.component]
 end
 
