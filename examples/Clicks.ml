@@ -14,7 +14,7 @@ module Clicks = struct
       ; R.style "padding" "1rem"
       ; R.style "background" "#fefcbf"
       ; R.style "border" "2px dashed #F6E05E"
-      ; R.style "border-radius" "4px"
+      ; R.style "borderRadius" "4px"
       ; R.style "overflow" "scroll"
       ; R.style "marginBottom" "2rem"
       ; R.onClick (fun event ->
