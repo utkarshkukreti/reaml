@@ -30,6 +30,9 @@ task :default do
         used_files << file
       end
     end
+    if File.exist?("#{name(file)}.js")
+      used_files << "#{name(file)}.js"
+    end
 
     write "#{name}.html", <<ERB, binding
 <!doctype html>
@@ -43,7 +46,7 @@ task :default do
     <main></main>
     <% used_files.each do |used_file| %>
       <h2><%= used_file %></h2>
-      <pre><code class="ocaml"><%= CGI.escape_html(File.read(used_file)) %></code></pre>
+      <pre><code class="<%= language(used_file) %>"><%= CGI.escape_html(File.read(used_file)) %></code></pre>
     <% end %>
     <%= footer %>
     <script src="<%= name %>.bs.js"></script>
@@ -86,4 +89,13 @@ end
 
 def name(string)
   string.split(".").first
+end
+
+def language(string)
+  case string.split(".").last
+  when "ml", "re" then "ocaml"
+  when "js" then "javascript"
+  else
+    raise "unknown extension #{string}"
+  end
 end
