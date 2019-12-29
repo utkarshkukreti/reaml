@@ -70,8 +70,8 @@ let rec rewrite_let = function
         }
       ]
       (rewrite_let expr)
-  | { pexp_desc = Pexp_let (recursive, bindings, expr) } as e ->
-    { e with pexp_desc = Pexp_let (recursive, bindings, rewrite_let expr) }
+  | { pexp_desc = Pexp_let (recursive, bindings, expr); pexp_loc } ->
+    Exp.let_ ~loc:pexp_loc recursive bindings (rewrite_let expr)
   | otherwise -> otherwise
 
 let mapper _ _ =
@@ -189,38 +189,27 @@ let mapper _ _ =
                              ; ppat_loc = loc
                              }
                          ; pvb_expr =
-                             { pexp_desc =
-                                 Pexp_fun
-                                   ( ""
-                                   , None
-                                   , { ppat_desc = Ppat_var { txt = "props"; loc }
-                                     ; ppat_attributes = []
-                                     ; ppat_loc = loc
-                                     }
-                                   , { pexp_desc =
-                                         Pexp_apply
-                                           ( Exp.ident
-                                               ~loc
-                                               { txt =
-                                                   Ldot
-                                                     ( Ldot (Lident "Reaml", "Internal")
-                                                     , "createComponentElement" )
-                                               ; loc
-                                               }
-                                           , [ ( ""
-                                               , Exp.ident ~loc { txt = Lident txt; loc }
-                                               )
-                                             ; ( ""
-                                               , Exp.ident
-                                                   ~loc
-                                                   { txt = Lident "props"; loc } )
-                                             ] )
-                                     ; pexp_loc = loc
-                                     ; pexp_attributes = []
-                                     } )
-                             ; pexp_loc = loc
-                             ; pexp_attributes = []
-                             }
+                             Exp.fun_
+                               ~loc
+                               ""
+                               None
+                               { ppat_desc = Ppat_var { txt = "props"; loc }
+                               ; ppat_attributes = []
+                               ; ppat_loc = loc
+                               }
+                               (Exp.apply
+                                  ~loc
+                                  (Exp.ident
+                                     ~loc
+                                     { txt =
+                                         Ldot
+                                           ( Ldot (Lident "Reaml", "Internal")
+                                           , "createComponentElement" )
+                                     ; loc
+                                     })
+                                  [ "", Exp.ident ~loc { txt = Lident txt; loc }
+                                  ; "", Exp.ident ~loc { txt = Lident "props"; loc }
+                                  ])
                          ; pvb_loc = loc
                          ; pvb_attributes = []
                          }
