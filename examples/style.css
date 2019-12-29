@@ -4,23 +4,30 @@
 
 body {
   font-family: 'Lucida Grande', Verdana, sans-serif;
-  margin: 1rem;
+  line-height: 1.6;
+  margin: 1rem auto;
+  padding: 1rem;
+  max-width: 960px;
 }
 
 h1,
-h2 {
+h2,
+h3 {
   text-align: center;
   margin: 0 0 1rem 0;
 }
 
 .hljs {
-  width: 960px;
-  max-width: 90%;
-  margin: 1rem auto 2rem;
   padding: 1rem;
   font-family: Monaco, Consolas, monospace;
-  white-space: pre-wrap;
+  font-size: 15px;
   border-radius: 4px;
+}
+
+@media screen and (max-width: 768px) {
+  .hljs {
+    font-size: 14px;
+  }
 }
 
 footer {
