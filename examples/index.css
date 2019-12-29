@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono|Overpass:300&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Lucida Grande', Verdana, sans-serif;
+  font-family: Overpass, sans-serif;
   line-height: 1.6;
   margin: 1rem auto;
   padding: 1rem;
@@ -19,7 +21,7 @@ h3 {
 
 .hljs {
   padding: 1rem;
-  font-family: Monaco, Consolas, monospace;
+  font-family: 'Fira Mono', monospace;
   font-size: 15px;
   border-radius: 4px;
 }
