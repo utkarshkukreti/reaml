@@ -9,7 +9,7 @@ end
 
 head = <<HTML
 <link rel="stylesheet" href="../node_modules/highlight.js/styles/atom-one-dark.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="index.css">
 HTML
 
 footer = <<HTML
