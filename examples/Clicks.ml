@@ -10,10 +10,11 @@ module Clicks = struct
    fun [@reaml.component "Clicks"] () ->
     let[@reaml] state, dispatch = R.useReducer reducer [] in
     R.div
-      [ R.style "width" "calc(100vw - 2rem)"
-      ; R.style "height" "calc(100vh - 7rem)"
+      [ R.style "height" "400px"
       ; R.style "padding" "1rem"
-      ; R.style "background" "#ffc"
+      ; R.style "background" "#fefcbf"
+      ; R.style "border" "2px dashed #F6E05E"
+      ; R.style "border-radius" "4px"
       ; R.style "overflow" "scroll"
       ; R.style "marginBottom" "2rem"
       ; R.onClick (fun event ->
