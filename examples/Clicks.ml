@@ -25,7 +25,7 @@ module Clicks = struct
           []
           [ R.ul
               []
-              (state |. Belt.List.map (fun (x, y) -> R.li [] [ R.string {j|$x * $y|j} ]))
+              (state |. Belt.List.map (fun (x, y) -> R.li [] [ R.string {j|$x × $y|j} ]))
           ]
       ]
 end
