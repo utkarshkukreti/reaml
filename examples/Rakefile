@@ -8,6 +8,7 @@ def write(path, template, binding)
 end
 
 head = <<HTML
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../node_modules/highlight.js/styles/atom-one-dark.css">
 <link rel="stylesheet" href="index.css">
 HTML
