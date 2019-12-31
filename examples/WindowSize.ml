@@ -33,7 +33,7 @@ module Demo = struct
   let make =
    fun [@reaml.component "Demo"] () ->
     let[@reaml] windowSize = WindowSize.use () in
-    R.div [] [ R.float windowSize.width; R.string "×"; R.float windowSize.height ]
+    R.div [] [ R.float windowSize.width; R.string {j|×|j}; R.float windowSize.height ]
 end
 
 let () =
