@@ -5,6 +5,11 @@ open Ast_helper
 
 (* Check that there are no reaml attributes left after the code is processed. *)
 let check expr =
+  let throw txt loc =
+    raise
+      (Location.Error
+         (Location.error ~loc ("[@" ^ txt ^ "] occurs in an inappropriate place")))
+  in
   let mapper =
     { Ast_mapper.default_mapper with
       expr =
@@ -13,13 +18,16 @@ let check expr =
           | { pexp_attributes =
                 [ ({ txt = ("reaml.component" | "reaml.hook" | "reaml") as txt }, _) ]
             ; pexp_loc
-            } ->
-            raise
-              (Location.Error
-                 (Location.error
-                    ~loc:pexp_loc
-                    ("[@" ^ txt ^ "] occurs in an inappropriate place")))
+            } -> throw txt pexp_loc
           | _ -> Ast_mapper.default_mapper.expr mapper expr)
+    ; value_binding =
+        (fun mapper value_binding ->
+          match value_binding with
+          | { pvb_attributes =
+                [ ({ txt = ("reaml.component" | "reaml.hook" | "reaml") as txt }, _) ]
+            ; pvb_loc
+            } -> throw txt pvb_loc
+          | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding)
     }
   in
   Ast_mapper.default_mapper.expr mapper expr

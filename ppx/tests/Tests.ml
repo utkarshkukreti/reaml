@@ -60,14 +60,12 @@ end
   () *)
 
 (* let _foo =
- fun [@reaml.component "Foo"] _ ->
-  let[@reaml] _count, _setCount =
-    if true then Reaml.useState () else Reaml.useState ()
-  in
+ fun [@reaml.component "Foo"] () ->
+  let[@reaml] _count, _setCount = if true then Reaml.useState () else Reaml.useState () in
   () *)
 
 (* let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   if true
   then (
     let[@reaml] _count, _setCount = Reaml.useState () in
@@ -75,18 +73,18 @@ end
   else () *)
 
 (* let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   let[@reaml] () = () in
   () *)
 
 (* let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   let[@reaml] _count, _setCount = Reaml.useState 0 in
   let[@reaml] () = () in
   () *)
 
 (* let _foo =
- fun [@reaml.component "Foo"] _ ->
+ fun [@reaml.component "Foo"] () ->
   let _ =
    fun () ->
     let[@reaml] () = () in
