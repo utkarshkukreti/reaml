@@ -63,10 +63,7 @@ let rec rewrite_let = function
     } ->
     let args =
       args
-      @ [ ( ""
-          , Exp.ident
-              ~loc:pvb_loc
-              { txt = Ldot (Lident "Reaml", "undefined"); loc = pvb_loc } )
+      @ [ "", Exp.ident { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
         ]
     in
     Exp.let_
@@ -158,8 +155,7 @@ let mapper _ _ =
                     ~loc:pexp_loc
                     (Pat.any ~loc:pexp_loc ())
                     (Typ.constr
-                       ~loc:pexp_loc
-                       { txt = Ldot (Lident "Reaml", "undefined"); loc = pexp_loc }
+                       { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
                        []))
                  (rewrite_let expr))
           | _ -> Ast_mapper.default_mapper.expr mapper expr))
