@@ -69,7 +69,7 @@ end
 (* State *)
 external useStateLazy
   :  (unit -> 'a)
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> 'a * (('a -> 'a) -> unit)
   = "useState"
   [@@bs.module "react"]
@@ -78,7 +78,7 @@ external useStateLazy
 external useReducer
   :  ('state -> 'action -> 'state)
   -> 'state
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> 'state * ('action -> unit)
   = "useReducer"
   [@@bs.module "react"]
@@ -91,7 +91,7 @@ external useReducerLazy
   :  ('state -> 'action -> 'state)
   -> 'a
   -> ('a -> 'state)
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> 'state * ('action -> unit)
   = "useReducer"
   [@@bs.module "react"]
@@ -100,7 +100,7 @@ external useReducerLazy
 external useEffect
   :  (unit -> (unit -> unit) option)
   -> any array option
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> unit
   = "useEffect"
   [@@bs.module "react"]
@@ -109,7 +109,7 @@ external useEffect
 external useLayoutEffect
   :  (unit -> (unit -> unit) option)
   -> any array option
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> unit
   = "useLayoutEffect"
   [@@bs.module "react"]
@@ -120,20 +120,27 @@ type ('a, 'b) callback = 'a -> 'b
 external useCallback
   :  ('a, 'b) callback
   -> any array option
-  -> undefined
+  -> (undefined[@bs.ignore])
   -> ('a, 'b) callback
   = "useCallback"
   [@@bs.module "react"]
 
 (* Memo *)
-external useMemo : (unit -> 'a) -> any array option -> undefined -> 'a = "useMemo"
+external useMemo
+  :  (unit -> 'a)
+  -> any array option
+  -> (undefined[@bs.ignore])
+  -> 'a
+  = "useMemo"
   [@@bs.module "react"]
 
 (* Context *)
-external useContext : 'a Context.t -> undefined -> 'a = "useContext" [@@bs.module "react"]
+external useContext : 'a Context.t -> (undefined[@bs.ignore]) -> 'a = "useContext"
+  [@@bs.module "react"]
 
 (* Ref *)
-external useRef : 'a -> undefined -> 'a Ref.t = "useRef" [@@bs.module "react"]
+external useRef : 'a -> (undefined[@bs.ignore]) -> 'a Ref.t = "useRef"
+  [@@bs.module "react"]
 
 (* Prop *)
 type prop =
