@@ -1,6 +1,6 @@
 open Migrate_parsetree
-open Ast_402
-open Ast_402.Parsetree
+open Ast_406
+open Ast_406.Parsetree
 open Ast_helper
 
 (* Check that there are no reaml attributes left after the code is processed. *)
@@ -63,7 +63,8 @@ let rec rewrite_let = function
     } ->
     let args =
       args
-      @ [ "", Exp.ident { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
+      @ [ ( Nolabel
+          , Exp.ident { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none } )
         ]
     in
     Exp.let_
@@ -85,14 +86,14 @@ let mapper _ _ =
       (fun mapper expr ->
         check
           (match expr with
-          | { pexp_desc = Pexp_fun ("", None, args, expr)
+          | { pexp_desc = Pexp_fun (Nolabel, None, args, expr)
             ; pexp_attributes =
                 [ ( { txt = ("reaml.component" | "reaml.component.recursive") as txt }
                   , PStr
                       [ { pstr_desc =
                             Pstr_eval
-                              ( ({ pexp_desc = Pexp_constant (Const_string (_, None)) } as
-                                name)
+                              ( ({ pexp_desc = Pexp_constant (Pconst_string (_, None)) }
+                                as name)
                               , _ )
                         }
                       ] )
@@ -114,16 +115,16 @@ let mapper _ _ =
             let inner, fn =
               match txt with
               | "reaml.component" ->
-                Exp.fun_ ~loc:pexp_loc "" None args (rewrite_let expr), "component"
+                Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr), "component"
               | "reaml.component.recursive" ->
                 (match expr with
-                | { pexp_desc = Pexp_fun ("", None, args', expr) } ->
+                | { pexp_desc = Pexp_fun (Nolabel, None, args', expr) } ->
                   ( Exp.fun_
                       ~loc:pexp_loc
-                      ""
+                      Nolabel
                       None
                       args
-                      (Exp.fun_ ~loc:pexp_loc "" None args' (rewrite_let expr))
+                      (Exp.fun_ ~loc:pexp_loc Nolabel None args' (rewrite_let expr))
                   , "recursiveComponent" )
                 | _ ->
                   raise
@@ -138,18 +139,18 @@ let mapper _ _ =
               (Exp.ident
                  ~loc:pexp_loc
                  { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc })
-              [ "", name; "", inner ]
-          | { pexp_desc = Pexp_fun ("", None, args, expr)
+              [ Nolabel, name; Nolabel, inner ]
+          | { pexp_desc = Pexp_fun (Nolabel, None, args, expr)
             ; pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ]
             ; pexp_loc
             } ->
             Exp.fun_
-              ""
+              Nolabel
               None
               args
               (Exp.fun_
                  ~loc:pexp_loc
-                 ""
+                 Nolabel
                  None
                  (Pat.constraint_
                     ~loc:pexp_loc
@@ -185,7 +186,7 @@ let mapper _ _ =
                          ; pvb_expr =
                              Exp.fun_
                                ~loc
-                               ""
+                               Nolabel
                                None
                                (Pat.var ~loc { txt = "props"; loc })
                                (Exp.apply
@@ -198,8 +199,8 @@ let mapper _ _ =
                                            , "createComponentElement" )
                                      ; loc
                                      })
-                                  [ "", Exp.ident ~loc { txt = Lident txt; loc }
-                                  ; "", Exp.ident ~loc { txt = Lident "props"; loc }
+                                  [ Nolabel, Exp.ident ~loc { txt = Lident txt; loc }
+                                  ; Nolabel, Exp.ident ~loc { txt = Lident "props"; loc }
                                   ])
                          ; pvb_loc = loc
                          ; pvb_attributes = []
@@ -228,5 +229,5 @@ let () =
   Migrate_parsetree.Driver.register
     ~name:"reaml"
     ~args:[]
-    Migrate_parsetree.Versions.ocaml_402
+    Migrate_parsetree.Versions.ocaml_406
     mapper
