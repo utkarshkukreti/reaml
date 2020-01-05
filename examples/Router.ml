@@ -42,23 +42,23 @@ module Router_ = struct
     let replace t _ = Router.replace t in
     R.div
       [ R.style "textAlign" "center" ]
-      [ R.button [ R.onClick (push Router.Home) ] [ R.string "PUSH Home" ]
-      ; R.button [ R.onClick (push Router.Posts) ] [ R.string "PUSH Posts" ]
-      ; R.button [ R.onClick (push (Router.Post 123)) ] [ R.string "PUSH Post 123" ]
-      ; R.button [ R.onClick (push (Router.Post 456)) ] [ R.string "PUSH Post 456" ]
+      [ R.button [ R.onClick (push Home) ] [ R.string "PUSH Home" ]
+      ; R.button [ R.onClick (push Posts) ] [ R.string "PUSH Posts" ]
+      ; R.button [ R.onClick (push (Post 123)) ] [ R.string "PUSH Post 123" ]
+      ; R.button [ R.onClick (push (Post 456)) ] [ R.string "PUSH Post 456" ]
       ; R.br [] []
-      ; R.button [ R.onClick (replace Router.Home) ] [ R.string "REPLACE Home" ]
-      ; R.button [ R.onClick (replace Router.Posts) ] [ R.string "REPLACE Posts" ]
-      ; R.button [ R.onClick (replace (Router.Post 123)) ] [ R.string "REPLACE Post 123" ]
-      ; R.button [ R.onClick (replace (Router.Post 456)) ] [ R.string "REPLACE Post 456" ]
+      ; R.button [ R.onClick (replace Home) ] [ R.string "REPLACE Home" ]
+      ; R.button [ R.onClick (replace Posts) ] [ R.string "REPLACE Posts" ]
+      ; R.button [ R.onClick (replace (Post 123)) ] [ R.string "REPLACE Post 123" ]
+      ; R.button [ R.onClick (replace (Post 456)) ] [ R.string "REPLACE Post 456" ]
       ; R.br [] []
-      ; Router.link Router.Home [] [ R.string "LINK Home" ]
+      ; Router.link Home [] [ R.string "LINK Home" ]
       ; R.string " "
-      ; Router.link Router.Posts [] [ R.string "LINK Posts" ]
+      ; Router.link Posts [] [ R.string "LINK Posts" ]
       ; R.string " "
-      ; Router.link (Router.Post 123) [] [ R.string "LINK Post 123" ]
+      ; Router.link (Post 123) [] [ R.string "LINK Post 123" ]
       ; R.string " "
-      ; Router.link (Router.Post 456) [] [ R.string "LINK Post 456" ]
+      ; Router.link (Post 456) [] [ R.string "LINK Post 456" ]
       ; R.h3
           []
           [ R.string
