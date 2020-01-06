@@ -25,7 +25,7 @@ module Internal = struct
   external createComponentElement : 'a component -> 'a -> vnode = "createElement"
     [@@bs.module "react"]
 
-  external fragment : vnode array -> vnode = "%identity"
+  external array : vnode array -> vnode = "%identity"
   external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
 end
 
@@ -189,8 +189,9 @@ external string : string -> vnode = "%identity"
 external int : int -> vnode = "%identity"
 external float : float -> vnode = "%identity"
 
-(* Create Fragment *)
-let fragment list = Internal.fragment (Belt.List.toArray list)
+(* Create From List/Array *)
+let list list = Internal.array (Belt.List.toArray list)
+let array array = Internal.array array
 
 (* Create Component *)
 let component name fn =
