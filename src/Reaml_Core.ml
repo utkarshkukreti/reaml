@@ -155,6 +155,8 @@ let style name value = Style (name, value)
 let class' name = Class name
 let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
+let key (value : string) = Property ("key", any value)
+let keyInt (value : int) = Property ("key", any value)
 
 let classes (pairs : (string * bool) list) =
   Class
