@@ -203,6 +203,11 @@ let recursiveComponent name fn =
   Internal.setDisplayName fn' name;
   fun props -> Internal.createComponentElement fn' props
 
+(* Portal *)
+module Portal = struct
+  external make : vnode -> element -> vnode = "createPortal" [@@bs.module "react-dom"]
+end
+
 (* Render *)
 external render : vnode -> element -> unit = "render" [@@bs.module "react-dom"]
 
