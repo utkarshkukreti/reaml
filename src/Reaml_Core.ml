@@ -207,7 +207,7 @@ let component name fn =
 let recursiveComponent name fn =
   let rec fn' x = fn x (fun props -> Internal.createComponentElement fn' props) in
   Internal.setDisplayName fn' name;
-  fun props -> Internal.createComponentElement fn' props
+  fn'
 
 (* Portal *)
 module Portal = struct
