@@ -27,6 +27,10 @@ module Internal = struct
 
   external array : vnode array -> vnode = "%identity"
   external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
+
+  type fragment = { children : vnode array }
+
+  external fragment : fragment component = "Fragment" [@@bs.module "react"]
 end
 
 (* Functions to create `any array option` from given values. *)
@@ -194,6 +198,10 @@ external float : float -> vnode = "%identity"
 (* Create From List/Array *)
 let list list = Internal.array (Belt.List.toArray list)
 let array array = Internal.array array
+
+(* Create a Fragment *)
+let fragment list =
+  Internal.createComponentElement Internal.fragment { children = Belt.List.toArray list }
 
 (* Create From vnode option *)
 let some = function
