@@ -193,6 +193,11 @@ external float : float -> vnode = "%identity"
 let list list = Internal.array (Belt.List.toArray list)
 let array array = Internal.array array
 
+(* Create From vnode option *)
+let some = function
+  | Some vnode -> vnode
+  | None -> null
+
 (* Create Component *)
 let component name fn =
   Internal.setDisplayName fn name;
