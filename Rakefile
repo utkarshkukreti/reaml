@@ -16,22 +16,29 @@ task :default do
 
   # https://html.spec.whatwg.org/multipage/indices.html#attributes-3
   html_attributes = %w[
-    abbr_ accept accept-charset accesskey action allow allowfullscreen:b
-    allowpaymentrequest:b alt as_ async:b autocapitalize autocomplete:b
-    autofocus:b autoplay:b charset checked:b cite_ color cols:i colspan:i
-    content contenteditable:b controls:b coords crossorigin data__ datetime
-    decoding default:b defer:b dir dirname disabled:b download draggable:b
-    enctype enterkeyhint for_ form_ formaction formenctype formmethod
-    formnovalidate:b formtarget headers height hidden:b high:f href hreflang
-    http-equiv id inputmode integrity is ismap:b itemid itemprop itemref
-    itemscope:b itemtype kind label_ lang list loop:b low:f manifest max:f
-    maxlength media method_ min:f minlength:i multiple:b muted:b name nomodule:b
-    nonce novalidate:b open_:b optimum:f pattern ping placeholder playsinline:b
-    poster preload readonly:b referrerpolicy rel required:b reversed:b rows:i
-    rowspan:i sandbox scope selected:b shape size:i sizes slot_ span_:i
-    spellcheck:b src srcdoc srclang srcset start:i step:f tabindex:i target
-    title_ translate:b type_ typemustmatch:b usemap value width:i wrap
-  ].map do |string|
+    accept acceptCharset action allowFullScreen:b allowTransparency:b alt as_
+    async:b autoComplete autoFocus:b autoPlay:b capture cellPadding cellSpacing
+    charSet challenge checked:b cite_ classID cols:i colSpan:i content
+    controls:b coords crossOrigin data dateTime default:b defer:b disabled:b
+    download encType form_ formAction formEncType formMethod formNoValidate:b
+    formTarget frameBorder headers height high:f href hrefLang htmlFor httpEquiv
+    integrity keyParams keyType kind label_ list loop:b low:f manifest
+    marginHeight:f marginWidth:f max maxLength:i media mediaGroup method_ min
+    minLength:i multiple:b muted:b name nonce noValidate:b open_:b optimum:f
+    pattern placeholder playsInline:b poster preload readOnly:b rel required:b
+    reversed:b rows:i rowSpan:i sandbox scope scoped:b scrolling seamless:b
+    selected:b shape size:i sizes span_:i src srcDoc srcLang srcSet start:i step
+    summary_ target type_ useMap value width wmode wrap
+    defaultChecked:b defaultValue
+    accessKey className contentEditable:b contextMenu dir draggable:b hidden:b
+    id lang placeholder_ slot_ spellCheck:b tabIndex:i title_ translate
+    role
+    about datatype inlist prefix property resource typeof vocab
+    autoCapitalize autoCorrect autoSave color itemProp itemScope:b itemType
+    itemID itemRef results:i security unselectable
+    inputMode
+    is
+  ].sort.map do |string|
     name, type = string.split(":")
     type = case type
     when nil then "string"
