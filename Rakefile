@@ -65,51 +65,55 @@ task :default do
     unknown use view vkern
   ]
 
-  svg_bool_attributes = %w[externalResourcesRequired preserveAlpha]
-
-  svg_int_attributes = %w[numOctaves tabindex]
-
-  svg_float_attributes = %w[
-    accent-height ascent azimuth bias diffuseConstant divisor elevation fr k1 k2
-    k3 k4 limitingConeAngle overline-position overline-thickness pathLength
-    pointsAtX pointsAtY pointsAtZ refX refY scale seed specularConstant
-    specularExponent strikethrough-position strikethrough-thickness
-    stroke-miterlimit surfaceScale targetX targetY underline-position
-    underline-thickness version
-  ]
-
-  svg_string_attributes = %w[
-    cx cy fill-opacity fx fy height markerHeight markerWidth r stroke-dashoffset
-    stroke-opacity stroke-width textLength width x x1 x2 y y1 y2 accumulate
-    additive alignment-baseline attributeName attributeType baseFrequency
-    baseline-shift baseProfile begin_ calcMode clipPathUnits clip-path_
-    clip-rule color color-interpolation color-interpolation-filters
-    color-profile_ color-rendering contentScriptType contentStyleType cursor_ d
-    direction display dominant-baseline dur dx dy edgeMode end_ fill fill-rule
-    filter_ filterUnits flood-color flood-opacity font-family font-size
-    font-size-adjust font-stretch font-style font-variant font-weight from
-    gradientTransform gradientUnits href image-rendering in_ in2 kernelMatrix
-    kernelUnitLength kerning keySplines keyTimes lengthAdjust letter-spacing
-    lighting-color local marker-end marker-mid marker-start markerUnits mask_
-    maskContentUnits maskUnits max min mode opacity operator order overflow
-    paint-order patternContentUnits patternTransform patternUnits pointer-events
-    points preserveAspectRatio primitiveUnits radius repeatCount repeatDur
-    requiredFeatures restart result rx ry shape-rendering stdDeviation
-    stitchTiles stop-color stop-opacity stroke stroke-dasharray stroke-linecap
-    stroke-linejoin text-anchor text-decoration text-rendering to_ transform
-    type_ values vector-effect viewBox visibility word-spacing writing-mode
-    xChannelSelector yChannelSelector
-  ]
-
-  svg_attributes = [
-    [svg_bool_attributes, "bool"],
-    [svg_int_attributes, "int"],
-    [svg_float_attributes, "float"],
-    [svg_string_attributes, "string"],
-  ].flat_map do |(array, type)|
-    array.map do |name|
-      [name, type]
+  svg_attributes = %w[
+    color height id lang max media method_ min name target type_ width role
+    tabIndex:i crossOrigin
+    accentHeight accumulate additive alignmentBaseline allowReorder alphabetic
+    amplitude arabicForm ascent attributeName attributeType autoReverse:b
+    azimuth baseFrequency baselineShift baseProfile bbox begin_ bias by calcMode
+    capHeight clip clipPath_ clipPathUnits clipRule colorInterpolation
+    colorInterpolationFilters colorProfile_ colorRendering contentScriptType
+    contentStyleType cursor_ cx cy d decelerate descent diffuseConstant
+    direction display divisor dominantBaseline dur dx dy edgeMode elevation
+    enableBackground end_ exponent externalResourcesRequired:b fill fillOpacity
+    fillRule filter_ filterRes filterUnits floodColor floodOpacity focusable
+    fontFamily fontSize fontSizeAdjust fontStretch fontStyle fontVariant
+    fontWeight format from fx fy g1 g2 glyphName glyphOrientationHorizontal
+    glyphOrientationVertical glyphRef_ gradientTransform gradientUnits hanging
+    horizAdvX horizOriginX href ideographic imageRendering in2 in_ intercept k1
+    k2 k3 k4 k kernelMatrix kernelUnitLength kerning keyPoints keySplines
+    keyTimes lengthAdjust letterSpacing lightingColor limitingConeAngle local
+    markerEnd markerHeight markerMid markerStart markerUnits markerWidth mask_
+    maskContentUnits maskUnits mathematical mode numOctaves offset opacity
+    operator order orient orientation origin overflow overlinePosition
+    overlineThickness paintOrder panose1 pathLength patternContentUnits
+    patternTransform patternUnits pointerEvents points pointsAtX pointsAtY
+    pointsAtZ preserveAlpha:b preserveAspectRatio primitiveUnits r radius refX
+    refY renderingIntent repeatCount repeatDur requiredExtensions
+    requiredFeatures restart result rotate rx ry scale seed shapeRendering slope
+    spacing specularConstant specularExponent speed spreadMethod startOffset
+    stdDeviation stemh stemv stitchTiles stopColor stopOpacity
+    strikethroughPosition strikethroughThickness string stroke strokeDasharray
+    strokeDashoffset strokeLinecap strokeLinejoin strokeMiterlimit strokeOpacity
+    strokeWidth surfaceScale systemLanguage tableValues targetX targetY
+    textAnchor textDecoration textLength textRendering to_ transform u1 u2
+    underlinePosition underlineThickness unicode unicodeBidi unicodeRange
+    unitsPerEm vAlphabetic values vectorEffect version vertAdvY vertOriginX
+    vertOriginY vHanging vIdeographic viewBox viewTarget visibility
+    vMathematical widths wordSpacing writingMode x1 x2 x xChannelSelector
+    xHeight xlinkActuate xlinkArcrole xlinkHref xlinkRole xlinkShow xlinkTitle
+    xlinkType xmlBase xmlLang xmlns xmlnsXlink xmlSpace y1 y2 y yChannelSelector
+    z zoomAndPan
+  ].map do |string|
+    name, type = string.split(":")
+    type = case type
+    when nil then "string"
+    when "b" then "bool"
+    when "i" then "int"
+    when "f" then "float"
+    else raise "?"
     end
+    [name, type]
   end.sort
 
   # https://github.com/DefinitelyTyped/DefinitelyTyped/blob/28e745f92dfa682e673a012d23ed0b4950d27d27/types/react/index.d.ts#L1137
