@@ -17,7 +17,7 @@ module Form = struct
           []
           [ R.span [] [ R.string "Agree To Terms?: " ]
           ; R.input
-              [ R.type' "checkbox"; R.checked agreeToTerms; R.onCheck setAgreeToTerms ]
+              [ R.type_ "checkbox"; R.checked agreeToTerms; R.onCheck setAgreeToTerms ]
               []
           ]
       ; R.button [ R.disabled (not isValid) ] [ R.string "Submit" ]

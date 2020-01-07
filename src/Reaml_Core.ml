@@ -156,7 +156,7 @@ type prop =
 let property name value = Property (name, any value)
 let on name (value : Reaml_Event.Event.t -> unit) = Property ("on" ^ name, any value)
 let style name value = Style (name, value)
-let class' name = Class name
+let class_ name = Class name
 let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 let key (value : string) = Property ("key", any value)
@@ -176,19 +176,19 @@ external null : vnode = "#null"
 
 (* Create Element Node *)
 let element name props (children : vnode list) =
-  let props' = Js.Dict.empty () in
+  let props_ = Js.Dict.empty () in
   let style = Js.Dict.empty () in
   let hasStyle = ref false in
-  let class' = ref "" in
+  let class_ = ref "" in
   Belt.List.forEach props (function
-      | Property (name, value) -> Js.Dict.set props' name value
+      | Property (name, value) -> Js.Dict.set props_ name value
       | Style (name, value) ->
         hasStyle := true;
         Js.Dict.set style name value
-      | Class name -> class' := if !class' = "" then name else !class' ^ " " ^ name);
-  if !hasStyle then Js.Dict.set props' "style" (any style) else ();
-  if !class' = "" then () else Js.Dict.set props' "className" (any !class');
-  Internal.createElement name props' (Belt.List.toArray children)
+      | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name);
+  if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
+  if !class_ = "" then () else Js.Dict.set props_ "className" (any !class_);
+  Internal.createElement name props_ (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
@@ -215,9 +215,9 @@ let component name fn =
 
 (* Create Recursive Component *)
 let recursiveComponent name fn =
-  let rec fn' x = fn x (fun props -> Internal.createComponentElement fn' props) in
-  Internal.setDisplayName fn' name;
-  fn'
+  let rec fn_ x = fn x (fun props -> Internal.createComponentElement fn_ props) in
+  Internal.setDisplayName fn_ name;
+  fn_
 
 (* Portal *)
 module Portal = struct

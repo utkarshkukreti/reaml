@@ -33,8 +33,8 @@ module Url = struct
     Reaml_Core.useEffect
       (fun () ->
         let f _ =
-          let url' = get () in
-          if url = url' then () else setUrl url'
+          let url_ = get () in
+          if url = url_ then () else setUrl url_
         in
         Webapi.Dom.window |> Webapi.Dom.Window.addEventListener "popstate" f;
         Some
@@ -105,7 +105,7 @@ module Parser = struct
     Parser
       (fun state ->
         p { state with value }
-        |. Belt.List.map (fun state' -> { state' with value = state.value state'.value }))
+        |. Belt.List.map (fun state_ -> { state_ with value = state.value state_.value }))
 
   let parse (Parser p) url =
     let state = { url; value = (fun x -> x) } in
