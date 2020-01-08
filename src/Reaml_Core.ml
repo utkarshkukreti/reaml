@@ -230,3 +230,8 @@ external render : vnode -> element -> unit = "render" [@@bs.module "react-dom"]
 (* Utility *)
 external find : string -> element option = "querySelector"
   [@@bs.val] [@@bs.scope "document"] [@@bs.return nullable]
+
+let renderTo selector vnode =
+  match find selector with
+  | Some element -> render vnode element
+  | None -> Js.Console.error ("no element matching selector `" ^ selector ^ "` found")
