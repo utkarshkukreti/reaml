@@ -151,6 +151,7 @@ type prop =
   | Property of string * any
   | Style of string * string
   | Class of string
+  | Props of prop list
 
 (* Prop Constructors *)
 let property name value = Property (name, any value)
@@ -161,6 +162,7 @@ let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 let key (value : string) = Property ("key", any value)
 let keyInt (value : int) = Property ("key", any value)
+let props props = Props props
 
 let classes (pairs : (string * bool) list) =
   Class
@@ -180,12 +182,15 @@ let element name props (children : vnode list) =
   let style = Js.Dict.empty () in
   let hasStyle = ref false in
   let class_ = ref "" in
-  Belt.List.forEach props (function
-      | Property (name, value) -> Js.Dict.set props_ name value
-      | Style (name, value) ->
-        hasStyle := true;
-        Js.Dict.set style name value
-      | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name);
+  let rec go = function
+    | Property (name, value) -> Js.Dict.set props_ name value
+    | Style (name, value) ->
+      hasStyle := true;
+      Js.Dict.set style name value
+    | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name
+    | Props props -> Belt.List.forEach props go
+  in
+  Belt.List.forEach props go;
   if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
   if !class_ = "" then () else Js.Dict.set props_ "className" (any !class_);
   Internal.createElement name props_ (Belt.List.toArray children)
