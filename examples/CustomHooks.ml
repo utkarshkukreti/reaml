@@ -16,8 +16,4 @@ let make =
   R.button [ R.onClick (fun _ -> dispatch 1) ] [ R.int state ]
 
 let main = make ()
-
-let () =
-  match R.find "main" with
-  | Some element -> R.render main element
-  | None -> Js.Console.error "<main> not found!"
+let () = main |> R.renderTo "main"

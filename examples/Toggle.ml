@@ -31,7 +31,4 @@ let main =
     ; Toggle.make { f = (fun () -> Counter.make { initial = 3 }) }
     ]
 
-let () =
-  match R.find "main" with
-  | Some element -> R.render main element
-  | None -> Js.Console.error "<main> not found!"
+let () = main |> R.renderTo "main"

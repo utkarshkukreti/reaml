@@ -15,10 +15,7 @@ module R = Reaml
 
 let main = R.h1 [ R.id "hello" ] [ R.string "Hello, world!" ]
 
-let () =
-  match R.find "main" with
-  | Some element -> R.render main element
-  | None -> Js.Console.error "<main> not found!"
+let () = main |> R.renderTo "main"
 ```
 
 The code above renders `<h1 id="hello">Hello, World!</h1>` into the first
@@ -157,10 +154,7 @@ module R = Reaml;
 
 let main = R.h1([R.id("hello")], [R.string("Hello, world!")]);
 
-switch (R.find("main")) {
-| Some(element) => R.render(main, element)
-| None => Js.Console.error("<main> not found!")
-};
+main |> R.renderTo("main");
 ```
 
 Here's an example of ReasonML code which uses all the three annotations that
@@ -193,10 +187,7 @@ let make =
   );
 
 let main = make();
-switch (R.find("main")) {
-| Some(element) => R.render(main, element)
-| None => Js.Console.error("<main> not found!")
-};
+main |> R.renderTo("main");
 ```
 
 For more guidance on how to translate OCaml code into ReasonML, try pasting the

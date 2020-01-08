@@ -36,7 +36,4 @@ module Demo = struct
     R.div [] [ R.float windowSize.width; R.string {j|×|j}; R.float windowSize.height ]
 end
 
-let () =
-  match R.find "main" with
-  | Some element -> R.render (Demo.make ()) element
-  | None -> Js.Console.error "<main> not found!"
+let () = Demo.make () |> R.renderTo "main"

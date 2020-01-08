@@ -23,8 +23,4 @@ module Ref = struct
 end
 
 let main = Ref.make ()
-
-let () =
-  match R.find "main" with
-  | Some element -> R.render main element
-  | None -> Js.Console.error "<main> not found!"
+let () = main |> R.renderTo "main"

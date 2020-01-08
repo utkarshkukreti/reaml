@@ -23,8 +23,4 @@ let make =
     }
   );
 
-let main = make();
-switch (R.find("main")) {
-| Some(element) => R.render(main, element)
-| None => Js.Console.error("<main> not found!")
-};
+make() |> R.renderTo("main");

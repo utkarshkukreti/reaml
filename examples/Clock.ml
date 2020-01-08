@@ -23,7 +23,4 @@ module Clock = struct
       ]
 end
 
-let () =
-  match R.find "main" with
-  | Some element -> R.render (Clock.make ()) element
-  | None -> Js.Console.error "<main> not found!"
+let () = Clock.make () |> R.renderTo "main"

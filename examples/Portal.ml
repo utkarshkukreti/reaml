@@ -22,8 +22,4 @@ module Portal = struct
 end
 
 let main = R.div [] [ Portal.make () ]
-
-let () =
-  match R.find "main" with
-  | Some element -> R.render main element
-  | None -> Js.Console.error "<main> not found!"
+let () = main |> R.renderTo "main"
