@@ -1,6 +1,6 @@
 {
   "name": "reaml",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "license": "MIT",
   "files": [
     "bsconfig.json",
