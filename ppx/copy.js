@@ -15,7 +15,12 @@ if (platform === 'win32') {
   platform = 'win';
 }
 
-copyBinary(`bin/${platform}-${arch}.exe`, './ppx.exe');
+const esyBuild = '_esy/default/build/default/bin/Reaml_Ppx_Bin.exe';
+if (fs.existsSync(esyBuild)) {
+  copyBinary(esyBuild, './ppx.exe');
+} else {
+  copyBinary(`bin/${platform}-${arch}.exe`, './ppx.exe');
+}
 
 function copyBinary(src, dst) {
   const supported = fs.existsSync(src);
