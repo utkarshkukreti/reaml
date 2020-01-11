@@ -427,8 +427,8 @@ let onClick (handler : Reaml_Event.Mouse.t -> unit) =
 let onContextMenu (handler : Reaml_Event.Mouse.t -> unit) =
   Reaml_Core.on "ContextMenu" (fun event -> handler (Obj.magic event))
 
-let onDblClick (handler : Reaml_Event.Mouse.t -> unit) =
-  Reaml_Core.on "DblClick" (fun event -> handler (Obj.magic event))
+let onDoubleClick (handler : Reaml_Event.Mouse.t -> unit) =
+  Reaml_Core.on "DoubleClick" (fun event -> handler (Obj.magic event))
 
 let onMouseDown (handler : Reaml_Event.Mouse.t -> unit) =
   Reaml_Core.on "MouseDown" (fun event -> handler (Obj.magic event))

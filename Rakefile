@@ -173,7 +173,7 @@ task :default do
     onKeyUp:Keyboard
     onClick:Mouse
     onContextMenu:Mouse
-    onDblClick:Mouse
+    onDoubleClick:Mouse
     onMouseDown:Mouse
     onMouseEnter:Mouse
     onMouseLeave:Mouse
