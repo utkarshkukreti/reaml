@@ -33,7 +33,6 @@ module Internal = struct
     = "createElement"
     [@@bs.variadic] [@@bs.module "react"]
 
-  external array : vnode array -> vnode = "%identity"
   external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
   external fragment : unit component = "Fragment" [@@bs.module "react"]
 end
@@ -207,8 +206,9 @@ external int : int -> vnode = "%identity"
 external float : float -> vnode = "%identity"
 
 (* Create From List/Array *)
-let list list = Internal.array (Belt.List.toArray list)
-let array array = Internal.array array
+external array : vnode array -> vnode = "%identity"
+
+let list list = array (Belt.List.toArray list)
 
 (* Create a Fragment *)
 let fragment list =
