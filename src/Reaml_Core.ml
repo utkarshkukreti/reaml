@@ -151,14 +151,14 @@ external useContext : 'a Context.t -> (undefined[@bs.ignore]) -> 'a = "useContex
 external useRef : 'a -> (undefined[@bs.ignore]) -> 'a Ref.t = "useRef"
   [@@bs.module "react"]
 
-(* Prop *)
-type prop =
+(* Property *)
+type property =
   | Property of string * any
   | Style of string * string
   | Class of string
-  | Props of prop list
+  | Properties of property list
 
-(* Prop Constructors *)
+(* Property Constructors *)
 let property name value = Property (name, any value)
 let on name (value : Reaml_Event.Event.t -> unit) = Property ("on" ^ name, any value)
 let style name value = Style (name, value)
@@ -167,7 +167,7 @@ let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 let key (value : string) = Property ("key", any value)
 let keyInt (value : int) = Property ("key", any value)
-let props props = Props props
+let properties properties = Properties properties
 
 let classes (pairs : (string * bool) list) =
   Class
@@ -193,7 +193,7 @@ let element name props (children : vnode list) =
       hasStyle := true;
       Js.Dict.set style name value
     | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name
-    | Props props -> Belt.List.forEach props go
+    | Properties props -> Belt.List.forEach props go
   in
   Belt.List.forEach props go;
   if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
