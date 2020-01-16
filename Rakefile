@@ -19,10 +19,10 @@ task :default do
     accept acceptCharset action allowFullScreen:b allowTransparency:b alt as_
     async:b autoComplete autoFocus:b autoPlay:b capture cellPadding cellSpacing
     charSet challenge checked:b cite_ classID cols:i colSpan:i content
-    controls:b coords crossOrigin data dateTime default:b defer:b disabled:b
+    controls:b coords crossOrigin data__ dateTime default:b defer:b disabled:b
     download encType form_ formAction formEncType formMethod formNoValidate:b
     formTarget frameBorder headers height high:f href hrefLang htmlFor httpEquiv
-    integrity keyParams keyType kind label_ list loop:b low:f manifest
+    integrity keyParams keyType kind label_ list_ loop:b low:f manifest
     marginHeight:f marginWidth:f max maxLength:i media mediaGroup method_ min
     minLength:i multiple:b muted:b name nonce noValidate:b open_:b optimum:f
     pattern placeholder playsInline:b poster preload readOnly:b rel required:b
@@ -33,7 +33,7 @@ task :default do
     accessKey className contentEditable:b contextMenu dir draggable:b hidden:b
     id lang placeholder_ slot_ spellCheck:b tabIndex:i title_ translate
     role
-    about datatype inlist prefix property resource typeof vocab
+    about datatype inlist prefix property_ resource typeof vocab
     autoCapitalize autoCorrect autoSave color itemProp itemScope:b itemType
     itemID itemRef results:i security unselectable
     inputMode
