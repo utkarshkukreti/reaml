@@ -169,6 +169,11 @@ let key (value : string) = Property ("key", any value)
 let keyInt (value : int) = Property ("key", any value)
 let properties properties = Properties properties
 
+type dangerouslySetInnerHtml = { __html : string }
+
+let dangerouslySetInnerHtml html =
+  Property ("dangerouslySetInnerHTML", any { __html = html })
+
 let classes (pairs : (string * bool) list) =
   Class
     (pairs
