@@ -19,6 +19,7 @@ external _foo : props -> Reaml.vnode = "foo" [@@reaml.component] [@@bs.val "foo"
 
 let _foo =
  fun [@reaml.component "Foo"] () ->
+  Js.log "foo";
   let[@reaml] _count, _setCount = Reaml.useState () in
   ()
 

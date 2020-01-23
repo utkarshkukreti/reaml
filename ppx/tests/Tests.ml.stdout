@@ -17,7 +17,8 @@ let _foo props = Reaml.Internal.createComponentElement _foo props
 let _foo =
   Reaml.component "Foo"
     (fun () ->
-       let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
+       Js.log "foo";
+       (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
 let useThing _ (_ : Reaml.undefined) =
   let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in

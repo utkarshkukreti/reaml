@@ -78,6 +78,8 @@ let rec rewrite_let = function
       (rewrite_let expr)
   | { pexp_desc = Pexp_let (recursive, bindings, expr); pexp_loc } ->
     Exp.let_ ~loc:pexp_loc recursive bindings (rewrite_let expr)
+  | { pexp_desc = Pexp_sequence (expr, expr2); pexp_loc } ->
+    Exp.sequence ~loc:pexp_loc expr (rewrite_let expr2)
   | otherwise -> otherwise
 
 let mapper _ _ =
