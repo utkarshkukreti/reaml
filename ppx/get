@@ -7,7 +7,7 @@ get() {
   read url
   curl -L $url > $1.zip
   unzip $1.zip -d tmp
-  mv tmp/*/ppx.exe bin/$1.exe
+  mv tmp/ppx.exe bin/$1.exe
   chmod +x bin/$1.exe
   rm -rf tmp
   rm $1.zip
