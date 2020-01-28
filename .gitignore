@@ -34,3 +34,4 @@ node_modules
 /lib
 /ppx/lib
 /ppx/ppx
+.netlify
