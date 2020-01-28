@@ -120,13 +120,15 @@ let mapper _ _ =
                 Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr), "component"
               | "reaml.component.recursive" ->
                 (match expr with
-                | { pexp_desc = Pexp_fun (Nolabel, None, args', expr) } ->
+                | { pexp_desc = Pexp_fun (Nolabel, None, args', expr)
+                  ; pexp_loc = pexp_loc_2
+                  } ->
                   ( Exp.fun_
                       ~loc:pexp_loc
                       Nolabel
                       None
                       args
-                      (Exp.fun_ ~loc:pexp_loc Nolabel None args' (rewrite_let expr))
+                      (Exp.fun_ ~loc:pexp_loc_2 Nolabel None args' (rewrite_let expr))
                   , "recursiveComponent" )
                 | _ ->
                   raise
@@ -138,9 +140,7 @@ let mapper _ _ =
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
             Exp.apply
-              (Exp.ident
-                 ~loc:pexp_loc
-                 { txt = Ldot (Lident "Reaml", fn); loc = pexp_loc })
+              (Exp.ident { txt = Ldot (Lident "Reaml", fn); loc = Location.none })
               [ Nolabel, name; Nolabel, inner ]
           | { pexp_desc = Pexp_fun (Nolabel, None, args, expr)
             ; pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ]
@@ -155,8 +155,7 @@ let mapper _ _ =
                  Nolabel
                  None
                  (Pat.constraint_
-                    ~loc:pexp_loc
-                    (Pat.any ~loc:pexp_loc ())
+                    (Pat.any ())
                     (Typ.constr
                        { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
                        []))
