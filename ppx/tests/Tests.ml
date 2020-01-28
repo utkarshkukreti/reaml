@@ -15,7 +15,7 @@ end
 
 type props = { foo : int }
 
-external _foo : props -> Reaml.vnode = "foo" [@@reaml.component] [@@bs.val "foo"]
+external _foo : props -> Reaml.vnode = "foo" [@@reaml.component] [@@bs.val]
 
 let _foo =
  fun [@reaml.component "Foo"] () ->

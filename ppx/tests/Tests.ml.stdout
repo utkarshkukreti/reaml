@@ -12,7 +12,7 @@ module Reaml =
   end
 type props = {
   foo: int }
-external _foo : props -> Reaml.vnode = "foo"[@@bs.val "foo"]
+external _foo : props -> Reaml.vnode = "foo"[@@bs.val ]
 let _foo props = Reaml.Internal.createComponentElement _foo props
 let _foo =
   Reaml.component "Foo"
