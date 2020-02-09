@@ -5,7 +5,8 @@
 > ([How?](#how-are-the-rules-of-hooks-enforced-at-compile-time)).
 
 > [Live Examples with Code](https://reaml.netlify.com) |
-> [Starter](https://github.com/utkarshkukreti/reaml-starter)
+> [Starter](https://github.com/utkarshkukreti/reaml-starter) |
+> [Opinionated Starter](https://github.com/utkarshkukreti/reaml-opinionated-starter)
 
 ## Overview
 
