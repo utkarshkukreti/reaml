@@ -1,7 +1,7 @@
 # Reaml (React + ML)
 
-> An opinionated React binding for (OCaml | ReasonML) + BuckleScript with
-> compile time enforcement of the ["Rules of Hooks"](https://reactjs.org/docs/hooks-rules.html)
+> A React binding for (OCaml | ReasonML) + BuckleScript with compile time
+> enforcement of the ["Rules of Hooks"](https://reactjs.org/docs/hooks-rules.html)
 > ([How?](#how-are-the-rules-of-hooks-enforced-at-compile-time)).
 
 > [Live Examples](https://reaml.netlify.com) | [Starter](https://github.com/utkarshkukreti/reaml-starter)
