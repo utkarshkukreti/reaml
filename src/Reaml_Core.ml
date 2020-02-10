@@ -174,15 +174,6 @@ type dangerouslySetInnerHtml = { __html : string }
 let dangerouslySetInnerHtml html =
   Property ("dangerouslySetInnerHTML", any { __html = html })
 
-let classes (pairs : (string * bool) list) =
-  Class
-    (pairs
-    |. Belt.List.keepMap (function
-           | name, true -> Some name
-           | _ -> None)
-    |. Belt.List.toArray
-    |> Js.Array.joinWith " ")
-
 (* Create Empty Node *)
 external null : vnode = "#null"
 
