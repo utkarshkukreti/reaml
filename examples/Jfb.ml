@@ -93,12 +93,8 @@ module Row = struct
 
   let make =
    fun [@reaml.component.memo "Row"] { row; selected; dispatch } ->
-    let[@reaml] onSelect =
-      R.useCallback (fun _ -> dispatch (Select row.id)) (R._1 row.id)
-    in
-    let[@reaml] onRemove =
-      R.useCallback (fun _ -> dispatch (Remove row.id)) (R._1 row.id)
-    in
+    let onSelect _ = dispatch (Select row.id) in
+    let onRemove _ = dispatch (Remove row.id) in
     R.tr
       (if selected then [ R.class_ "danger" ] else [])
       [ R.td [ R.class_ "col-md-1" ] [ R.int row.id ]
