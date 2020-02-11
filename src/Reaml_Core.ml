@@ -177,7 +177,7 @@ let dangerouslySetInnerHtml html =
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let element name props (children : vnode list) =
+let elementArray name props (children : vnode array) =
   let props_ = Js.Dict.empty () in
   let style = Js.Dict.empty () in
   let hasStyle = ref false in
@@ -193,7 +193,10 @@ let element name props (children : vnode list) =
   Belt.List.forEach props go;
   if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
   if !class_ = "" then () else Js.Dict.set props_ "className" (any !class_);
-  Internal.createElement name props_ (Belt.List.toArray children)
+  Internal.createElement name props_ children
+
+let element name props (children : vnode list) =
+  elementArray name props (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
