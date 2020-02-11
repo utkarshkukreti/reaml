@@ -17,7 +17,7 @@ let onInputValue (handler : string -> unit) =
       | Some value -> handler value
       | None -> handler "")
 
-let onCheck (handler : bool -> unit) =
+let onInputChecked (handler : bool -> unit) =
   onChange (fun event ->
       match (Obj.magic event)##target##checked with
       | Some checked -> handler checked
