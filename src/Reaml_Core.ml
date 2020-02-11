@@ -162,7 +162,6 @@ let property name value = Property (name, any value)
 let on name (value : Reaml_Event.Event.t -> unit) = Property ("on" ^ name, any value)
 let style name value = Style (name, value)
 let class_ name = Class name
-let c = class_
 let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 let key (value : string) = Property ("key", any value)
