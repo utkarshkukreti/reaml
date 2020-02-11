@@ -212,11 +212,6 @@ let fragmentArray array =
 let fragment list =
   Internal.createComponentElementVariadic Internal.fragment () (Belt.List.toArray list)
 
-(* Create From vnode option *)
-let some = function
-  | Some vnode -> vnode
-  | None -> null
-
 (* Create Component *)
 let component name fn =
   Internal.setDisplayName fn name;
