@@ -206,7 +206,7 @@ external array : vnode array -> vnode = "%identity"
 let list list = array (Belt.List.toArray list)
 
 (* Create a Fragment *)
-let fragmentArray array =
+let fragmentArray (array : vnode array) =
   Internal.createComponentElementVariadic Internal.fragment () array
 
 let fragment list = fragmentArray (Belt.List.toArray list)
