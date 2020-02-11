@@ -9,9 +9,6 @@ type undefined
 
 external undefined : undefined = "#undefined"
 
-(* A DOM Element *)
-type element
-
 (* A Reaml Virtual Node *)
 type vnode
 
@@ -227,14 +224,14 @@ let recursiveComponent name fn =
 
 (* Portal *)
 module Portal = struct
-  external make : vnode -> element -> vnode = "createPortal" [@@bs.module "react-dom"]
+  external make : vnode -> Dom.element -> vnode = "createPortal" [@@bs.module "react-dom"]
 end
 
 (* Render *)
-external render : vnode -> element -> unit = "render" [@@bs.module "react-dom"]
+external render : vnode -> Dom.element -> unit = "render" [@@bs.module "react-dom"]
 
 (* Utility *)
-external find : string -> element option = "querySelector"
+external find : string -> Dom.element option = "querySelector"
   [@@bs.val] [@@bs.scope "document"] [@@bs.return nullable]
 
 let renderTo selector vnode =
