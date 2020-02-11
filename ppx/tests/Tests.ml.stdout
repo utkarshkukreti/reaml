@@ -19,6 +19,11 @@ let _foo =
     (fun () ->
        Js.log "foo";
        (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
+let _foo =
+  Reaml.component ~memo:true "Foo"
+    (fun () ->
+       Js.log "foo";
+       (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
 let useThing _ (_ : Reaml.undefined) =
   let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in
@@ -28,6 +33,13 @@ type foo = {
   foo: string }
 let _foo =
   Reaml.recursiveComponent "Foo"
+    (fun { foo = _ } ->
+       fun foo ->
+         let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+         let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+         let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
+let _foo =
+  Reaml.recursiveComponent ~memo:true "Foo"
     (fun { foo = _ } ->
        fun foo ->
          let (_count, _setCount) = Reaml.useState () Reaml.undefined in

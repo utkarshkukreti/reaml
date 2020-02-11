@@ -23,6 +23,12 @@ let _foo =
   let[@reaml] _count, _setCount = Reaml.useState () in
   ()
 
+let _foo =
+ fun [@reaml.component.memo "Foo"] () ->
+  Js.log "foo";
+  let[@reaml] _count, _setCount = Reaml.useState () in
+  ()
+
 let useThing =
  fun [@reaml.hook] _ ->
   let[@reaml] count, _setCount = Reaml.useState () in
@@ -34,6 +40,13 @@ type foo = { foo : string }
 
 let _foo =
  fun [@reaml.component.recursive "Foo"] { foo = _ } foo ->
+  let[@reaml] _count, _setCount = Reaml.useState () in
+  let[@reaml] _value, _dispatch = Reaml.useReducer () () in
+  let[@reaml] _, _ = useThing () in
+  foo { foo = "foo" }
+
+let _foo =
+ fun [@reaml.component.recursive.memo "Foo"] { foo = _ } foo ->
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in

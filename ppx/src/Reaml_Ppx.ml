@@ -90,7 +90,12 @@ let mapper _ _ =
           (match expr with
           | { pexp_desc = Pexp_fun (Nolabel, None, args, expr)
             ; pexp_attributes =
-                [ ( { txt = ("reaml.component" | "reaml.component.recursive") as txt }
+                [ ( { txt =
+                        ( "reaml.component"
+                        | "reaml.component.memo"
+                        | "reaml.component.recursive"
+                        | "reaml.component.recursive.memo" ) as txt
+                    }
                   , PStr
                       [ { pstr_desc =
                             Pstr_eval
@@ -116,9 +121,9 @@ let mapper _ _ =
             in
             let inner, fn =
               match txt with
-              | "reaml.component" ->
+              | "reaml.component" | "reaml.component.memo" ->
                 Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr), "component"
-              | "reaml.component.recursive" ->
+              | "reaml.component.recursive" | "reaml.component.recursive.memo" ->
                 (match expr with
                 | { pexp_desc = Pexp_fun (Nolabel, None, args', expr)
                   ; pexp_loc = pexp_loc_2
@@ -141,7 +146,14 @@ let mapper _ _ =
             in
             Exp.apply
               (Exp.ident { txt = Ldot (Lident "Reaml", fn); loc = Location.none })
-              [ Nolabel, name; Nolabel, inner ]
+              (List.append
+                 (if Base.String.is_substring txt ~substring:".memo"
+                 then
+                   [ ( Asttypes.Labelled "memo"
+                     , Exp.construct { txt = Lident "true"; loc = Location.none } None )
+                   ]
+                 else [])
+                 [ Nolabel, name; Nolabel, inner ])
           | { pexp_desc = Pexp_fun (Nolabel, None, args, expr)
             ; pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ]
             ; pexp_loc

@@ -212,12 +212,14 @@ let fragmentArray (array : vnode array) =
 let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
-let component name fn =
+let component ?(memo = false) name fn =
+  let _ = memo in
   Internal.setDisplayName fn name;
   fun props -> Internal.createComponentElement fn props
 
 (* Create Recursive Component *)
-let recursiveComponent name fn =
+let recursiveComponent ?(memo = false) name fn =
+  let _ = memo in
   let rec fn_ x = fn x (fun props -> Internal.createComponentElement fn_ props) in
   Internal.setDisplayName fn_ name;
   fun props -> Internal.createComponentElement fn_ props
