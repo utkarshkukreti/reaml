@@ -209,8 +209,7 @@ let list list = array (Belt.List.toArray list)
 let fragmentArray array =
   Internal.createComponentElementVariadic Internal.fragment () array
 
-let fragment list =
-  Internal.createComponentElementVariadic Internal.fragment () (Belt.List.toArray list)
+let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
 let component name fn =
