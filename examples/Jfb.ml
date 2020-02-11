@@ -92,7 +92,7 @@ module Row = struct
     }
 
   let make =
-   fun [@reaml.component "Row"] { row; selected; dispatch } ->
+   fun [@reaml.component.memo "Row"] { row; selected; dispatch } ->
     let[@reaml] onSelect =
       R.useCallback (fun _ -> dispatch (Select row.id)) (R._1 row.id)
     in
