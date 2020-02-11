@@ -43,7 +43,7 @@ module Store = struct
     nextId := id + 1;
     { id; label = sample adjectives ^ " " ^ sample colors ^ " " ^ sample nouns }
 
-  let makeRows count = Belt.Array.range 1 count |. Belt.Array.map (fun _ -> makeRow ())
+  let makeRows count = Belt.Array.makeBy count (fun _ -> makeRow ())
 
   let reducer state = function
     | Run -> { data = makeRows 1000; selected = None }
