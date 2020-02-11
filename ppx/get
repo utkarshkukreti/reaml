@@ -8,13 +8,12 @@ run_id = gets.chomp
 url = "https://api.github.com/repos/utkarshkukreti/reaml/actions/runs/#{run_id}/artifacts"
 response = JSON.parse(open(url).read)
 response["artifacts"].each do |artifact|
-  name =
-    case artifact["name"]
+  name = case artifact["name"]
     when "macOS-latest.exe" then "darwin-x64"
     when "ubuntu-latest.exe" then "linux-x64"
     else next
     end
-  system "curl", "-L", "-o", "#{name}.zip", artifact["archive_download_url"]
+  system "curl", "-u", "utkarshkukreti:#{ENV["GITHUB_TOKEN"]}", "-L", "-o", "#{name}.zip", artifact["archive_download_url"]
   system "unzip", "#{name}.zip", "-d", "tmp"
   system "mv", "tmp/ppx.exe", "bin/#{name}.exe"
   system "chmod", "+x", "bin/#{name}.exe"
