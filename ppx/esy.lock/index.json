@@ -1,5 +1,5 @@
 {
-  "checksum": "c170451e5b9c6daacfea982bbe96749d",
+  "checksum": "f483dde7f2415f5d17aa2a7b141e3dba",
   "root": "ppx@link-dev:./esy.json",
   "node": {
     "ppx@link-dev:./esy.json": {
@@ -12,7 +12,9 @@
         "ocaml@4.6.1000@d41d8cd9",
         "@opam/ppx_tools_versioned@opam:5.2.3@4994ec80",
         "@opam/ppx_tools@opam:5.1+4.06.0@a9357225",
-        "@opam/dune@opam:1.11.4@a7ccb7ae", "@esy-ocaml/reason@3.5.2@d41d8cd9"
+        "@opam/dune@opam:1.11.4@a7ccb7ae",
+        "@opam/base@opam:v0.12.0@7df49759",
+        "@esy-ocaml/reason@3.5.2@d41d8cd9"
       ],
       "devDependencies": []
     },
@@ -29,6 +31,31 @@
       "overrides": [],
       "dependencies": [],
       "devDependencies": []
+    },
+    "@opam/sexplib0@opam:v0.12.0@e432406d": {
+      "id": "@opam/sexplib0@opam:v0.12.0@e432406d",
+      "name": "@opam/sexplib0",
+      "version": "opam:v0.12.0",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/md5/24/2486a25d3a94da9a94acc018b5f09061#md5:2486a25d3a94da9a94acc018b5f09061",
+          "archive:https://ocaml.janestreet.com/ocaml-core/v0.12/files/sexplib0-v0.12.0.tar.gz#md5:2486a25d3a94da9a94acc018b5f09061"
+        ],
+        "opam": {
+          "name": "sexplib0",
+          "version": "v0.12.0",
+          "path": "esy.lock/opam/sexplib0.v0.12.0"
+        }
+      },
+      "overrides": [],
+      "dependencies": [
+        "ocaml@4.6.1000@d41d8cd9", "@opam/dune@opam:1.11.4@a7ccb7ae",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.6.1000@d41d8cd9", "@opam/dune@opam:1.11.4@a7ccb7ae"
+      ]
     },
     "@opam/result@opam:1.4@dc720aef": {
       "id": "@opam/result@opam:1.4@dc720aef",
@@ -370,6 +397,37 @@
       "overrides": [],
       "dependencies": [ "@esy-ocaml/substs@0.0.1@d41d8cd9" ],
       "devDependencies": []
+    },
+    "@opam/base@opam:v0.12.0@7df49759": {
+      "id": "@opam/base@opam:v0.12.0@7df49759",
+      "name": "@opam/base",
+      "version": "opam:v0.12.0",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/md5/e5/e522176bc2cca7c12745539fa72356ad#md5:e522176bc2cca7c12745539fa72356ad",
+          "archive:https://ocaml.janestreet.com/ocaml-core/v0.12/files/base-v0.12.0.tar.gz#md5:e522176bc2cca7c12745539fa72356ad"
+        ],
+        "opam": {
+          "name": "base",
+          "version": "v0.12.0",
+          "path": "esy.lock/opam/base.v0.12.0"
+        }
+      },
+      "overrides": [
+        {
+          "opamoverride":
+            "esy.lock/overrides/opam__s__base_opam__c__v0.12.0_opam_override"
+        }
+      ],
+      "dependencies": [
+        "ocaml@4.6.1000@d41d8cd9", "@opam/sexplib0@opam:v0.12.0@e432406d",
+        "@opam/dune@opam:1.11.4@a7ccb7ae", "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.6.1000@d41d8cd9", "@opam/sexplib0@opam:v0.12.0@e432406d",
+        "@opam/dune@opam:1.11.4@a7ccb7ae"
+      ]
     },
     "@esy-ocaml/substs@0.0.1@d41d8cd9": {
       "id": "@esy-ocaml/substs@0.0.1@d41d8cd9",
