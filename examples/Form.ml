@@ -26,10 +26,12 @@ module Form = struct
       ; R.button [ R.disabled (not isValid) ] [ R.string "Submit" ]
       ; R.pre
           []
-          [ R.string
-              ([%bs.obj { name; agreeToTerms }]
-              |. Js.Json.stringifyAny
-              |. Belt.Option.getWithDefault "")
+          [ Js.Json.(
+              [ "name", string name; "agreeToTerms", boolean agreeToTerms ]
+              |> Js.Dict.fromList
+              |> object_
+              |. stringifyWithSpace 2
+              |> R.string)
           ]
       ]
 end
