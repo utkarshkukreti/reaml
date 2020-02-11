@@ -22,7 +22,7 @@ module Store = struct
     }
 
   type state =
-    { data : row list
+    { data : row array
     ; selected : int option
     }
 
@@ -43,43 +43,37 @@ module Store = struct
     nextId := id + 1;
     { id; label = sample adjectives ^ " " ^ sample colors ^ " " ^ sample nouns }
 
-  let makeRows count =
-    let rec go n acc =
-      match n with
-      | 0 -> acc
-      | n -> go (n - 1) (makeRow () :: acc)
-    in
-    go count [] |> Belt.List.reverse
+  let makeRows count = Belt.Array.range 1 count |. Belt.Array.map (fun _ -> makeRow ())
 
   let reducer state = function
     | Run -> { data = makeRows 1000; selected = None }
     | RunLots -> { data = makeRows 10000; selected = None }
-    | Add -> { state with data = Belt.List.concat state.data (makeRows 1000) }
+    | Add -> { state with data = Belt.Array.concat state.data (makeRows 1000) }
     | Update ->
       { state with
         data =
-          Belt.List.mapWithIndex state.data (fun index row ->
+          Belt.Array.mapWithIndex state.data (fun index row ->
               if index mod 10 = 0 then { row with label = row.label ^ " !!!" } else row)
       }
-    | Clear -> { data = []; selected = None }
+    | Clear -> { data = [||]; selected = None }
     | SwapRows ->
       let a, b = 1, 998 in
       let data =
-        match Belt.List.get state.data a, Belt.List.get state.data b with
+        match Belt.Array.get state.data a, Belt.Array.get state.data b with
         | Some aa, Some bb ->
-          Belt.List.mapWithIndex state.data (fun index row ->
+          Belt.Array.mapWithIndex state.data (fun index row ->
               if index = a then bb else if index = b then aa else row)
         | _ -> state.data
       in
       { state with data }
     | Remove id ->
-      let data = Belt.List.keep state.data (fun row -> row.id <> id) in
+      let data = Belt.Array.keep state.data (fun row -> row.id <> id) in
       { state with data }
     | Select id -> { state with selected = Some id }
 
   let use =
    fun [@reaml.hook] () ->
-    let[@reaml] state, dispatch = R.useReducer reducer { data = []; selected = None } in
+    let[@reaml] state, dispatch = R.useReducer reducer { data = [||]; selected = None } in
     state, dispatch
 end
 
@@ -189,13 +183,15 @@ module Main = struct
           [ R.class_ "table table-hover table-striped test-data" ]
           [ R.tbody
               []
-              (Belt.List.map state.data (fun (row : Store.row) ->
-                   Row.make
-                     { key = row.id
-                     ; row
-                     ; selected = state.selected = Some row.id
-                     ; dispatch
-                     }))
+              [ Belt.Array.map state.data (fun (row : Store.row) ->
+                    Row.make
+                      { key = row.id
+                      ; row
+                      ; selected = state.selected = Some row.id
+                      ; dispatch
+                      })
+                |> R.array
+              ]
           ]
       ; R.span
           [ R.class_ "preloadicon glyphicon glyphicon-remove"; R.aria "hidden" "true" ]
