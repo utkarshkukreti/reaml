@@ -40,7 +40,7 @@ end
 (* Functions to create `any array option` from given values. *)
 (* Values of this type are accepted by several functions below. *)
 
-let _0 = Some [||]
+let _0 = Some ([||] : any array)
 let _1 a = Some [| any a |]
 let _2 a b = Some [| any a; any b |]
 let _3 a b c = Some [| any a; any b; any c |]
