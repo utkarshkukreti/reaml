@@ -41,12 +41,12 @@ task :default do
   ].sort.map do |string|
     name, type = string.split(":")
     type = case type
-    when nil then "string"
-    when "b" then "bool"
-    when "i" then "int"
-    when "f" then "float"
-    else raise "?"
-    end
+      when nil then "string"
+      when "b" then "bool"
+      when "i" then "int"
+      when "f" then "float"
+      else raise "?"
+      end
     [name, type]
   end
 
@@ -107,12 +107,12 @@ task :default do
   ].map do |string|
     name, type = string.split(":")
     type = case type
-    when nil then "string"
-    when "b" then "bool"
-    when "i" then "int"
-    when "f" then "float"
-    else raise "?"
-    end
+      when nil then "string"
+      when "b" then "bool"
+      when "i" then "int"
+      when "f" then "float"
+      else raise "?"
+      end
     [name, type]
   end.sort
 
@@ -200,9 +200,9 @@ task :default do
     pair.strip.split(":")
   end
 
-  quote = -> name { name.gsub(/-(\w)/) { |m| m[1].upcase } }
+  quote = ->name { name.gsub(/-(\w)/) { |m| m[1].upcase } }
 
-  unquote = -> name { name.gsub("_", "") }
+  unquote = ->name { name.gsub("_", "") }
 
   `git ls-files -z`.split("\0").grep(/\.erb$/).each do |path|
     out_path = path.gsub(/\.erb$/, "")
