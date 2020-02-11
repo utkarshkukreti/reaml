@@ -22,7 +22,8 @@
     "test": "jest",
     "deploy": "run-s build deploy:netlify",
     "deploy:netlify": "netlify deploy --dir dist --prod --open",
-    "clean": "rimraf .cache dist && bsb -clean-world"
+    "clean": "rimraf .cache dist && bsb -clean-world",
+    "release": "make release"
   },
   "dependencies": {
     "bs-webapi": "^0.15.7"
