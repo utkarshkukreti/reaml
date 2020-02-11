@@ -32,6 +32,7 @@ module Internal = struct
 
   external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
   external fragment : unit component = "Fragment" [@@bs.module "react"]
+  external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
 end
 
 (* Functions to create `any array option` from given values. *)
@@ -213,8 +214,8 @@ let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
 let component ?(memo = false) name fn =
-  let _ = memo in
   Internal.setDisplayName fn name;
+  let fn = if memo then Internal.memo fn else fn in
   fun props -> Internal.createComponentElement fn props
 
 (* Create Recursive Component *)
@@ -222,6 +223,7 @@ let recursiveComponent ?(memo = false) name fn =
   let _ = memo in
   let rec fn_ x = fn x (fun props -> Internal.createComponentElement fn_ props) in
   Internal.setDisplayName fn_ name;
+  let fn_ = if memo then Internal.memo fn_ else fn_ in
   fun props -> Internal.createComponentElement fn_ props
 
 (* Portal *)
