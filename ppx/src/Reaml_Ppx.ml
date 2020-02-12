@@ -236,9 +236,7 @@ let mapper _ _ =
                                      ~loc
                                      {
                                        txt =
-                                         Ldot
-                                           ( Ldot (Lident "Reaml", "Internal"),
-                                             "createComponentElement" );
+                                         Ldot (Lident "Reaml", "createComponentElement");
                                        loc;
                                      })
                                   [

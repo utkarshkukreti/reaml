@@ -7,10 +7,7 @@ module Reaml = struct
   let useReducer _ _ _ = Obj.magic ()
   let component _ _ = Obj.magic ()
   let recursiveComponent _ _ = Obj.magic ()
-
-  module Internal = struct
-    let createComponentElement _ _ = Obj.magic ()
-  end
+  let createComponentElement _ _ = Obj.magic ()
 end
 
 type props = { foo : int }

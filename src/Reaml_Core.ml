@@ -15,30 +15,34 @@ type vnode
 (* A component of 'props is simply a function from 'props to vnode *)
 type 'props component = 'props -> vnode
 
-module Internal = struct
-  external createElement
-    :  string ->
-    'a Js.Dict.t ->
-    vnode array ->
-    vnode
-    = "createElement"
-    [@@bs.variadic] [@@bs.module "react"]
+(* Create a raw element vnode *)
+external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "createElement"
+  [@@bs.variadic] [@@bs.module "react"]
 
-  external createComponentElement : 'a component -> 'a -> vnode = "createElement"
-    [@@bs.module "react"]
+(* Create a raw component element vnode *)
+external createComponentElement : 'a component -> 'a -> vnode = "createElement"
+  [@@bs.module "react"]
 
-  external createComponentElementVariadic
-    :  'a component ->
-    'a ->
-    'b array ->
-    vnode
-    = "createElement"
-    [@@bs.variadic] [@@bs.module "react"]
+(* A component which requires variadic arguments *)
+type ('props, 'child) variadicComponent
 
-  external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
-  external fragment : unit component = "Fragment" [@@bs.module "react"]
-  external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
-end
+(* Create a raw variadic component element vnode *)
+external createVariadicComponentElement
+  :  ('props, 'child) variadicComponent ->
+  'props ->
+  'child array ->
+  vnode
+  = "createElement"
+  [@@bs.variadic] [@@bs.module "react"]
+
+(* Set the display name of a component *)
+external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
+
+(* React.Fragment, for internal use *)
+external _fragment : (unit, vnode) variadicComponent = "Fragment" [@@bs.module "react"]
+
+(* React.memo'ize a component *)
+external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
 
 (* Functions to create `any array option` from given values. *)
 (* Values of this type are accepted by several functions below. *)
@@ -64,7 +68,7 @@ module Context = struct
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
   let provide (context : 'a t) (value : 'a) vnode =
-    Internal.createComponentElement context.provider { value; children = vnode }
+    createComponentElement context.provider { value; children = vnode }
 end
 
 (* Ref *)
@@ -196,7 +200,7 @@ let elementArray name props (children : vnode array) =
   Belt.List.forEach props go;
   if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
   if !class_ = "" then () else Js.Dict.set props_ "className" (any !class_);
-  Internal.createElement name props_ children
+  createElement name props_ children
 
 let element name props (children : vnode list) =
   elementArray name props (Belt.List.toArray children)
@@ -213,23 +217,23 @@ let list list = array (Belt.List.toArray list)
 
 (* Create a Fragment *)
 let fragmentArray (array : vnode array) =
-  Internal.createComponentElementVariadic Internal.fragment () array
+  createVariadicComponentElement _fragment () array
 
 let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
-let component ?(memo = false) name fn =
-  Internal.setDisplayName fn name;
-  let fn = if memo then Internal.memo fn else fn in
-  fun props -> Internal.createComponentElement fn props
+let component ?memo:(memo_ = false) name fn =
+  setDisplayName fn name;
+  let fn = if memo_ then memo fn else fn in
+  fun props -> createComponentElement fn props
 
 (* Create Recursive Component *)
-let recursiveComponent ?(memo = false) name fn =
+let recursiveComponent ?memo:(memo_ = false) name fn =
   let _ = memo in
-  let rec fn_ x = fn x (fun props -> Internal.createComponentElement fn_ props) in
-  Internal.setDisplayName fn_ name;
-  let fn_ = if memo then Internal.memo fn_ else fn_ in
-  fun props -> Internal.createComponentElement fn_ props
+  let rec fn_ x = fn x (fun props -> createComponentElement fn_ props) in
+  setDisplayName fn_ name;
+  let fn_ = if memo_ then memo fn_ else fn_ in
+  fun props -> createComponentElement fn_ props
 
 (* Portal *)
 module Portal = struct

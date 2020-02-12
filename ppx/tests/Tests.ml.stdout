@@ -7,13 +7,12 @@ module Reaml =
     let useReducer _ _ _ = Obj.magic ()
     let component _ _ = Obj.magic ()
     let recursiveComponent _ _ = Obj.magic ()
-    module Internal =
-      struct let createComponentElement _ _ = Obj.magic () end
+    let createComponentElement _ _ = Obj.magic ()
   end
 type props = {
   foo: int }
 external _foo : props -> Reaml.vnode = "foo"[@@bs.val ]
-let _foo props = Reaml.Internal.createComponentElement _foo props
+let _foo props = Reaml.createComponentElement _foo props
 let _foo =
   Reaml.component "Foo"
     (fun () ->
@@ -57,5 +56,5 @@ module Counter =
       initial: int }
     external make : props -> Reaml.vnode = "Counter"[@@bs.module
                                                       "./Interop.js"]
-    let make props = Reaml.Internal.createComponentElement make props
+    let make props = Reaml.createComponentElement make props
   end
