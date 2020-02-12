@@ -82,12 +82,11 @@ let rec rewrite_let = function
     Exp.let_
       recursive
       [
-        {
-          pvb_pat = { pvb_pat with ppat_attributes = [] };
-          pvb_expr = Exp.apply ident args;
-          pvb_attributes = [];
-          pvb_loc;
-        };
+        Vb.mk
+          ~loc:pvb_loc
+          ~attrs:[]
+          { pvb_pat with ppat_attributes = [] }
+          (Exp.apply ident args);
       ]
       (rewrite_let expr)
   | { pexp_desc = Pexp_let (recursive, bindings, expr); pexp_loc } ->
@@ -212,43 +211,32 @@ let mapper _ _ =
              } as s
              when List.exists isReamlComponent pval_attributes ->
              let maker =
-               {
-                 pstr_desc =
-                   Pstr_value
-                     ( Nonrecursive,
-                       [
-                         {
-                           pvb_pat =
-                             {
-                               ppat_desc = Ppat_var { txt; loc };
-                               ppat_attributes = [];
-                               ppat_loc = loc;
-                             };
-                           pvb_expr =
-                             Exp.fun_
-                               ~loc
-                               Nolabel
-                               None
-                               (Pat.var ~loc { txt = "props"; loc })
-                               (Exp.apply
-                                  ~loc
-                                  (Exp.ident
-                                     ~loc
-                                     {
-                                       txt =
-                                         Ldot (Lident "Reaml", "createComponentElement");
-                                       loc;
-                                     })
-                                  [
-                                    Nolabel, Exp.ident ~loc { txt = Lident txt; loc };
-                                    Nolabel, Exp.ident ~loc { txt = Lident "props"; loc };
-                                  ]);
-                           pvb_loc = loc;
-                           pvb_attributes = [];
-                         };
-                       ] );
-                 pstr_loc = loc;
-               }
+               Str.value
+                 ~loc
+                 Nonrecursive
+                 [
+                   Vb.mk
+                     ~loc
+                     ~attrs:[]
+                     (Pat.var ~loc { txt; loc })
+                     (Exp.fun_
+                        ~loc
+                        Nolabel
+                        None
+                        (Pat.var ~loc { txt = "props"; loc })
+                        (Exp.apply
+                           ~loc
+                           (Exp.ident
+                              ~loc
+                              {
+                                txt = Ldot (Lident "Reaml", "createComponentElement");
+                                loc;
+                              })
+                           [
+                             Nolabel, Exp.ident ~loc { txt = Lident txt; loc };
+                             Nolabel, Exp.ident ~loc { txt = Lident "props"; loc };
+                           ]));
+                 ]
              in
              let s =
                {
