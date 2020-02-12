@@ -16,7 +16,12 @@ type vnode
 type 'props component = 'props -> vnode
 
 module Internal = struct
-  external createElement : string -> 'a -> vnode array -> vnode = "createElement"
+  external createElement
+    :  string ->
+    'a Js.Dict.t ->
+    vnode array ->
+    vnode
+    = "createElement"
     [@@bs.variadic] [@@bs.module "react"]
 
   external createComponentElement : 'a component -> 'a -> vnode = "createElement"
