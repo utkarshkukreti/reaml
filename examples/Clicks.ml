@@ -10,23 +10,26 @@ module Clicks = struct
    fun [@reaml.component "Clicks"] () ->
     let[@reaml] state, dispatch = R.useReducer reducer [] in
     R.div
-      [ R.style "height" "400px"
-      ; R.style "padding" "1rem"
-      ; R.style "background" "#fefcbf"
-      ; R.style "border" "2px dashed #F6E05E"
-      ; R.style "borderRadius" "4px"
-      ; R.style "overflow" "scroll"
-      ; R.style "marginBottom" "2rem"
-      ; R.onClick (fun event ->
-            dispatch R.Event.Mouse.(Clicked (clientX event, clientY event)))
+      [
+        R.style "height" "400px";
+        R.style "padding" "1rem";
+        R.style "background" "#fefcbf";
+        R.style "border" "2px dashed #F6E05E";
+        R.style "borderRadius" "4px";
+        R.style "overflow" "scroll";
+        R.style "marginBottom" "2rem";
+        R.onClick (fun event ->
+            dispatch R.Event.Mouse.(Clicked (clientX event, clientY event)));
       ]
-      [ R.h1 [] [ R.string "Click Anywhere!" ]
-      ; R.div
+      [
+        R.h1 [] [ R.string "Click Anywhere!" ];
+        R.div
           []
-          [ R.ul
+          [
+            R.ul
               []
-              (state |. Belt.List.map (fun (x, y) -> R.li [] [ R.string {j|$x × $y|j} ]))
-          ]
+              (state |. Belt.List.map (fun (x, y) -> R.li [] [ R.string {j|$x × $y|j} ]));
+          ];
       ]
 end
 

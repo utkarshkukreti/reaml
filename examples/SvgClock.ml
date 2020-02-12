@@ -15,14 +15,15 @@ module Clock = struct
     in
     let line rotate stroke strokeWidth height =
       S.line
-        [ S.x1 "100"
-        ; S.y1 "100"
-        ; S.x2 (Js.Int.toString (100 - height))
-        ; S.y2 "100"
-        ; S.stroke stroke
-        ; S.strokeWidth (Js.Int.toString strokeWidth)
-        ; S.strokeLinecap "round"
-        ; S.transform ("rotate(" ^ Js.Float.toString rotate ^ " 100 100)")
+        [
+          S.x1 "100";
+          S.y1 "100";
+          S.x2 (Js.Int.toString (100 - height));
+          S.y2 "100";
+          S.stroke stroke;
+          S.strokeWidth (Js.Int.toString strokeWidth);
+          S.strokeLinecap "round";
+          S.transform ("rotate(" ^ Js.Float.toString rotate ^ " 100 100)");
         ]
         []
     in
@@ -32,19 +33,22 @@ module Clock = struct
     let hourRotate = 90.0 +. (mod_float (s /. 60.0 /. 60.0) 12.0 *. 360.0 /. 12.0) in
     R.h2
       [ R.style "textAlign" "center" ]
-      [ S.svg
+      [
+        S.svg
           [ S.width "400"; S.height "400"; S.viewBox "0 0 200 200" ]
-          [ circle
-          ; line hourRotate "#333" 4 50
-          ; line minuteRotate "#333" 3 70
-          ; line secondRotate "crimson" 2 90
-          ]
-      ; R.div
+          [
+            circle;
+            line hourRotate "#333" 4 50;
+            line minuteRotate "#333" 3 70;
+            line secondRotate "crimson" 2 90;
+          ];
+        R.div
           []
-          [ R.button
+          [
+            R.button
               [ R.onClick (fun _ -> setIsRunning (not isRunning)) ]
-              [ R.string (if isRunning then "Stop" else "Start") ]
-          ]
+              [ R.string (if isRunning then "Stop" else "Start") ];
+          ];
       ]
 end
 

@@ -24,9 +24,10 @@ end
 let main =
   R.div
     []
-    [ Hello.make ()
-    ; R.Context.provide theme Green (R.div [] [ Hello.make (); Hello.make () ])
-    ; R.Context.provide theme Blue (Hello.make ())
+    [
+      Hello.make ();
+      R.Context.provide theme Green (R.div [] [ Hello.make (); Hello.make () ]);
+      R.Context.provide theme Blue (Hello.make ());
     ]
 
 let () = main |> R.renderTo "main"

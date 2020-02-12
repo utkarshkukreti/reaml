@@ -8,31 +8,36 @@ module Form = struct
     let isValid = name <> "" && agreeToTerms in
     R.div
       []
-      [ R.div
+      [
+        R.div
           []
-          [ R.span [] [ R.string "Name: " ]
-          ; R.input [ R.value name; R.onInputValue setName ] []
-          ]
-      ; R.div
+          [
+            R.span [] [ R.string "Name: " ];
+            R.input [ R.value name; R.onInputValue setName ] [];
+          ];
+        R.div
           []
-          [ R.span [] [ R.string "Agree To Terms?: " ]
-          ; R.input
-              [ R.type_ "checkbox"
-              ; R.checked agreeToTerms
-              ; R.onInputChecked setAgreeToTerms
+          [
+            R.span [] [ R.string "Agree To Terms?: " ];
+            R.input
+              [
+                R.type_ "checkbox";
+                R.checked agreeToTerms;
+                R.onInputChecked setAgreeToTerms;
               ]
-              []
-          ]
-      ; R.button [ R.disabled (not isValid) ] [ R.string "Submit" ]
-      ; R.pre
+              [];
+          ];
+        R.button [ R.disabled (not isValid) ] [ R.string "Submit" ];
+        R.pre
           []
-          [ Js.Json.(
+          [
+            Js.Json.(
               [ "name", string name; "agreeToTerms", boolean agreeToTerms ]
               |> Js.Dict.fromList
               |> object_
               |. stringifyWithSpace 2
-              |> R.string)
-          ]
+              |> R.string);
+          ];
       ]
 end
 

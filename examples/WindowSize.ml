@@ -1,10 +1,10 @@
 module R = Reaml
 
 module WindowSize = struct
-  type t =
-    { width : float
-    ; height : float
-    }
+  type t = {
+    width : float;
+    height : float;
+  }
 
   external innerWidth : float = "innerWidth" [@@bs.val] [@@bs.scope "window"]
   external innerHeight : float = "innerHeight" [@@bs.val] [@@bs.scope "window"]

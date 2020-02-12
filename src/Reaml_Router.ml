@@ -59,10 +59,10 @@ module Url = struct
 end
 
 module Parser = struct
-  type 'a state =
-    { url : Url.t
-    ; value : 'a
-    }
+  type 'a state = {
+    url : Url.t;
+    value : 'a;
+  }
 
   type ('a, 'b) t = Parser of ('a state -> 'b state list)
 

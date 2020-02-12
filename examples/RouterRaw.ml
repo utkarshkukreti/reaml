@@ -8,11 +8,12 @@ module RouterRaw = struct
     let replace string _ = R.Router.Url.replace Hash (R.Router.Url.fromString string) in
     R.div
       [ R.style "textAlign" "center" ]
-      [ R.button [ R.onClick (push "/foo") ] [ R.string "PUSH /foo" ]
-      ; R.button [ R.onClick (push "/bar") ] [ R.string "PUSH /bar" ]
-      ; R.button [ R.onClick (replace "/foo") ] [ R.string "REPLACE /foo" ]
-      ; R.button [ R.onClick (replace "/bar") ] [ R.string "REPLACE /bar" ]
-      ; R.h3 [] [ R.string (R.Router.Url.toString Hash url) ]
+      [
+        R.button [ R.onClick (push "/foo") ] [ R.string "PUSH /foo" ];
+        R.button [ R.onClick (push "/bar") ] [ R.string "PUSH /bar" ];
+        R.button [ R.onClick (replace "/foo") ] [ R.string "REPLACE /foo" ];
+        R.button [ R.onClick (replace "/bar") ] [ R.string "REPLACE /bar" ];
+        R.h3 [] [ R.string (R.Router.Url.toString Hash url) ];
       ]
 end
 

@@ -9,17 +9,19 @@ module Clock = struct
     let f n = R.string ((if n < 10.0 then "0" else "") ^ Js.Float.toString n) in
     R.h2
       [ R.style "textAlign" "center" ]
-      [ f (Js.Date.getHours now)
-      ; R.string ":"
-      ; f (Js.Date.getMinutes now)
-      ; R.string ":"
-      ; f (Js.Date.getSeconds now)
-      ; R.div
+      [
+        f (Js.Date.getHours now);
+        R.string ":";
+        f (Js.Date.getMinutes now);
+        R.string ":";
+        f (Js.Date.getSeconds now);
+        R.div
           []
-          [ R.button
+          [
+            R.button
               [ R.onClick (fun _ -> setIsRunning (not isRunning)) ]
-              [ R.string (if isRunning then "Stop" else "Start") ]
-          ]
+              [ R.string (if isRunning then "Stop" else "Start") ];
+          ];
       ]
 end
 

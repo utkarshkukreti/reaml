@@ -23,10 +23,10 @@ module Internal = struct
     [@@bs.module "react"]
 
   external createComponentElementVariadic
-    :  'a component
-    -> 'a
-    -> 'b array
-    -> vnode
+    :  'a component ->
+    'a ->
+    'b array ->
+    vnode
     = "createElement"
     [@@bs.variadic] [@@bs.module "react"]
 
@@ -51,10 +51,10 @@ let _7 a b c d e f g = Some [| any a; any b; any c; any d; any e; any f; any g |
 module Context = struct
   type 'a t = { provider : 'a props -> vnode [@bs.as "Provider"] }
 
-  and 'a props =
-    { value : 'a
-    ; children : vnode
-    }
+  and 'a props = {
+    value : 'a;
+    children : vnode;
+  }
 
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
@@ -74,18 +74,18 @@ end
 
 (* State *)
 external useStateLazy
-  :  (unit -> 'a)
-  -> (undefined[@bs.ignore])
-  -> 'a * (('a -> 'a) -> unit)
+  :  (unit -> 'a) ->
+  (undefined[@bs.ignore]) ->
+  'a * (('a -> 'a) -> unit)
   = "useState"
   [@@bs.module "react"]
 
 (* Reducer *)
 external useReducer
-  :  ('state -> 'action -> 'state)
-  -> 'state
-  -> (undefined[@bs.ignore])
-  -> 'state * ('action -> unit)
+  :  ('state -> 'action -> 'state) ->
+  'state ->
+  (undefined[@bs.ignore]) ->
+  'state * ('action -> unit)
   = "useReducer"
   [@@bs.module "react"]
 
@@ -94,29 +94,29 @@ let useState : 'a -> undefined -> 'a * ('a -> unit) =
   fun state undefined -> useReducer reducer state undefined
 
 external useReducerLazy
-  :  ('state -> 'action -> 'state)
-  -> 'a
-  -> ('a -> 'state)
-  -> (undefined[@bs.ignore])
-  -> 'state * ('action -> unit)
+  :  ('state -> 'action -> 'state) ->
+  'a ->
+  ('a -> 'state) ->
+  (undefined[@bs.ignore]) ->
+  'state * ('action -> unit)
   = "useReducer"
   [@@bs.module "react"]
 
 (* Effect *)
 external useEffect
-  :  (unit -> (unit -> unit) option)
-  -> any array option
-  -> (undefined[@bs.ignore])
-  -> unit
+  :  (unit -> (unit -> unit) option) ->
+  any array option ->
+  (undefined[@bs.ignore]) ->
+  unit
   = "useEffect"
   [@@bs.module "react"]
 
 (* Layout Effect *)
 external useLayoutEffect
-  :  (unit -> (unit -> unit) option)
-  -> any array option
-  -> (undefined[@bs.ignore])
-  -> unit
+  :  (unit -> (unit -> unit) option) ->
+  any array option ->
+  (undefined[@bs.ignore]) ->
+  unit
   = "useLayoutEffect"
   [@@bs.module "react"]
 
@@ -124,19 +124,19 @@ external useLayoutEffect
 type ('a, 'b) callback = 'a -> 'b
 
 external useCallback
-  :  ('a, 'b) callback
-  -> any array option
-  -> (undefined[@bs.ignore])
-  -> ('a, 'b) callback
+  :  ('a, 'b) callback ->
+  any array option ->
+  (undefined[@bs.ignore]) ->
+  ('a, 'b) callback
   = "useCallback"
   [@@bs.module "react"]
 
 (* Memo *)
 external useMemo
-  :  (unit -> 'a)
-  -> any array option
-  -> (undefined[@bs.ignore])
-  -> 'a
+  :  (unit -> 'a) ->
+  any array option ->
+  (undefined[@bs.ignore]) ->
+  'a
   = "useMemo"
   [@@bs.module "react"]
 
