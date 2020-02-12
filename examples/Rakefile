@@ -49,6 +49,7 @@ task :default do
     <% used_files.each do |used_file| %>
       <h2><%= used_file %></h2>
       <pre><code class="<%= language(used_file) %>"><%= CGI.escape_html(File.read(used_file)) %></code></pre>
+      <br>
     <% end %>
     <%= footer %>
     <script src="<%= name %>.bs.js"></script>

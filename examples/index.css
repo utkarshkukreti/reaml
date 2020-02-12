@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fira+Mono|Overpass:300&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Overpass:300&display=swap');
 
 * {
   box-sizing: border-box;
@@ -21,7 +21,7 @@ h3 {
 
 .hljs {
   padding: 1rem;
-  font-family: 'Fira Mono', monospace;
+  font-family: 'Source Code Pro', monospace;
   font-size: 15px;
   border-radius: 4px;
 }
@@ -33,6 +33,5 @@ h3 {
 }
 
 footer {
-  margin-top: 1rem;
   text-align: right;
 }
