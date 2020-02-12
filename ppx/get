@@ -9,7 +9,7 @@ url = "https://api.github.com/repos/utkarshkukreti/reaml/actions/runs/#{run_id}/
 response = JSON.parse(open(url).read)
 response["artifacts"].each do |artifact|
   name = case artifact["name"]
-    when "macOS-latest.exe" then "darwin-x64"
+    when "macos-latest.exe" then "darwin-x64"
     when "ubuntu-latest.exe" then "linux-x64"
     else next
     end
