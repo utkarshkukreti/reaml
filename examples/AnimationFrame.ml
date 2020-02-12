@@ -1,14 +1,14 @@
 module R = Reaml
 
 let use =
- fun [@reaml.hook] (enabled, func) ->
-  let[@reaml] funcRef = R.useRef func in
+ fun [@reaml.hook] (enabled, callback) ->
+  let[@reaml] callbackRef = R.useRef callback in
   let[@reaml] () =
     R.useEffect
       (fun () ->
-        R.Ref.write funcRef func;
+        R.Ref.write callbackRef callback;
         None)
-      (R._1 func)
+      (R._1 callback)
   in
   let[@reaml] () =
     R.useEffect
@@ -17,7 +17,7 @@ let use =
         let rec loop t =
           if !isRunning
           then (
-            (R.Ref.read funcRef) t;
+            (R.Ref.read callbackRef) t;
             Webapi.requestAnimationFrame loop)
           else ()
         in
