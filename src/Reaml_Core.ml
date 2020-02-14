@@ -157,12 +157,12 @@ external useContext : 'a Context.t -> (undefined[@bs.ignore]) -> 'a = "useContex
 external useRef : 'a -> (undefined[@bs.ignore]) -> 'a Ref.t = "useRef"
   [@@bs.module "react"]
 
-(* Property *)
-type property =
+(* Element Attribute *)
+type attr =
   | Property of string * any
   | Style of string * string
   | Class of string
-  | Properties of property list
+  | List of attr list
 
 (* Property Constructors *)
 let property name value = Property (name, any value)
@@ -173,7 +173,7 @@ let data name value = Property ("data-" ^ name, any value)
 let aria name value = Property ("aria-" ^ name, any value)
 let key (value : string) = Property ("key", any value)
 let keyInt (value : int) = Property ("key", any value)
-let properties properties = Properties properties
+let attrs attrs = List attrs
 
 type dangerouslySetInnerHtml = { __html : string }
 
@@ -184,26 +184,26 @@ let dangerouslySetInnerHtml html =
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let elementArray name props (children : vnode array) =
-  let props_ = Js.Dict.empty () in
+let elementArray name attrs (children : vnode array) =
+  let attrs_ = Js.Dict.empty () in
   let style = Js.Dict.empty () in
   let hasStyle = ref false in
   let class_ = ref "" in
   let rec go = function
-    | Property (name, value) -> Js.Dict.set props_ name value
+    | Property (name, value) -> Js.Dict.set attrs_ name value
     | Style (name, value) ->
       hasStyle := true;
       Js.Dict.set style name value
     | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name
-    | Properties props -> Belt.List.forEach props go
+    | List attrs -> Belt.List.forEach attrs go
   in
-  Belt.List.forEach props go;
-  if !hasStyle then Js.Dict.set props_ "style" (any style) else ();
-  if !class_ = "" then () else Js.Dict.set props_ "className" (any !class_);
-  createElement name props_ children
+  Belt.List.forEach attrs go;
+  if !hasStyle then Js.Dict.set attrs_ "style" (any style) else ();
+  if !class_ = "" then () else Js.Dict.set attrs_ "className" (any !class_);
+  createElement name attrs_ children
 
-let element name props (children : vnode list) =
-  elementArray name props (Belt.List.toArray children)
+let element name attrs (children : vnode list) =
+  elementArray name attrs (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
