@@ -15,12 +15,23 @@ type vnode
 (* A component of 'props is simply a function from 'props to vnode *)
 type 'props component = 'props -> vnode
 
+(* A non-functional component *)
+type 'props nonFunctionalComponent
+
 (* Create a raw element vnode *)
 external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "createElement"
   [@@bs.variadic] [@@bs.module "react"]
 
 (* Create a raw component element vnode *)
 external createComponentElement : 'a component -> 'a -> vnode = "createElement"
+  [@@bs.module "react"]
+
+(* Create a raw non-functional component element vnode *)
+external createNonFunctionalComponentElement
+  :  'a nonFunctionalComponent ->
+  'a ->
+  vnode
+  = "createElement"
   [@@bs.module "react"]
 
 (* A component which requires variadic arguments *)
@@ -42,7 +53,7 @@ external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.s
 external _fragment : (unit, vnode) variadicComponent = "Fragment" [@@bs.module "react"]
 
 (* React.memo'ize a component *)
-external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
+external memo : 'a component -> 'a nonFunctionalComponent = "memo" [@@bs.module "react"]
 
 (* Functions to create `any array option` from given values. *)
 (* Values of this type are accepted by several functions below. *)
@@ -58,7 +69,7 @@ let _7 a b c d e f g = Some [| any a; any b; any c; any d; any e; any f; any g |
 
 (* Context *)
 module Context = struct
-  type 'a t = { provider : 'a props -> vnode [@bs.as "Provider"] }
+  type 'a t = { provider : 'a props nonFunctionalComponent [@bs.as "Provider"] }
 
   and 'a props = {
     value : 'a;
@@ -68,7 +79,7 @@ module Context = struct
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
   let provide (context : 'a t) (value : 'a) vnode =
-    createComponentElement context.provider { value; children = vnode }
+    createNonFunctionalComponentElement context.provider { value; children = vnode }
 end
 
 (* Ref *)
@@ -224,15 +235,21 @@ let fragment list = fragmentArray (Belt.List.toArray list)
 (* Create Component *)
 let component ?memo:(memo_ = false) name fn =
   setDisplayName fn name;
-  let fn = if memo_ then memo fn else fn in
-  fun props -> createComponentElement fn props
+  if memo_
+  then (
+    let fn = memo fn in
+    fun props -> createNonFunctionalComponentElement fn props)
+  else fun props -> createComponentElement fn props
 
 (* Create Recursive Component *)
 let recursiveComponent ?memo:(memo_ = false) name fn =
   let rec fn_ x = fn x (fun props -> createComponentElement fn_ props) in
   setDisplayName fn_ name;
-  let fn_ = if memo_ then memo fn_ else fn_ in
-  fun props -> createComponentElement fn_ props
+  if memo_
+  then (
+    let fn_ = memo fn_ in
+    fun props -> createNonFunctionalComponentElement fn_ props)
+  else fun props -> createComponentElement fn_ props
 
 (* Portal *)
 module Portal = struct
