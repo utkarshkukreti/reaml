@@ -18,6 +18,7 @@ module Clicks = struct
         R.style "borderRadius" "4px";
         R.style "overflow" "scroll";
         R.style "marginBottom" "2rem";
+        R.style "userSelect" "none";
         R.onClick (fun event ->
             dispatch R.Event.Mouse.(Clicked (clientX event, clientY event)));
       ]
