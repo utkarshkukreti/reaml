@@ -250,13 +250,16 @@ let recursiveComponent
     (fn : 'props -> 'props component -> vnode)
     : 'props -> vnode
   =
-  let rec fn_ props = fn props (fun props -> createComponentElement fn_ props) in
+  let component = ref (fun _ -> string "?") in
+  let fn_ props = fn props !component in
   setDisplayName fn_ name;
-  if memo_
-  then (
-    let fn_ = memo fn_ in
-    fun props -> createNonFunctionalComponentElement fn_ props)
-  else fun props -> createComponentElement fn_ props
+  (component
+     := if memo_
+        then (
+          let fn_ = memo fn_ in
+          fun props -> createNonFunctionalComponentElement fn_ props)
+        else fun props -> createComponentElement fn_ props);
+  !component
 
 (* Portal *)
 module Portal = struct
