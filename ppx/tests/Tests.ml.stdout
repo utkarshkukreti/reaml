@@ -14,12 +14,12 @@ type props = {
 external _foo : props -> Reaml.vnode = "foo"[@@bs.val ]
 let _foo props = Reaml.createComponentElement _foo props
 let _foo =
-  Reaml.component "Foo"
+  Reaml.component ~name:"Foo"
     (fun () ->
        Js.log "foo";
        (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
 let _foo =
-  Reaml.component ~memo:true "Foo"
+  Reaml.component ~memo:true ~name:"Foo"
     (fun () ->
        Js.log "foo";
        (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
@@ -31,21 +31,21 @@ let useThing _ (_ : Reaml.undefined) =
 type foo = {
   foo: string }
 let _foo =
-  Reaml.recursiveComponent "Foo"
+  Reaml.recursiveComponent ~name:"Foo"
     (fun { foo = _ } ->
        fun foo ->
          let (_count, _setCount) = Reaml.useState () Reaml.undefined in
          let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
          let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
 let _foo =
-  Reaml.recursiveComponent ~memo:true "Foo"
+  Reaml.recursiveComponent ~memo:true ~name:"Foo"
     (fun { foo = _ } ->
        fun foo ->
          let (_count, _setCount) = Reaml.useState () Reaml.undefined in
          let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
          let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
 let _foo =
-  Reaml.component "Foo"
+  Reaml.component ~name:"Foo"
     (fun () ->
        let (_count, _setCount) = Reaml.useState () Reaml.undefined in
        let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in

@@ -174,7 +174,7 @@ let mapper _ _ =
                        Exp.construct { txt = Lident "true"; loc = Location.none } None );
                    ]
                  else [])
-                 [ Nolabel, name; Nolabel, inner ])
+                 [ Labelled "name", name; Nolabel, inner ])
           | {
            pexp_desc = Pexp_fun (Nolabel, None, args, expr);
            pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ];

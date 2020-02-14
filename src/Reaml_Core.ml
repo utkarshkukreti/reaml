@@ -233,7 +233,7 @@ let fragmentArray (array : vnode array) =
 let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
-let component ?memo:(memo_ = false) (name : string) (fn : 'props component)
+let component ?memo:(memo_ = false) ~(name : string) (fn : 'props component)
     : 'props -> vnode
   =
   setDisplayName fn name;
@@ -246,7 +246,7 @@ let component ?memo:(memo_ = false) (name : string) (fn : 'props component)
 (* Create Recursive Component *)
 let recursiveComponent
     ?memo:(memo_ = false)
-    (name : string)
+    ~(name : string)
     (fn : 'props -> 'props component -> vnode)
     : 'props -> vnode
   =
