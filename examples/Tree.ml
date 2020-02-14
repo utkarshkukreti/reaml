@@ -5,12 +5,12 @@ module Tree = struct
     | Many of string * t list
     | Leaf of string
 
-  type props = { t : t }
+  type props = { value : t }
 
   let make =
-   fun [@reaml.component.recursive "Tree"] { t } make ->
+   fun [@reaml.component.recursive "Tree"] { value } make ->
     let[@reaml] collapsed, setCollapsed = R.useState false in
-    match t with
+    match value with
     | Many (value, many) ->
       R.div
         []
@@ -18,7 +18,7 @@ module Tree = struct
           R.div [ R.onClick (fun _ -> setCollapsed (not collapsed)) ] [ R.string value ];
           (if collapsed
           then R.null
-          else R.ul [] (many |. Belt.List.map (fun m -> R.li [] [ make { t = m } ])));
+          else R.ul [] (many |. Belt.List.map (fun value -> R.li [] [ make { value } ])));
         ]
     | Leaf leaf -> R.string leaf
 end
@@ -26,7 +26,7 @@ end
 let main =
   Tree.make
     {
-      t =
+      value =
         Tree.Many
           ( "h",
             [
