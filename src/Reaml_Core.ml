@@ -229,7 +229,6 @@ let component ?memo:(memo_ = false) name fn =
 
 (* Create Recursive Component *)
 let recursiveComponent ?memo:(memo_ = false) name fn =
-  let _ = memo in
   let rec fn_ x = fn x (fun props -> createComponentElement fn_ props) in
   setDisplayName fn_ name;
   let fn_ = if memo_ then memo fn_ else fn_ in
