@@ -250,7 +250,7 @@ let recursiveComponent
     (fn : 'props -> 'props component -> vnode)
     : 'props -> vnode
   =
-  let rec fn_ x = fn x (fun props -> createComponentElement fn_ props) in
+  let rec fn_ props = fn props (fun props -> createComponentElement fn_ props) in
   setDisplayName fn_ name;
   if memo_
   then (
