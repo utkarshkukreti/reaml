@@ -2,7 +2,7 @@ module R = Reaml
 
 module Tree = struct
   type t =
-    | Many of string * t list
+    | Node of string * t list
     | Leaf of string
 
   type props = { value : t }
@@ -11,7 +11,7 @@ module Tree = struct
    fun [@reaml.component.recursive "Tree"] { value } make ->
     let[@reaml] collapsed, setCollapsed = R.useState false in
     match value with
-    | Many (value, many) ->
+    | Node (value, many) ->
       R.div
         []
         [
@@ -27,15 +27,15 @@ let main =
   Tree.make
     {
       value =
-        Tree.Many
+        Tree.Node
           ( "h",
             [
-              Many
+              Node
                 ( "i",
                   [
                     Leaf "hello";
                     Leaf "world";
-                    Many ("j", [ Leaf "foo"; Leaf "bar" ]);
+                    Node ("j", [ Leaf "foo"; Leaf "bar" ]);
                     Leaf "baz";
                   ] );
             ] );
