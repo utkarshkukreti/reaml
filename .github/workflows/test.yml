@@ -15,7 +15,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.esy
-          key: esy-${{ matrix.os }}-${{ hashFiles('**/*.json') }}-${{ hashFiles('**/yarn.lock') }}
+          key: esy-${{ matrix.os }}-${{ hashFiles('ppx/esy.lock/index.json') }}
       - run: npm install -g esy@latest
       - working-directory: ppx
         run: make
