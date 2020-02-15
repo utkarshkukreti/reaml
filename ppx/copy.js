@@ -4,8 +4,8 @@
 
 const fs = require('fs');
 
-const arch = process.arch;
-const platform = process.platform;
+let arch = process.arch;
+let platform = process.platform;
 
 if (arch === 'ia32') {
   arch = 'x86';
