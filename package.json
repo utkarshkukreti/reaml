@@ -21,7 +21,7 @@
     "build:parcel": "parcel build --public-url ./ --experimental-scope-hoisting examples/index.html",
     "test": "jest",
     "deploy": "run-s build deploy:netlify",
-    "deploy:netlify": "netlify deploy --dir dist --prod --open",
+    "deploy:netlify": "netlify deploy --dir dist --prod --open --site 5d641476-5eb1-4c3b-b7c5-3aea4e66bc0d",
     "clean": "rimraf .cache dist && bsb -clean-world",
     "release": "make release"
   },
