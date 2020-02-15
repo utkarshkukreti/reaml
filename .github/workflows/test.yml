@@ -17,8 +17,8 @@ jobs:
           path: ~/.esy
           key: esy-${{ matrix.os }}-${{ hashFiles('ppx/esy.lock/index.json') }}
       - run: npm install -g esy@latest
-      - working-directory: ppx
-        run: make
+      - run: make
+        working-directory: ppx
       - run: yarn install
       - run: yarn build
       - run: yarn test
