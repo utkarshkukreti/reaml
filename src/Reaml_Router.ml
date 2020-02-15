@@ -121,7 +121,7 @@ end
 
 module Builder = struct
   let root = Url.{ path = [] }
-  let ( </> ) url segment = Url.{ path = url.path @ [ segment ] }
+  let ( </> ) url segment = Url.{ path = Belt.List.concat url.path [ segment ] }
   let int = Js.Int.toString
 end
 
