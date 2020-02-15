@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
+      - uses: actions/cache@v1
+        with:
+          path: ~/.esy
+          key: esy-${{ matrix.os }}-${{ hashFiles('**/*.json') }}-${{ hashFiles('**/yarn.lock') }}
       - run: npm install -g esy@latest
       - working-directory: ppx
         run: make
