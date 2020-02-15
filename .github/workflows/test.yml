@@ -1,0 +1,19 @@
+name: Test
+
+on: push
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - run: npm install -g esy@latest
+      - working-directory: ppx
+        run: make
+      - run: yarn install
+      - run: yarn test
