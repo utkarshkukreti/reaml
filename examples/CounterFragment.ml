@@ -6,8 +6,7 @@ module Counter = struct
   let make =
    fun [@reaml.component "Counter"] { initial } ->
     let[@reaml] count, setCount = R.useState initial in
-    R.div
-      []
+    R.div []
       [
         R.button [ R.onClick (fun _ -> setCount (count - 1)) ] [ R.string "-" ];
         R.string " ";

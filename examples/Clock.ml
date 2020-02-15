@@ -15,8 +15,7 @@ module Clock = struct
         f (Js.Date.getMinutes now);
         R.string ":";
         f (Js.Date.getSeconds now);
-        R.div
-          []
+        R.div []
           [
             R.button
               [ R.onClick (fun _ -> setIsRunning (not isRunning)) ]

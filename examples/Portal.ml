@@ -14,8 +14,7 @@ module Portal = struct
           body
       | _ -> R.null
     in
-    R.div
-      []
+    R.div []
       [
         portal;
         R.button [ R.onClick (fun _ -> setIsOpen (not isOpen)) ] [ R.string "Toggle" ];

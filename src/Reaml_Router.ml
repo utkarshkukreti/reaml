@@ -40,8 +40,7 @@ module Url = struct
         Some
           (fun () ->
             Webapi.Dom.window |> Webapi.Dom.Window.removeEventListener "popstate" f))
-      None
-      Reaml_Core.undefined;
+      None Reaml_Core.undefined;
     url
 
   let dispatch () =

@@ -15,8 +15,7 @@ module Toggle = struct
   let make =
    fun [@reaml.component "Toggle"] { f } ->
     let[@reaml] show, setShow = R.useState true in
-    R.div
-      []
+    R.div []
       [
         R.button [ R.onClick (fun _ -> setShow (not show)) ] [ R.string "Toggle" ];
         R.string " ";
@@ -25,8 +24,7 @@ module Toggle = struct
 end
 
 let main =
-  R.div
-    []
+  R.div []
     [
       Toggle.make { f = (fun () -> Counter.make { initial = -3 }) };
       Toggle.make { f = (fun () -> Counter.make { initial = 0 }) };

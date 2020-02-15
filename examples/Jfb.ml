@@ -95,11 +95,9 @@ module Row = struct
       [
         R.td [ R.class_ "col-md-1" ] [ R.int row.id ];
         R.td [ R.class_ "col-md-4" ] [ R.a [ R.onClick onSelect ] [ R.string row.label ] ];
-        R.td
-          [ R.class_ "col-md-1" ]
+        R.td [ R.class_ "col-md-1" ]
           [
-            R.a
-              [ R.onClick onRemove ]
+            R.a [ R.onClick onRemove ]
               [
                 R.span
                   [ R.class_ "glyphicon glyphicon-remove"; R.aria "hidden" "true" ]
@@ -134,18 +132,14 @@ module Button = struct
 end
 
 let jumbotron (dispatch : Store.action -> unit) =
-  R.div
-    [ R.class_ "jumbotron" ]
+  R.div [ R.class_ "jumbotron" ]
     [
-      R.div
-        [ R.class_ "row" ]
+      R.div [ R.class_ "row" ]
         [
           R.div [ R.class_ "col-md-6" ] [ R.h1 [] [ R.string "Reaml Keyed" ] ];
-          R.div
-            [ R.class_ "col-md-6" ]
+          R.div [ R.class_ "col-md-6" ]
             [
-              R.div
-                [ R.class_ "row" ]
+              R.div [ R.class_ "row" ]
                 [
                   Button.make
                     {
@@ -192,15 +186,13 @@ module Main = struct
   let make =
    fun [@reaml.component "Main"] () ->
     let[@reaml] state, dispatch = Store.use () in
-    R.div
-      [ R.class_ "container" ]
+    R.div [ R.class_ "container" ]
       [
         jumbotron dispatch;
         R.table
           [ R.class_ "table table-hover table-striped test-data" ]
           [
-            R.tbody
-              []
+            R.tbody []
               [
                 Belt.Array.map state.data (fun (row : Store.row) ->
                     Row.make

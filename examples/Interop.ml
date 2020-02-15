@@ -8,8 +8,7 @@ module Counter = struct
 end
 
 let main =
-  R.div
-    []
+  R.div []
     [
       Counter.make { initial = -3 };
       Counter.make { initial = 0 };

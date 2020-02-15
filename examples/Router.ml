@@ -61,8 +61,7 @@ module Router_ = struct
         Router.link (Post 123) [] [ R.string "LINK Post 123" ];
         R.string " ";
         Router.link (Post 456) [] [ R.string "LINK Post 456" ];
-        R.h3
-          []
+        R.h3 []
           [
             R.string
               (match route with

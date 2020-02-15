@@ -14,8 +14,7 @@ module Ref = struct
           | None -> ()))
       | None -> ()
     in
-    R.div
-      []
+    R.div []
       [
         R.button [ R.onClick (fun _ -> setShow (not show)) ] [ R.string "Toggle" ];
         R.button [ R.onClick (fun _ -> focus ()) ] [ R.string "Focus" ];

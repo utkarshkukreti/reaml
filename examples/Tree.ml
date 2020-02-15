@@ -12,8 +12,7 @@ module Tree = struct
     let[@reaml] collapsed, setCollapsed = R.useState false in
     match value with
     | Node (value, many) ->
-      R.div
-        []
+      R.div []
         [
           R.div [ R.onClick (fun _ -> setCollapsed (not collapsed)) ] [ R.string value ];
           (if collapsed

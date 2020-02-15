@@ -28,11 +28,9 @@ module Clicks = struct
       ]
       [
         R.h1 [] [ R.string "Click Anywhere!" ];
-        R.div
-          []
+        R.div []
           [
-            R.ul
-              []
+            R.ul []
               (state |. Belt.List.map (fun (x, y) -> R.li [] [ R.string {j|$x × $y|j} ]));
           ];
       ]

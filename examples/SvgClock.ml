@@ -47,8 +47,7 @@ module Clock = struct
             line minuteRotate "#2d3748" 3 70;
             line secondRotate "#e53e3e" 2 90;
           ];
-        R.div
-          []
+        R.div []
           [
             R.button
               [ R.onClick (fun _ -> setIsRunning (not isRunning)) ]

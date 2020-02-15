@@ -22,8 +22,7 @@ module Hello = struct
 end
 
 let main =
-  R.div
-    []
+  R.div []
     [
       Hello.make ();
       R.Context.provide theme Green (R.div [] [ Hello.make (); Hello.make () ]);

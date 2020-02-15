@@ -79,12 +79,9 @@ let rec rewrite_let = function
             Exp.ident { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none } );
         ]
     in
-    Exp.let_
-      recursive
+    Exp.let_ recursive
       [
-        Vb.mk
-          ~loc:pvb_loc
-          ~attrs:[]
+        Vb.mk ~loc:pvb_loc ~attrs:[]
           { pvb_pat with ppat_attributes = [] }
           (Exp.apply ident args);
       ]
@@ -133,8 +130,7 @@ let mapper _ _ =
               | { ppat_loc } ->
                 raise
                   (Location.Error
-                     (Location.error
-                        ~loc:ppat_loc
+                     (Location.error ~loc:ppat_loc
                         "the argument to a component must either be unit (`()`) or a \
                          record pattern (`{foo = foo; bar = _}`)"))
             in
@@ -148,18 +144,13 @@ let mapper _ _ =
                  pexp_desc = Pexp_fun (Nolabel, None, args', expr);
                  pexp_loc = pexp_loc_2;
                 } ->
-                  ( Exp.fun_
-                      ~loc:pexp_loc
-                      Nolabel
-                      None
-                      args
+                  ( Exp.fun_ ~loc:pexp_loc Nolabel None args
                       (Exp.fun_ ~loc:pexp_loc_2 Nolabel None args' (rewrite_let expr)),
                     "recursiveComponent" )
                 | _ ->
                   raise
                     (Location.Error
-                       (Location.error
-                          ~loc:pexp_loc
+                       (Location.error ~loc:pexp_loc
                           "a recursive component should take exactly 2 arguments")))
               | _ ->
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
@@ -180,16 +171,9 @@ let mapper _ _ =
            pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ];
            pexp_loc;
           } ->
-            Exp.fun_
-              Nolabel
-              None
-              args
-              (Exp.fun_
-                 ~loc:pexp_loc
-                 Nolabel
-                 None
-                 (Pat.constraint_
-                    (Pat.any ())
+            Exp.fun_ Nolabel None args
+              (Exp.fun_ ~loc:pexp_loc Nolabel None
+                 (Pat.constraint_ (Pat.any ())
                     (Typ.constr
                        { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
                        []))
@@ -211,23 +195,14 @@ let mapper _ _ =
              } as s
              when List.exists isReamlComponent pval_attributes ->
              let maker =
-               Str.value
-                 ~loc
-                 Nonrecursive
+               Str.value ~loc Nonrecursive
                  [
-                   Vb.mk
-                     ~loc
-                     ~attrs:[]
+                   Vb.mk ~loc ~attrs:[]
                      (Pat.var ~loc { txt; loc })
-                     (Exp.fun_
-                        ~loc
-                        Nolabel
-                        None
+                     (Exp.fun_ ~loc Nolabel None
                         (Pat.var ~loc { txt = "props"; loc })
-                        (Exp.apply
-                           ~loc
-                           (Exp.ident
-                              ~loc
+                        (Exp.apply ~loc
+                           (Exp.ident ~loc
                               {
                                 txt = Ldot (Lident "Reaml", "createComponentElement");
                                 loc;
@@ -257,8 +232,5 @@ let mapper _ _ =
   }
 
 let () =
-  Migrate_parsetree.Driver.register
-    ~name:"reaml"
-    ~args:[]
-    Migrate_parsetree.Versions.ocaml_406
-    mapper
+  Migrate_parsetree.Driver.register ~name:"reaml" ~args:[]
+    Migrate_parsetree.Versions.ocaml_406 mapper
