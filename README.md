@@ -1,4 +1,4 @@
-# Reaml (React + ML) ![Build](https://github.com/utkarshkukreti/reaml/workflows/Build/badge.svg)
+# Reaml (React + ML) ![Build](https://github.com/utkarshkukreti/reaml/workflows/Build/badge.svg) ![Test](https://github.com/utkarshkukreti/reaml/workflows/Test/badge.svg)
 
 > A React binding for (OCaml | ReasonML) + BuckleScript with compile time
 > enforcement of the ["Rules of Hooks"](https://reactjs.org/docs/hooks-rules.html)
