@@ -16,4 +16,5 @@ jobs:
       - working-directory: ppx
         run: make
       - run: yarn install
+      - run: yarn build
       - run: yarn test
