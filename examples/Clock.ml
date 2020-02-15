@@ -8,7 +8,7 @@ module Clock = struct
     let[@reaml] () = AnimationFrame.use (isRunning, fun _ -> setNow (Js.Date.make ())) in
     let f n = R.string ((if n < 10.0 then "0" else "") ^ Js.Float.toString n) in
     R.h2
-      [ R.style "textAlign" "center" ]
+      [ R.Style.textAlign "center" ]
       [
         f (Js.Date.getHours now);
         R.string ":";

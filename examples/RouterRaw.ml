@@ -7,7 +7,7 @@ module RouterRaw = struct
     let push string _ = R.Router.Url.push Hash (R.Router.Url.fromString string) in
     let replace string _ = R.Router.Url.replace Hash (R.Router.Url.fromString string) in
     R.div
-      [ R.style "textAlign" "center" ]
+      [ R.Style.textAlign "center" ]
       [
         R.button [ R.onClick (push "/foo") ] [ R.string "PUSH /foo" ];
         R.button [ R.onClick (push "/bar") ] [ R.string "PUSH /bar" ];

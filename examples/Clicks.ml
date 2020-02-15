@@ -11,14 +11,18 @@ module Clicks = struct
     let[@reaml] state, dispatch = R.useReducer reducer [] in
     R.div
       [
-        R.style "height" "400px";
-        R.style "padding" "1rem";
-        R.style "background" "#fefcbf";
-        R.style "border" "2px dashed #F6E05E";
-        R.style "borderRadius" "4px";
-        R.style "overflow" "scroll";
-        R.style "marginBottom" "2rem";
-        R.style "userSelect" "none";
+        R.attrs
+          R.Style.
+            [
+              height "400px";
+              padding "1rem";
+              background "#fefcbf";
+              border "2px dashed #F6E05E";
+              borderRadius "4px";
+              overflow "scroll";
+              marginBottom "2rem";
+              userSelect "none";
+            ];
         R.onClick (fun event ->
             dispatch R.Event.Mouse.(Clicked (clientX event, clientY event)));
       ]

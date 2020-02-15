@@ -9,7 +9,7 @@ module Portal = struct
       | true, Some body ->
         R.Portal.make
           (R.div
-             [ R.style "position" "fixed"; R.style "top" "1rem" ]
+             [ R.Style.position "fixed"; R.Style.top "1rem" ]
              [ R.string "This is a direct child of body!" ])
           body
       | _ -> R.null

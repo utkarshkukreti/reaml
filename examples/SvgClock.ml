@@ -36,11 +36,7 @@ module Clock = struct
     let minuteRotate = 90.0 +. (mod_float (s /. 60.0) 60.0 *. 360.0 /. 60.0) in
     let hourRotate = 90.0 +. (mod_float (s /. 60.0 /. 60.0) 12.0 *. 360.0 /. 12.0) in
     R.h2
-      [
-        R.style "display" "flex";
-        R.style "alignItems" "center";
-        R.style "flexDirection" "column";
-      ]
+      R.Style.[ display "flex"; alignItems "center"; flexDirection "column" ]
       [
         S.svg
           [ S.width "400"; S.height "400"; S.viewBox "0 0 200 200" ]
