@@ -22,4 +22,4 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: ${{ matrix.os }}.exe
-          path: ppx/_esy/default/build/default/.ppx/Reaml_Ppx_Bin.lib/ppx.exe
+          path: ppx/_esy/default/build/default/bin/Reaml_Ppx_Bin.exe
