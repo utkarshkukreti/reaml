@@ -19,7 +19,7 @@ jobs:
       - run: npm install -g esy@latest
       - working-directory: ppx
         run: make
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v1
         with:
           name: ${{ matrix.os }}.exe
           path: ppx/_esy/default/build/default/bin/Reaml_Ppx_Bin.exe
