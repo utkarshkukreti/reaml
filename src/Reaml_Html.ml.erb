@@ -18,10 +18,10 @@ let onInputValue (handler : string -> unit) =
   onChange (fun event ->
       match (Obj.magic event)##target##value with
       | Some value -> handler value
-      | None -> handler "")
+      | None -> ())
 
 let onInputChecked (handler : bool -> unit) =
   onChange (fun event ->
       match (Obj.magic event)##target##checked with
       | Some checked -> handler checked
-      | None -> handler false)
+      | None -> ())
