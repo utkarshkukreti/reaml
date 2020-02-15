@@ -50,11 +50,13 @@ module Url = struct
     |> ignore
 
   let push mode t =
-    Webapi.Dom.(history |> History.pushState (Obj.magic ()) "" (t |> toString mode));
+    Webapi.Dom.(
+      history |> History.pushState (History.state history) "" (t |> toString mode));
     dispatch ()
 
   let replace mode t =
-    Webapi.Dom.(history |> History.replaceState (Obj.magic ()) "" (t |> toString mode));
+    Webapi.Dom.(
+      history |> History.replaceState (History.state history) "" (t |> toString mode));
     dispatch ()
 end
 
