@@ -32,10 +32,7 @@ module Url = struct
     let url, setUrl = Reaml_Core.useState (get ()) Reaml_Core.undefined in
     Reaml_Core.useEffect
       (fun () ->
-        let f _ =
-          let url_ = get () in
-          if url = url_ then () else setUrl url_
-        in
+        let f _ = setUrl (get ()) in
         Webapi.Dom.window |> Webapi.Dom.Window.addEventListener "popstate" f;
         Some
           (fun () ->
