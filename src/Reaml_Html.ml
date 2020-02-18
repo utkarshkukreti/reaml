@@ -497,13 +497,13 @@ let onWheel (handler : Reaml_Event.Wheel.t -> unit) =
   Reaml_Core.on "Wheel" (fun event -> handler (Obj.magic event))
 
 let onInputValue (handler : string -> unit) =
-  onChange (fun event ->
+  onInput (fun event ->
       match (Obj.magic event)##target##value with
       | Some value -> handler value
       | None -> ())
 
 let onInputChecked (handler : bool -> unit) =
-  onChange (fun event ->
+  onInput (fun event ->
       match (Obj.magic event)##target##checked with
       | Some checked -> handler checked
       | None -> ())

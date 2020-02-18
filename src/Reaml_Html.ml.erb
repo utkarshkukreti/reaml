@@ -15,13 +15,13 @@ let <%= name %> (handler: Reaml_Event.<%= event_type %>.t -> unit) = Reaml_Core.
 <% end %>
 
 let onInputValue (handler : string -> unit) =
-  onChange (fun event ->
+  onInput (fun event ->
       match (Obj.magic event)##target##value with
       | Some value -> handler value
       | None -> ())
 
 let onInputChecked (handler : bool -> unit) =
-  onChange (fun event ->
+  onInput (fun event ->
       match (Obj.magic event)##target##checked with
       | Some checked -> handler checked
       | None -> ())
