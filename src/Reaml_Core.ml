@@ -241,13 +241,13 @@ external float : float -> vnode = "%identity"
 (* Create From List/Array *)
 external array : vnode array -> vnode = "%identity"
 
-let list list = array (Belt.List.toArray list)
+let list (list : vnode list) = array (Belt.List.toArray list)
 
 (* Create a Fragment *)
 let fragmentArray (array : vnode array) =
   createVariadicComponentElement _fragment () array
 
-let fragment list = fragmentArray (Belt.List.toArray list)
+let fragment (list : vnode list) = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
 let component ?memo:(memo_ = false) ~(name : string) (fn : 'props component)
