@@ -195,7 +195,7 @@ let dangerouslySetInnerHtml html =
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let elementArray name attrs (children : vnode array) =
+let elementArray name (attrs : attr list) (children : vnode array) =
   let attrs_ = Js.Dict.empty () in
   let style = Js.Dict.empty () in
   let hasStyle = ref false in
@@ -213,7 +213,7 @@ let elementArray name attrs (children : vnode array) =
   if !class_ = "" then () else Js.Dict.set attrs_ "className" (any !class_);
   createElement name attrs_ children
 
-let element name attrs (children : vnode list) =
+let element name (attrs : attr list) (children : vnode list) =
   elementArray name attrs (Belt.List.toArray children)
 
 (* Create Text Node *)
