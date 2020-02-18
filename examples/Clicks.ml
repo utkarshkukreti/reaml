@@ -11,7 +11,7 @@ module Clicks = struct
     let[@reaml] state, dispatch = R.useReducer reducer [] in
     R.div
       [
-        R.attrs
+        R.Attr.list
           R.Style.
             [
               height "400px";

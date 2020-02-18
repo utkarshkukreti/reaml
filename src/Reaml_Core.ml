@@ -169,51 +169,68 @@ external useRef : 'a -> (undefined[@bs.ignore]) -> 'a Ref.t = "useRef"
   [@@bs.module "react"]
 
 (* Element Attribute *)
-type attr =
-  | Property of string * any
-  | Style of string * string
-  | Class of string
-  | List of attr list
+module Attr : sig
+  type t
+
+  val property : string -> 'a -> t
+  val style : string -> string -> t
+  val class_ : string -> t
+  val list : t list -> t
+  val toDict : t list -> any Js.Dict.t
+end = struct
+  type t =
+    | Property of string * any
+    | Style of string * string
+    | Class of string
+    | List of t list
+
+  (* Constructors *)
+  let property name value = Property (name, any value)
+  let style name value = Style (name, value)
+  let class_ name = Class name
+  let list list = List list
+
+  let toDict (attrs : t list) =
+    let return = Js.Dict.empty () in
+    let style = Js.Dict.empty () in
+    let hasStyle = ref false in
+    let class_ = ref "" in
+    let rec go = function
+      | Property (name, value) -> Js.Dict.set return name value
+      | Style (name, value) ->
+        hasStyle := true;
+        Js.Dict.set style name value
+      | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name
+      | List attrs -> Belt.List.forEach attrs go
+    in
+    Belt.List.forEach attrs go;
+    if !hasStyle then Js.Dict.set return "style" (any style) else ();
+    if !class_ = "" then () else Js.Dict.set return "className" (any !class_);
+    return
+end
 
 (* Property Constructors *)
-let property name value = Property (name, any value)
-let on name (value : Reaml_Event.Event.t -> unit) = Property ("on" ^ name, any value)
-let style name value = Style (name, value)
-let class_ name = Class name
-let data name value = Property ("data-" ^ name, any value)
-let aria name value = Property ("aria-" ^ name, any value)
-let key (value : string) = Property ("key", any value)
-let keyInt (value : int) = Property ("key", any value)
-let attrs attrs = List attrs
+let property = Attr.property
+let on name (value : Reaml_Event.Event.t -> unit) = property ("on" ^ name) value
+let style = Attr.style
+let class_ = Attr.class_
+let data name value = property ("data-" ^ name) value
+let aria name value = property ("aria-" ^ name) value
+let key (value : string) = property "key" value
+let keyInt (value : int) = property "key" value
 
 type dangerouslySetInnerHtml = { __html : string }
 
-let dangerouslySetInnerHtml html =
-  Property ("dangerouslySetInnerHTML", any { __html = html })
+let dangerouslySetInnerHtml html = property "dangerouslySetInnerHTML" { __html = html }
 
 (* Create Empty Node *)
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let elementArray name (attrs : attr list) (children : vnode array) =
-  let attrs_ = Js.Dict.empty () in
-  let style = Js.Dict.empty () in
-  let hasStyle = ref false in
-  let class_ = ref "" in
-  let rec go = function
-    | Property (name, value) -> Js.Dict.set attrs_ name value
-    | Style (name, value) ->
-      hasStyle := true;
-      Js.Dict.set style name value
-    | Class name -> class_ := if !class_ = "" then name else !class_ ^ " " ^ name
-    | List attrs -> Belt.List.forEach attrs go
-  in
-  Belt.List.forEach attrs go;
-  if !hasStyle then Js.Dict.set attrs_ "style" (any style) else ();
-  if !class_ = "" then () else Js.Dict.set attrs_ "className" (any !class_);
-  createElement name attrs_ children
+let elementArray name attrs (children : vnode array) =
+  createElement name (Attr.toDict attrs) children
 
-let element name (attrs : attr list) (children : vnode list) =
+let element name attrs (children : vnode list) =
   elementArray name attrs (Belt.List.toArray children)
 
 (* Create Text Node *)
