@@ -15,7 +15,7 @@ response["artifacts"].each do |artifact|
     end
   system "curl", "-u", "utkarshkukreti:#{ENV["GITHUB_TOKEN"]}", "-L", "-o", "#{name}.zip", artifact["archive_download_url"]
   system "unzip", "#{name}.zip", "-d", "tmp"
-  system "mv", "tmp/ppx.exe", "bin/#{name}.exe"
+  system "mv", "tmp/Reaml_Ppx_Bin.exe", "bin/#{name}.exe"
   system "chmod", "+x", "bin/#{name}.exe"
   system "rm", "-rf", "tmp"
   system "rm", "#{name}.zip"
