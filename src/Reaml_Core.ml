@@ -12,11 +12,14 @@ external undefined : undefined = "#undefined"
 (* A Reaml Virtual Node *)
 type vnode
 
-(* A component of 'props is simply a function from 'props to vnode *)
-type 'props component = 'props -> vnode
+(* A component *)
+type 'props component
 
-(* A non-functional component *)
-type 'props nonFunctionalComponent
+(* A function component is simply a function from 'props to vnode *)
+type 'props functionComponent = 'props -> vnode
+
+(* Convert a function component to a component *)
+external fc : 'props functionComponent -> 'props component = "%identity"
 
 (* Create a raw element vnode *)
 external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "createElement"
@@ -24,14 +27,6 @@ external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "creat
 
 (* Create a raw component element vnode *)
 external createComponentElement : 'a component -> 'a -> vnode = "createElement"
-  [@@bs.module "react"]
-
-(* Create a raw non-functional component element vnode *)
-external createNonFunctionalComponentElement
-  :  'a nonFunctionalComponent ->
-  'a ->
-  vnode
-  = "createElement"
   [@@bs.module "react"]
 
 (* A component which requires variadic arguments *)
@@ -53,7 +48,7 @@ external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.s
 external _fragment : (unit, vnode) variadicComponent = "Fragment" [@@bs.module "react"]
 
 (* React.memo'ize a component *)
-external memo : 'a component -> 'a nonFunctionalComponent = "memo" [@@bs.module "react"]
+external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
 
 (* Functions to create `any array option` from given values. *)
 (* Values of this type are accepted by several functions below. *)
@@ -69,7 +64,7 @@ let _7 a b c d e f g = Some [| any a; any b; any c; any d; any e; any f; any g |
 
 (* Context *)
 module Context = struct
-  type 'a t = { provider : 'a props nonFunctionalComponent [@bs.as "Provider"] }
+  type 'a t = { provider : 'a props component [@bs.as "Provider"] }
 
   and 'a props = {
     value : 'a;
@@ -79,7 +74,7 @@ module Context = struct
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
   let provide (context : 'a t) (value : 'a) vnode =
-    createNonFunctionalComponentElement context.provider { value; children = vnode }
+    createComponentElement context.provider { value; children = vnode }
 end
 
 (* Ref *)
@@ -250,32 +245,32 @@ let fragmentArray (array : vnode array) =
 let fragment (list : vnode list) = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
-let component ?memo:(memo_ = false) ~(name : string) (fn : 'props component)
+let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionComponent)
     : 'props -> vnode
   =
-  setDisplayName fn name;
+  setDisplayName (fc fn) name;
   if memo_
   then (
-    let fn = memo fn in
-    fun props -> createNonFunctionalComponentElement fn props)
-  else fun props -> createComponentElement fn props
+    let fn = memo (fc fn) in
+    fun props -> createComponentElement fn props)
+  else fun props -> createComponentElement (fc fn) props
 
 (* Create Recursive Component *)
 let recursiveComponent
     ?memo:(memo_ = false)
     ~(name : string)
-    (fn : 'props -> 'props component -> vnode)
+    (fn : 'props -> 'props functionComponent -> vnode)
     : 'props -> vnode
   =
   let component = ref (fun _ -> string "?") in
   let fn_ props = fn props !component in
-  setDisplayName fn_ name;
+  setDisplayName (fc fn_) name;
   (component
      := if memo_
         then (
-          let fn_ = memo fn_ in
-          fun props -> createNonFunctionalComponentElement fn_ props)
-        else fun props -> createComponentElement fn_ props);
+          let fn_ = memo (fc fn_) in
+          fun props -> createComponentElement fn_ props)
+        else fun props -> createComponentElement (fc fn_) props);
   !component
 
 (* Portal *)
