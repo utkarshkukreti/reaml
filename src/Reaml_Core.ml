@@ -19,7 +19,7 @@ type 'props component
 type 'props functionComponent = 'props -> vnode
 
 (* Convert a function component to a component *)
-external fc : 'props functionComponent -> 'props component = "%identity"
+external functionComponent : 'props functionComponent -> 'props component = "%identity"
 
 (* Create a raw element vnode *)
 external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "createElement"
@@ -248,12 +248,12 @@ let fragment (list : vnode list) = fragmentArray (Belt.List.toArray list)
 let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionComponent)
     : 'props -> vnode
   =
-  setDisplayName (fc fn) name;
+  setDisplayName (functionComponent fn) name;
   if memo_
   then (
-    let fn = memo (fc fn) in
+    let fn = memo (functionComponent fn) in
     fun props -> createComponentElement fn props)
-  else fun props -> createComponentElement (fc fn) props
+  else fun props -> createComponentElement (functionComponent fn) props
 
 (* Create Recursive Component *)
 let recursiveComponent
@@ -264,13 +264,13 @@ let recursiveComponent
   =
   let component = ref (fun _ -> string "?") in
   let fn_ props = fn props !component in
-  setDisplayName (fc fn_) name;
+  setDisplayName (functionComponent fn_) name;
   (component
      := if memo_
         then (
-          let fn_ = memo (fc fn_) in
+          let fn_ = memo (functionComponent fn_) in
           fun props -> createComponentElement fn_ props)
-        else fun props -> createComponentElement (fc fn_) props);
+        else fun props -> createComponentElement (functionComponent fn_) props);
   !component
 
 (* Portal *)
