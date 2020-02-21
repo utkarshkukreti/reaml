@@ -1,6 +1,6 @@
 open Migrate_parsetree
-open Ast_406
-open Ast_406.Parsetree
+open Ast_410
+open Ast_410.Parsetree
 open Ast_helper
 
 (* Check that there are no reaml attributes left after the code is processed. *)
@@ -18,7 +18,11 @@ let check expr =
           match expr with
           | {
            pexp_attributes =
-             [ ({ txt = ("reaml.component" | "reaml.hook" | "reaml") as txt }, _) ];
+             [
+               {
+                 attr_name = { txt = ("reaml.component" | "reaml.hook" | "reaml") as txt };
+               };
+             ];
            pexp_loc;
           } -> throw txt pexp_loc
           | _ -> Ast_mapper.default_mapper.expr mapper expr);
@@ -27,7 +31,11 @@ let check expr =
           match value_binding with
           | {
            pvb_attributes =
-             [ ({ txt = ("reaml.component" | "reaml.hook" | "reaml") as txt }, _) ];
+             [
+               {
+                 attr_name = { txt = ("reaml.component" | "reaml.hook" | "reaml") as txt };
+               };
+             ];
            pvb_loc;
           } -> throw txt pvb_loc
           | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding);
@@ -49,7 +57,7 @@ let rec rewrite_let = function
                       Pexp_apply (({ pexp_desc = Pexp_ident { txt = _ } } as ident), args);
                   };
                 pvb_loc;
-                pvb_attributes = [ ({ txt = "reaml" }, PStr []) ];
+                pvb_attributes = [ { attr_name = { txt = "reaml" } } ];
               };
             ],
             expr );
@@ -61,7 +69,7 @@ let rec rewrite_let = function
             [
               {
                 pvb_pat =
-                  { ppat_attributes = [ ({ txt = "reaml" }, PStr []) ] } as pvb_pat;
+                  { ppat_attributes = [ { attr_name = { txt = "reaml" } } ] } as pvb_pat;
                 pvb_expr =
                   {
                     pexp_desc =
@@ -103,23 +111,27 @@ let mapper _ _ =
            pexp_desc = Pexp_fun (Nolabel, None, args, expr);
            pexp_attributes =
              [
-               ( {
-                   txt =
-                     ( "reaml.component"
-                     | "reaml.component.memo"
-                     | "reaml.component.recursive"
-                     | "reaml.component.recursive.memo" ) as txt;
-                 },
-                 PStr
-                   [
-                     {
-                       pstr_desc =
-                         Pstr_eval
-                           ( ({ pexp_desc = Pexp_constant (Pconst_string (_, None)) } as
-                             name),
-                             _ );
-                     };
-                   ] );
+               {
+                 attr_name =
+                   {
+                     txt =
+                       ( "reaml.component"
+                       | "reaml.component.memo"
+                       | "reaml.component.recursive"
+                       | "reaml.component.recursive.memo" ) as txt;
+                   };
+                 attr_payload =
+                   PStr
+                     [
+                       {
+                         pstr_desc =
+                           Pstr_eval
+                             ( ({ pexp_desc = Pexp_constant (Pconst_string (_, None)) } as
+                               name),
+                               _ );
+                       };
+                     ];
+               };
              ];
            pexp_loc;
           } ->
@@ -168,7 +180,7 @@ let mapper _ _ =
                  [ Labelled "name", name; Nolabel, inner ])
           | {
            pexp_desc = Pexp_fun (Nolabel, None, args, expr);
-           pexp_attributes = [ ({ txt = "reaml.hook" }, PStr []) ];
+           pexp_attributes = [ { attr_name = { txt = "reaml.hook" } } ];
            pexp_loc;
           } ->
             Exp.fun_ Nolabel None args
@@ -182,7 +194,7 @@ let mapper _ _ =
     structure =
       (let isReamlComponent (a : Parsetree.attribute) =
          match a with
-         | { txt = "reaml.component" }, PStr [] -> true
+         | { attr_name = { txt = "reaml.component" } } -> true
          | _ -> false
        in
        fun mapper structures ->
@@ -233,4 +245,4 @@ let mapper _ _ =
 
 let () =
   Migrate_parsetree.Driver.register ~name:"reaml" ~args:[]
-    Migrate_parsetree.Versions.ocaml_406 mapper
+    Migrate_parsetree.Versions.ocaml_410 mapper
