@@ -22,7 +22,7 @@ type 'props functionComponent = 'props -> vnode
 external functionComponent : 'props functionComponent -> 'props component = "%identity"
 
 (* Create a raw element vnode *)
-external createElement : string -> 'a Js.Dict.t -> vnode array -> vnode = "createElement"
+external createElement : string -> any Js.Dict.t -> vnode array -> vnode = "createElement"
   [@@bs.variadic] [@@bs.module "react"]
 
 (* Create a raw component element vnode *)
