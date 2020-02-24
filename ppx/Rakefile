@@ -1,0 +1,15 @@
+cmd = "esy x ocamlfind ppx_tools/rewriter '_esy/default/build/default/bin/Reaml_Ppx_Bin.exe --as-ppx' -impl"
+
+task :default do
+  FileList["tests/failing/*.ml"].each do |file|
+    p file
+    stdout = `#{cmd} #{file}`
+    if stdout.include?("occurs in an inappropriate place")
+      p :ok
+    else
+      p :error
+      p stdout
+      abort
+    end
+  end
+end
