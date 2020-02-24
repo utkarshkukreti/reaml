@@ -4,6 +4,7 @@ task :default do
   FileList["tests/failing/*.ml"].each do |file|
     p file
     stdout = `#{cmd} #{file}`
+    File.write("#{file}.stdout", stdout)
     if stdout.include?("occurs in an inappropriate place")
       p :ok
     else
