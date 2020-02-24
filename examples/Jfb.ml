@@ -27,12 +27,11 @@ module Store = struct
   }
 
   type action =
-    | Run
-    | RunLots
-    | Add
-    | Update
+    | Create of int
+    | Append of int
+    | UpdateEvery of int
     | Clear
-    | SwapRows
+    | Swap of int * int
     | Select of int
     | Remove of int
 
@@ -46,19 +45,17 @@ module Store = struct
   let makeRows count = Belt.Array.makeBy count (fun _ -> makeRow ())
 
   let reducer state = function
-    | Run -> { data = makeRows 1000; selected = None }
-    | RunLots -> { data = makeRows 10000; selected = None }
-    | Add -> { state with data = Belt.Array.concat state.data (makeRows 1000) }
-    | Update ->
+    | Create n -> { data = makeRows n; selected = None }
+    | Append n -> { state with data = Belt.Array.concat state.data (makeRows n) }
+    | UpdateEvery n ->
       {
         state with
         data =
           Belt.Array.mapWithIndex state.data (fun index row ->
-              if index mod 10 = 0 then { row with label = row.label ^ " !!!" } else row);
+              if index mod n = 0 then { row with label = row.label ^ " !!!" } else row);
       }
     | Clear -> { data = [||]; selected = None }
-    | SwapRows ->
-      let a, b = 1, 998 in
+    | Swap (a, b) ->
       let data =
         match Belt.Array.get state.data a, Belt.Array.get state.data b with
         | Some aa, Some bb ->
@@ -132,12 +129,12 @@ let jumbotron (dispatch : Store.action -> unit) =
             [
               R.div [ R.class_ "row" ]
                 [
-                  button "run" "Create 1,000 rows" Run;
-                  button "runlots" "Create 10,000 rows" RunLots;
-                  button "add" "Append 1,000 rows" Add;
-                  button "update" "Update every 10th row" Update;
+                  button "run" "Create 1,000 rows" (Create 1000);
+                  button "runlots" "Create 10,000 rows" (Create 10000);
+                  button "add" "Append 1,000 rows" (Append 10000);
+                  button "update" "Update every 10th row" (UpdateEvery 10);
                   button "clear" "Clear" Clear;
-                  button "swaprows" "Swap Rows" SwapRows;
+                  button "swaprows" "Swap Rows" (Swap (1, 998));
                 ];
             ];
         ];
