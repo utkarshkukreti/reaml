@@ -108,15 +108,8 @@ module Row = struct
       ]
 end
 
-module Button = struct
-  type props = {
-    id : string;
-    onClick : unit -> unit;
-    title : string;
-  }
-
-  let make =
-   fun [@reaml.component "Button"] { id; onClick; title } ->
+let jumbotron (dispatch : Store.action -> unit) =
+  let button id title action =
     R.div
       [ R.class_ "col-sm-6 smallpad" ]
       [
@@ -125,13 +118,11 @@ module Button = struct
             R.type_ "button";
             R.class_ "btn btn-primary btn-block";
             R.id id;
-            R.onClick (fun _ -> onClick ());
+            R.onClick (fun _ -> dispatch action);
           ]
           [ R.string title ];
       ]
-end
-
-let jumbotron (dispatch : Store.action -> unit) =
+  in
   R.div [ R.class_ "jumbotron" ]
     [
       R.div [ R.class_ "row" ]
@@ -141,42 +132,12 @@ let jumbotron (dispatch : Store.action -> unit) =
             [
               R.div [ R.class_ "row" ]
                 [
-                  Button.make
-                    {
-                      id = "run";
-                      title = "Create 1,000 rows";
-                      onClick = (fun () -> dispatch Run);
-                    };
-                  Button.make
-                    {
-                      id = "runlots";
-                      title = "Create 10,000 rows";
-                      onClick = (fun () -> dispatch RunLots);
-                    };
-                  Button.make
-                    {
-                      id = "add";
-                      title = "Append 1,000 rows";
-                      onClick = (fun () -> dispatch Add);
-                    };
-                  Button.make
-                    {
-                      id = "update";
-                      title = "Update every 10th row";
-                      onClick = (fun () -> dispatch Update);
-                    };
-                  Button.make
-                    {
-                      id = "clear";
-                      title = "Clear";
-                      onClick = (fun () -> dispatch Clear);
-                    };
-                  Button.make
-                    {
-                      id = "swaprows";
-                      title = "Swap Rows";
-                      onClick = (fun () -> dispatch SwapRows);
-                    };
+                  button "run" "Create 1,000 rows" Run;
+                  button "runlots" "Create 10,000 rows" RunLots;
+                  button "add" "Append 1,000 rows" Add;
+                  button "update" "Update every 10th row" Update;
+                  button "clear" "Clear" Clear;
+                  button "swaprows" "Swap Rows" SwapRows;
                 ];
             ];
         ];
