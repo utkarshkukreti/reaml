@@ -131,7 +131,7 @@ let jumbotron (dispatch : Store.action -> unit) =
                 [
                   button "run" "Create 1,000 rows" (Create 1000);
                   button "runlots" "Create 10,000 rows" (Create 10000);
-                  button "add" "Append 1,000 rows" (Append 10000);
+                  button "add" "Append 1,000 rows" (Append 1000);
                   button "update" "Update every 10th row" (UpdateEvery 10);
                   button "clear" "Clear" Clear;
                   button "swaprows" "Swap Rows" (Swap (1, 998));
