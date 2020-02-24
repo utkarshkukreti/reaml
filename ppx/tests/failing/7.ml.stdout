@@ -1,2 +1,3 @@
-[%%ocaml.error ;;"[@reaml.component] occurs in an inappropriate place"
+[%%ocaml.error
+  ;;"`@reaml.component` must be followed with a string - the component's name"
   ;;""]

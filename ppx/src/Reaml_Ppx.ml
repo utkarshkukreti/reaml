@@ -109,21 +109,32 @@ let mapper _ _ =
                        | "reaml.component.recursive"
                        | "reaml.component.recursive.memo" ) as txt;
                    };
-                 attr_payload =
-                   PStr
-                     [
-                       {
-                         pstr_desc =
-                           Pstr_eval
-                             ( ({ pexp_desc = Pexp_constant (Pconst_string (_, None)) } as
-                               name),
-                               _ );
-                       };
-                     ];
+                 attr_payload;
+                 attr_loc;
                };
              ];
            pexp_loc;
           } ->
+            let name =
+              match attr_payload with
+              | PStr
+                  [
+                    {
+                      pstr_desc =
+                        Pstr_eval
+                          ( ({ pexp_desc = Pexp_constant (Pconst_string (_, None)) } as
+                            name),
+                            _ );
+                    };
+                  ] -> name
+              | _ ->
+                raise
+                  (Location.Error
+                     (Location.error ~loc:attr_loc
+                        ("`@"
+                        ^ txt
+                        ^ "` must be followed with a string - the component's name")))
+            in
             let () =
               match args with
               | { ppat_desc = Ppat_construct ({ txt = Lident "()" }, None) }

@@ -5,7 +5,7 @@ task :default do
     p file
     stdout = `#{cmd} #{file}`
     File.write("#{file}.stdout", stdout)
-    if stdout.include?("occurs in an inappropriate place")
+    if stdout.include?("ocaml.error")
       p :ok
     else
       p :error
