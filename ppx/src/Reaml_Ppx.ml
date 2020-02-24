@@ -10,38 +10,27 @@ let check expr =
       (Location.Error
          (Location.error ~loc ("[@" ^ txt ^ "] occurs in an inappropriate place")))
   in
+  let isReaml string =
+    string = "reaml" || Base.String.is_prefix string ~prefix:"reaml."
+  in
   let mapper =
     {
       Ast_mapper.default_mapper with
       expr =
         (fun mapper expr ->
           match expr with
-          | {
-           pexp_attributes =
-             [
-               {
-                 attr_name = { txt = ("reaml.component" | "reaml.hook" | "reaml") as txt };
-               };
-             ];
-           pexp_loc;
-          } -> throw txt pexp_loc
+          | { pexp_attributes = [ { attr_name = { txt } } ]; pexp_loc } when isReaml txt
+            -> throw txt pexp_loc
           | _ -> Ast_mapper.default_mapper.expr mapper expr);
       value_binding =
         (fun mapper value_binding ->
           match value_binding with
-          | {
-           pvb_attributes =
-             [
-               {
-                 attr_name = { txt = ("reaml.component" | "reaml.hook" | "reaml") as txt };
-               };
-             ];
-           pvb_loc;
-          } -> throw txt pvb_loc
+          | { pvb_attributes = [ { attr_name = { txt } } ]; pvb_loc } when isReaml txt ->
+            throw txt pvb_loc
           | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding);
     }
   in
-  Ast_mapper.default_mapper.expr mapper expr
+  Ast_mapper.default_mapper.expr mapper expr |> mapper.expr Ast_mapper.default_mapper
 
 let rec rewrite_let = function
   | {
