@@ -1,5 +1,4 @@
 *.exe
-!/ppx.exe
 *.obj
 *.out
 *.compile
