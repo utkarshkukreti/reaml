@@ -21,18 +21,18 @@ module Url = struct
     ^ "/"
     ^ Js.Array.joinWith "/" (Belt.List.toArray url.path)
 
+  let current mode =
+    Webapi.Dom.(
+      match mode with
+      | History -> location |> Location.pathname
+      | Hash -> location |> Location.hash |> Js.String.sliceToEnd ~from:1)
+    |> fromString
+
   let use mode (_ : Reaml_Core.undefined) =
-    let get () =
-      Webapi.Dom.(
-        match mode with
-        | History -> location |> Location.pathname
-        | Hash -> location |> Location.hash |> Js.String.sliceToEnd ~from:1)
-      |> fromString
-    in
-    let url, setUrl = Reaml_Core.useState (get ()) Reaml_Core.undefined in
+    let url, setUrl = Reaml_Core.useState (current mode) Reaml_Core.undefined in
     Reaml_Core.useEffect
       (fun () ->
-        let f _ = setUrl (get ()) in
+        let f _ = setUrl (current mode) in
         Webapi.Dom.(window |> Window.addEventListener "popstate" f);
         Some (fun () -> Webapi.Dom.(window |> Window.removeEventListener "popstate" f)))
       None Reaml_Core.undefined;
