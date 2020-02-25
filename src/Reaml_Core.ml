@@ -250,11 +250,8 @@ let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionCompon
     : 'props functionComponent
   =
   setDisplayName fn name;
-  if memo_
-  then (
-    let fn = memo (functionComponent fn) in
-    fun props -> createComponentElement fn props)
-  else fun props -> createComponentElement (functionComponent fn) props
+  let fn = if memo_ then memo (functionComponent fn) else functionComponent fn in
+  fun props -> createComponentElement fn props
 
 (* Create Recursive Component *)
 let recursiveComponent
@@ -267,11 +264,8 @@ let recursiveComponent
   let fn_ props = fn props !component in
   setDisplayName fn_ name;
   (component
-     := if memo_
-        then (
-          let fn_ = memo (functionComponent fn_) in
-          fun props -> createComponentElement fn_ props)
-        else fun props -> createComponentElement (functionComponent fn_) props);
+     := let fn_ = if memo_ then memo (functionComponent fn_) else functionComponent fn_ in
+        fun props -> createComponentElement fn_ props);
   !component
 
 (* Portal *)
