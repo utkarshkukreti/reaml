@@ -33,17 +33,13 @@ module Url = struct
     Reaml_Core.useEffect
       (fun () ->
         let f _ = setUrl (get ()) in
-        Webapi.Dom.window |> Webapi.Dom.Window.addEventListener "popstate" f;
-        Some
-          (fun () ->
-            Webapi.Dom.window |> Webapi.Dom.Window.removeEventListener "popstate" f))
+        Webapi.Dom.(window |> Window.addEventListener "popstate" f);
+        Some (fun () -> Webapi.Dom.(window |> Window.removeEventListener "popstate" f)))
       None Reaml_Core.undefined;
     url
 
   let dispatch () =
-    Webapi.Dom.window
-    |> Webapi.Dom.Window.dispatchEvent (Webapi.Dom.Event.make "popstate")
-    |> ignore
+    Webapi.Dom.(window |> Window.dispatchEvent (Event.make "popstate")) |> ignore
 
   let push mode t =
     Webapi.Dom.(
