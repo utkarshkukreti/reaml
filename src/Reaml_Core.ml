@@ -42,7 +42,8 @@ external createVariadicComponentElement
   [@@bs.variadic] [@@bs.module "react"]
 
 (* Set the display name of a component *)
-external setDisplayName : 'a component -> string -> unit = "displayName" [@@bs.set]
+external setDisplayName : 'a functionComponent -> string -> unit = "displayName"
+  [@@bs.set]
 
 (* React.Fragment, for internal use *)
 external _fragment : (unit, vnode) variadicComponent = "Fragment" [@@bs.module "react"]
@@ -248,7 +249,7 @@ let fragment (list : vnode list) = fragmentArray (Belt.List.toArray list)
 let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionComponent)
     : 'props functionComponent
   =
-  setDisplayName (functionComponent fn) name;
+  setDisplayName fn name;
   if memo_
   then (
     let fn = memo (functionComponent fn) in
@@ -264,7 +265,7 @@ let recursiveComponent
   =
   let component = ref (fun _ -> string "?") in
   let fn_ props = fn props !component in
-  setDisplayName (functionComponent fn_) name;
+  setDisplayName fn_ name;
   (component
      := if memo_
         then (
