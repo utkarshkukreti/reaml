@@ -152,7 +152,7 @@ module Main = struct
           [
             R.tbody []
               [
-                Belt.Array.map state.data (fun (row : Store.row) ->
+                Belt.Array.map state.data (fun row ->
                     Row.make
                       {
                         key = row.id;
