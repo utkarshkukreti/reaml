@@ -33,5 +33,5 @@ node_modules
 /examples/*.html
 /lib
 /ppx/lib
-/ppx/ppx
+/ppx/Reaml_Ppx_Bin
 .netlify

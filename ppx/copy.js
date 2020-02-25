@@ -15,11 +15,11 @@ if (platform === 'win32') {
   platform = 'win';
 }
 
-const esyBuild = '_esy/default/build/default/bin/Reaml_Ppx_Bin.exe';
+const esyBuild = 'Reaml_Ppx_Bin';
 if (fs.existsSync(esyBuild)) {
-  copyBinary(esyBuild, './ppx.exe');
+  copyBinary(esyBuild, '../ppx.exe');
 } else {
-  copyBinary(`bin/${platform}-${arch}.exe`, './ppx.exe');
+  copyBinary(`bin/${platform}-${arch}.exe`, '../ppx.exe');
 }
 
 function copyBinary(src, dst) {
@@ -27,11 +27,11 @@ function copyBinary(src, dst) {
 
   if (!supported) {
     console.error(`\
-reaml_ppx does not support this platform :(
-reaml_ppx comes prepacked as built binaries to avoid large
+reaml does not support this platform :(
+reaml comes prepacked as built binaries to avoid large
 dependencies at build-time.
 
-If you want reaml_ppx to support this platform natively,
+If you want reaml to support this platform natively,
 please open an issue at our repository, linked above. Please
 specify that you are on the ${platform} platform,');
 on the ${arch} architecture.`);

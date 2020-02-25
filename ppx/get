@@ -11,6 +11,7 @@ response["artifacts"].each do |artifact|
   name = case artifact["name"]
     when "macos-latest.exe" then "darwin-x64"
     when "ubuntu-latest.exe" then "linux-x64"
+    when "windows-latest.exe" then "win-x64"
     else next
     end
   system "curl", "-u", "utkarshkukreti:#{ENV["GITHUB_TOKEN"]}", "-L", "-o", "#{name}.zip", artifact["archive_download_url"]

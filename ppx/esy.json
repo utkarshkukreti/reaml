@@ -1,7 +1,7 @@
 {
   "esy": {
     "build": "dune build -p Reaml_Ppx_Bin",
-    "release": { "bin": [ "Reaml_Ppx_Bin" ] }
+    "release": { "bin": ["Reaml_Ppx_Bin"] }
   },
   "dependencies": {
     "@esy-ocaml/reason": "^3.5.0",

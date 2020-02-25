@@ -1,4 +1,4 @@
-cmd = "esy x ocamlfind ppx_tools/rewriter '_esy/default/build/default/bin/Reaml_Ppx_Bin.exe --as-ppx' -impl"
+cmd = "esy x ocamlfind ppx_tools/rewriter Reaml_Ppx_Bin -impl"
 
 task :default do
   FileList["tests/failing/*.ml"].each do |file|
