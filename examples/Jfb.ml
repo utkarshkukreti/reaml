@@ -46,26 +46,28 @@ module Store = struct
 
   let reducer state = function
     | Create n -> { data = makeRows n; selected = None }
-    | Append n -> { state with data = Belt.Array.concat state.data (makeRows n) }
+    | Append n -> { state with data = state.data |> Js.Array.concat (makeRows n) }
     | UpdateEvery n ->
       {
         state with
         data =
-          Belt.Array.mapWithIndex state.data (fun index row ->
-              if index mod n = 0 then { row with label = row.label ^ " !!!" } else row);
+          state.data
+          |> Js.Array.mapi (fun row index ->
+                 if index mod n = 0 then { row with label = row.label ^ " !!!" } else row);
       }
     | Clear -> { data = [||]; selected = None }
     | Swap (a, b) ->
       let data =
         match Belt.Array.get state.data a, Belt.Array.get state.data b with
         | Some aa, Some bb ->
-          Belt.Array.mapWithIndex state.data (fun index row ->
-              if index = a then bb else if index = b then aa else row)
+          state.data
+          |> Js.Array.mapi (fun row index ->
+                 if index = a then bb else if index = b then aa else row)
         | _ -> state.data
       in
       { state with data }
     | Remove id ->
-      let data = Belt.Array.keep state.data (fun row -> row.id <> id) in
+      let data = state.data |> Js.Array.filter (fun row -> row.id <> id) in
       { state with data }
     | Select id -> { state with selected = Some id }
 
@@ -152,14 +154,15 @@ module Main = struct
           [
             R.tbody []
               [
-                Belt.Array.map state.data (fun row ->
-                    Row.make
-                      {
-                        key = row.id;
-                        row;
-                        selected = state.selected = Some row.id;
-                        dispatch;
-                      })
+                state.data
+                |> Js.Array.map (fun (row : Store.row) ->
+                       Row.make
+                         {
+                           key = row.id;
+                           row;
+                           selected = state.selected = Some row.id;
+                           dispatch;
+                         })
                 |> R.array;
               ];
           ];
