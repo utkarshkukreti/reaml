@@ -160,7 +160,10 @@ module Main = struct
                          {
                            key = row.id;
                            row;
-                           selected = state.selected = Some row.id;
+                           selected =
+                             (match state.selected with
+                             | Some selected -> selected = row.id
+                             | _ -> false);
                            dispatch;
                          })
                 |> R.array;
