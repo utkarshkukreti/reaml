@@ -7,7 +7,6 @@
     "examples/*.ml",
     "ppx/bin/*.exe",
     "ppx/copy.js",
-    "/ppx.exe",
     "src/*.ml"
   ],
   "scripts": {
