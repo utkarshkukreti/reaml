@@ -7,6 +7,7 @@
     "examples/*.ml",
     "ppx/bin/*.exe",
     "ppx/copy.js",
+    "preact.js",
     "src/*.ml"
   ],
   "scripts": {
