@@ -63,7 +63,7 @@ ERB
 <!doctype html>
 <html>
   <head>
-    <title>Examples</title>
+    <title>Reaml Examples</title>
     <%= head %>
   </head>
   <body>
