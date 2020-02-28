@@ -151,8 +151,7 @@ let mapper _ _ =
               | { ppat_desc = Ppat_record (args, _) } ->
                 args
                 |> List.iter (function
-                     | (({ txt = Lident "key"; loc }, _) : Longident.t Asttypes.loc * _)
-                       ->
+                     | { Asttypes.txt = Longident.Lident "key"; loc }, _ ->
                        raise
                          (Location.Error
                             (Location.error ~loc
