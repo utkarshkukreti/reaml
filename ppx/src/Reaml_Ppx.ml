@@ -146,6 +146,20 @@ let mapper _ _ =
                         "the argument to a component must either be unit (`()`) or a \
                          record pattern (`{foo = foo; bar = _}`)"))
             in
+            let () =
+              match args with
+              | { ppat_desc = Ppat_record (args, _) } ->
+                args
+                |> List.iter (function
+                     | (({ txt = Lident "key"; loc }, _) : Longident.t Asttypes.loc * _)
+                       ->
+                       raise
+                         (Location.Error
+                            (Location.error ~loc
+                               "the `key` prop cannot be accessed inside a component"))
+                     | _ -> ())
+              | _ -> ()
+            in
             let inner, fn =
               match txt with
               | "reaml.component" | "reaml.component.memo" ->

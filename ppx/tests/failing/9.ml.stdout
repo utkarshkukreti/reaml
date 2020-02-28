@@ -1,0 +1,2 @@
+[%%ocaml.error ;;"the `key` prop cannot be accessed inside a component"
+  ;;""]
