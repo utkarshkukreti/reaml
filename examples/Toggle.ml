@@ -3,8 +3,7 @@ module R = Reaml
 module Counter = struct
   type props = { initial : int }
 
-  let make =
-   fun [@reaml.component "Counter"] { initial } ->
+  let[@reaml.component "Counter"] make { initial } =
     let[@reaml] count, setCount = R.useState initial in
     R.button [ R.onClick (fun _ -> setCount (count + 1)) ] [ R.int count ]
 end
@@ -12,8 +11,7 @@ end
 module Toggle = struct
   type props = { f : unit -> R.vnode }
 
-  let make =
-   fun [@reaml.component "Toggle"] { f } ->
+  let[@reaml.component "Toggle"] make { f } =
     let[@reaml] show, setShow = R.useState true in
     R.div []
       [

@@ -15,8 +15,7 @@ end
 let theme = R.Context.make Theme.Red
 
 module Hello = struct
-  let make =
-   fun [@reaml.component "Hello"] () ->
+  let[@reaml.component "Hello"] make () =
     let[@reaml] theme = R.useContext theme in
     R.div [ R.Style.color (Theme.toString theme) ] [ R.string (Theme.toString theme) ]
 end

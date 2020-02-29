@@ -36,8 +36,7 @@ module Router = struct
 end
 
 module Router_ = struct
-  let make =
-   fun [@reaml.component "Router"] () ->
+  let[@reaml.component "Router"] make () =
     let[@reaml] route = Router.use () in
     let push t _ = Router.push t in
     let replace t _ = Router.replace t in

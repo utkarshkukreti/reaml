@@ -15,8 +15,7 @@ module WindowSize = struct
   external removeEventListener : string -> (unit -> unit) -> unit = "removeEventListener"
     [@@bs.val] [@@bs.scope "window"]
 
-  let use =
-   fun [@reaml.hook] () ->
+  let[@reaml.hook] use () =
     let[@reaml] size, setSize = R.useState { width = innerWidth; height = innerHeight } in
     let[@reaml] () =
       R.useEffect
@@ -30,8 +29,7 @@ module WindowSize = struct
 end
 
 module Demo = struct
-  let make =
-   fun [@reaml.component "Demo"] () ->
+  let[@reaml.component "Demo"] make () =
     let[@reaml] windowSize = WindowSize.use () in
     R.div [] [ R.float windowSize.width; R.string {j|×|j}; R.float windowSize.height ]
 end

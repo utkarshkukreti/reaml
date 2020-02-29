@@ -11,8 +11,7 @@ module Counter = struct
     | Increment -> state + 1
     | Decrement -> state - 1
 
-  let make =
-   fun [@reaml.component "Counter"] { initial } ->
+  let[@reaml.component "Counter"] make { initial } =
     let[@reaml] count, dispatch = R.useReducer reducer initial in
     R.div []
       [

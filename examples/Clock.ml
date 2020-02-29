@@ -1,8 +1,7 @@
 module R = Reaml
 
 module Clock = struct
-  let make =
-   fun [@reaml.component "Clock"] () ->
+  let[@reaml.component "Clock"] make () =
     let[@reaml] isRunning, setIsRunning = R.useState true in
     let[@reaml] now, setNow = R.useState (Js.Date.make ()) in
     let[@reaml] () = AnimationFrame.use (isRunning, fun _ -> setNow (Js.Date.make ())) in

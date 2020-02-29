@@ -6,8 +6,7 @@ module Clicks = struct
   let reducer state = function
     | Clicked (x, y) -> (x, y) :: state
 
-  let make =
-   fun [@reaml.component "Clicks"] () ->
+  let[@reaml.component "Clicks"] make () =
     let[@reaml] state, dispatch = R.useReducer reducer [] in
     R.div
       [

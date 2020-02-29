@@ -1,8 +1,7 @@
 module R = Reaml
 
 module Ref = struct
-  let make =
-   fun [@reaml.component "Ref"] () ->
+  let[@reaml.component "Ref"] make () =
     let[@reaml] show, setShow = R.useState true in
     let[@reaml] inputRef = R.useRef None in
     let focus () =

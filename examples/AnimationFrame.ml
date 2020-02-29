@@ -1,7 +1,6 @@
 module R = Reaml
 
-let use =
- fun [@reaml.hook] (enabled, callback) ->
+let[@reaml.hook] use (enabled, callback) =
   let[@reaml] callbackRef = R.useRef callback in
   let[@reaml] () =
     R.useEffect

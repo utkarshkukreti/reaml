@@ -1,8 +1,7 @@
 module R = Reaml
 
 module RouterRaw = struct
-  let make =
-   fun [@reaml.component "RouterRaw"] () ->
+  let[@reaml.component "RouterRaw"] make () =
     let[@reaml] url = R.Router.Url.use Hash in
     let push string _ = R.Router.Url.push Hash (R.Router.Url.fromString string) in
     let replace string _ = R.Router.Url.replace Hash (R.Router.Url.fromString string) in

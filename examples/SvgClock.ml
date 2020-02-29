@@ -5,8 +5,7 @@ module Clock = struct
   let utcNow () =
     Js.Date.now () -. (Js.Date.getTimezoneOffset (Js.Date.make ()) *. 60.0 *. 1000.0)
 
-  let make =
-   fun [@reaml.component "Clock"] () ->
+  let[@reaml.component "Clock"] make () =
     let[@reaml] isRunning, setIsRunning = R.useState true in
     let[@reaml] now, setNow = R.useState (Js.Date.now ()) in
     let[@reaml] () = AnimationFrame.use (isRunning, fun _ -> setNow (utcNow ())) in

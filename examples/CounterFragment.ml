@@ -3,8 +3,7 @@ module R = Reaml
 module Counter = struct
   type props = { initial : int }
 
-  let make =
-   fun [@reaml.component "Counter"] { initial } ->
+  let[@reaml.component "Counter"] make { initial } =
     let[@reaml] count, setCount = R.useState initial in
     R.div []
       [

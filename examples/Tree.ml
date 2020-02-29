@@ -7,8 +7,7 @@ module Tree = struct
 
   type props = { value : t }
 
-  let make =
-   fun [@reaml.component.recursive.memo "Tree"] { value } make ->
+  let[@reaml.component.recursive.memo "Tree"] make { value } make =
     let[@reaml] collapsed, setCollapsed = R.useState false in
     match value with
     | Node (value, many) ->

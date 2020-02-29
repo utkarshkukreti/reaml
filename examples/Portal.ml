@@ -1,8 +1,7 @@
 module R = Reaml
 
 module Portal = struct
-  let make =
-   fun [@reaml.component "Portal"] () ->
+  let[@reaml.component "Portal"] make () =
     let[@reaml] isOpen, setIsOpen = R.useState false in
     let portal =
       match isOpen, R.find "body" with

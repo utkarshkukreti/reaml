@@ -1,8 +1,7 @@
 module R = Reaml
 
 module Form = struct
-  let make =
-   fun [@reaml.component "Form"] () ->
+  let[@reaml.component "Form"] make () =
     let[@reaml] name, setName = R.useState "" in
     let[@reaml] agreeToTerms, setAgreeToTerms = R.useState false in
     let isValid = name <> "" && agreeToTerms in
