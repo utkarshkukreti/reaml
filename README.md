@@ -29,7 +29,8 @@ Note: If you want to use ReasonML syntax instead of OCaml, check out the
 ---
 
 Components are defined using a syntax extension
-`[@reaml.component "DisplayNameOfComponent"]` applied to `fun`s of one argument:
+`[@reaml.component "DisplayNameOfComponent"]` applied to `let`s of one
+argument functions:
 
 ```ocaml
 module R = Reaml
@@ -37,8 +38,7 @@ module R = Reaml
 module Counter = struct
   type props = { initial : int }
 
-  let make =
-   fun [@reaml.component "Counter"] { initial } ->
+  let[@reaml.component "Counter"] make { initial } =
     R.div [] [R.int initial]
 end
 ```
@@ -52,8 +52,7 @@ let main = Counter.make { initial = 0 }
 Hooks are invoked using a `[@reaml]` annotation on `let` expressions:
 
 ```ocaml
-let make =
- fun [@reaml.component "Counter"] initial ->
+let[@reaml.component "Counter"] make { initial } =
   let[@reaml] count, setCount = R.useState initial in
   R.div [] [R.int initial]
 ```
@@ -65,8 +64,7 @@ decrement the value ([full source](examples/Counter.ml)):
 module Counter = struct
   type props = { initial : int }
 
-  let make =
-   fun [@reaml.component "Counter"] { initial } ->
+  let[@reaml.component "Counter"] make { initial }=
     let[@reaml] count, setCount = R.useState initial in
     R.div
       []
@@ -84,8 +82,7 @@ Custom hooks are created using a syntax extension `[@reaml.hook]` applied to
 any action dispatched twice instead of once.
 
 ```ocaml
-let useDoubleReducer =
- fun [@reaml.hook] (reducer, initialValue) ->
+let[@reaml.hook] useDoubleReducer (reducer, initialValue) =
   let[@reaml] state, dispatch = R.useReducer reducer initialValue in
   let dispatchTwice action =
     dispatch action;
@@ -98,8 +95,7 @@ These custom hooks are called in the same manner as the built-in hooks -- using
 `let[@reaml]`:
 
 ```ocaml
-let make =
- fun [@reaml.component "CustomHooks"] () ->
+let[@reaml.component "CustomHooks"] make () =
   let reducer state action = state + action in
   let[@reaml] state, dispatch = useDoubleReducer (reducer, 0) in
   R.button [ R.onClick (fun _ -> dispatch 2) ] [ R.int state ]
@@ -124,9 +120,8 @@ recompile.
 
 Reaml uses an OCaml syntax extension to enforce them.
 
-This requires annotating components with `fun [@reaml.component]`,
-custom hooks with `fun [@reaml.hook]`, and every use of a hook with
-`let[@reaml]`.
+This requires annotating components with `[@reaml.component]`, custom hooks
+with `[@reaml.hook]`, and every use of a hook with `let[@reaml]`.
 
 For `[@reaml.hook]`, the syntax extension appends a dummy argument to the
 function, the value of which must be of type `Reaml.undefined` (represented as
@@ -165,28 +160,23 @@ this library uses:
 ```reason
 module R = Reaml;
 
-let useDoubleReducer =
-  [@reaml.hook]
-  (
-    ((reducer, initialValue)) => {
-      let [@reaml] (state, dispatch) = R.useReducer(reducer, initialValue);
-      let dispatchTwice = action => {
-        dispatch(action);
-        dispatch(action);
-      };
-      (state, dispatchTwice);
-    }
-  );
+[@reaml.hook]
+let useDoubleReducer = ((reducer, initialValue)) => {
+  let[@reaml] (state, dispatch) = R.useReducer(reducer, initialValue);
+  let dispatchTwice = action => {
+    dispatch(action);
+    dispatch(action);
+  };
 
-let make =
-  [@reaml.component "CustomHooks"]
-  (
-    () => {
-      let reducer = (state, action) => state + action;
-      let [@reaml] (state, dispatch) = useDoubleReducer((reducer, 0));
-      R.button([R.onClick(_ => dispatch(2))], [R.int(state)]);
-    }
-  );
+  (state, dispatchTwice);
+};
+
+[@reaml.component "CustomHooks"]
+let make = () => {
+  let reducer = (state, action) => state + action;
+  let[@reaml] (state, dispatch) = useDoubleReducer((reducer, 0));
+  R.button([R.onClick(_ => dispatch(1))], [R.int(state)]);
+};
 
 let main = make();
 main |> R.renderTo("main");
