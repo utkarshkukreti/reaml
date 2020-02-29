@@ -502,8 +502,8 @@ let onInputValue (handler : string -> unit) =
       | Some value -> handler value
       | None -> ())
 
-let onInputChecked (handler : bool -> unit) =
-  onInput (fun event ->
+let onCheck (handler : bool -> unit) =
+  onChange (fun event ->
       match (Obj.magic event)##target##checked with
       | Some checked -> handler checked
       | None -> ())
