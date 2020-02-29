@@ -4,7 +4,7 @@ open Ast_410.Parsetree
 open Ast_helper
 
 (* Check that there are no reaml attributes left after the code is processed. *)
-let check expr =
+let checker =
   let throw txt loc =
     raise
       (Location.Error
@@ -30,7 +30,14 @@ let check expr =
           | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding);
     }
   in
-  Ast_mapper.default_mapper.expr mapper expr |> mapper.expr Ast_mapper.default_mapper
+  mapper
+
+let check_expr expr =
+  Ast_mapper.default_mapper.expr checker expr |> checker.expr Ast_mapper.default_mapper
+
+let check_value_binding value_binding =
+  Ast_mapper.default_mapper.value_binding checker value_binding
+  |> checker.value_binding Ast_mapper.default_mapper
 
 let rec rewrite_let = function
   | {
@@ -92,13 +99,16 @@ let rec rewrite_let = function
 let mapper _ _ =
   {
     Ast_mapper.default_mapper with
-    expr =
-      (fun mapper expr ->
-        check
-          (match expr with
+    expr = (fun mapper expr -> Ast_mapper.default_mapper.expr mapper (check_expr expr));
+    value_binding =
+      (fun mapper value_binding ->
+        check_value_binding
+          (match value_binding with
           | {
-           pexp_desc = Pexp_fun (Nolabel, None, args, expr);
-           pexp_attributes =
+           pvb_pat;
+           pvb_expr = { pexp_desc = Pexp_fun (Nolabel, None, args, expr); pexp_loc };
+           pvb_loc;
+           pvb_attributes =
              [
                {
                  attr_name =
@@ -113,7 +123,6 @@ let mapper _ _ =
                  attr_loc;
                };
              ];
-           pexp_loc;
           } ->
             let name =
               match attr_payload with
@@ -180,30 +189,37 @@ let mapper _ _ =
               | _ ->
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
-            Exp.apply
-              (Exp.ident { txt = Ldot (Lident "Reaml", fn); loc = Location.none })
-              (List.append
-                 (if Base.String.is_substring txt ~substring:".memo"
-                 then
-                   [
-                     ( Asttypes.Labelled "memo",
-                       Exp.construct { txt = Lident "true"; loc = Location.none } None );
-                   ]
-                 else [])
-                 [ Labelled "name", name; Nolabel, inner ])
+            let pvb_expr =
+              Exp.apply
+                (Exp.ident { txt = Ldot (Lident "Reaml", fn); loc = Location.none })
+                (List.append
+                   (if Base.String.is_substring txt ~substring:".memo"
+                   then
+                     [
+                       ( Asttypes.Labelled "memo",
+                         Exp.construct { txt = Lident "true"; loc = Location.none } None );
+                     ]
+                   else [])
+                   [ Labelled "name", name; Nolabel, inner ])
+            in
+            Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
           | {
-           pexp_desc = Pexp_fun (Nolabel, None, args, expr);
-           pexp_attributes = [ { attr_name = { txt = "reaml.hook" } } ];
-           pexp_loc;
+           pvb_expr = { pexp_desc = Pexp_fun (Nolabel, None, args, expr); pexp_loc };
+           pvb_attributes = [ { attr_name = { txt = "reaml.hook" } } ];
+           pvb_pat;
+           pvb_loc;
           } ->
-            Exp.fun_ Nolabel None args
-              (Exp.fun_ ~loc:pexp_loc Nolabel None
-                 (Pat.constraint_ (Pat.any ())
-                    (Typ.constr
-                       { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
-                       []))
-                 (rewrite_let expr))
-          | _ -> Ast_mapper.default_mapper.expr mapper expr));
+            let pvb_expr =
+              Exp.fun_ Nolabel None args
+                (Exp.fun_ ~loc:pexp_loc Nolabel None
+                   (Pat.constraint_ (Pat.any ())
+                      (Typ.constr
+                         { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
+                         []))
+                   (rewrite_let expr))
+            in
+            Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
+          | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding));
     structure =
       (let isReamlComponent (a : Parsetree.attribute) =
          match a with

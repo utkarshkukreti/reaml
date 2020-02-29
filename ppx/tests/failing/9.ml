@@ -3,4 +3,4 @@ type foo = {
   name : string;
 }
 
-let foo = fun [@reaml.component "Foo"] { key; name } -> Obj.magic ()
+let[@reaml.component "Foo"] foo { key; name } = Obj.magic ()

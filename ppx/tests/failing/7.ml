@@ -1,1 +1,1 @@
-let _foo = fun [@reaml.component] () -> ()
+let[@reaml.component] _foo () = ()

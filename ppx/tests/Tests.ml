@@ -14,20 +14,17 @@ type props = { foo : int }
 
 external _foo : props -> Reaml.vnode = "foo" [@@reaml.component] [@@bs.val]
 
-let _foo =
- fun [@reaml.component "Foo"] () ->
+let[@reaml.component "Foo"] _foo () =
   Js.log "foo";
   let[@reaml] _count, _setCount = Reaml.useState () in
   ()
 
-let _foo =
- fun [@reaml.component.memo "Foo"] () ->
+let[@reaml.component.memo "Foo"] _foo () =
   Js.log "foo";
   let[@reaml] _count, _setCount = Reaml.useState () in
   ()
 
-let useThing =
- fun [@reaml.hook] _ ->
+let[@reaml.hook] useThing _ =
   let[@reaml] count, _setCount = Reaml.useState () in
   let () = Js.log "in useThing!" in
   let[@reaml] value, _dispatch = Reaml.useReducer () () in
@@ -35,23 +32,20 @@ let useThing =
 
 type foo = { foo : string }
 
-let _foo =
- fun [@reaml.component.recursive "Foo"] { foo = _ } foo ->
+let[@reaml.component.recursive "Foo"] _foo { foo = _ } foo =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
   foo { foo = "foo" }
 
-let _foo =
- fun [@reaml.component.recursive.memo "Foo"] { foo = _ } foo ->
+let[@reaml.component.recursive.memo "Foo"] _foo { foo = _ } foo =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
   foo { foo = "foo" }
 
 (* Mainly for ReasonML *)
-let _foo =
- fun [@reaml.component "Foo"] () ->
+let[@reaml.component "Foo"] _foo () =
   let ((_count, _setCount)[@reaml]) = Reaml.useState () in
   let ((_value, _dispatch)[@reaml]) = Reaml.useReducer () () in
   let ((_, _)[@reaml]) = useThing () in
