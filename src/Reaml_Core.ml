@@ -284,3 +284,15 @@ let renderTo selector vnode =
   match find selector with
   | Some element -> render vnode element
   | None -> Js.Console.error ("no element matching selector `" ^ selector ^ "` found")
+
+let log a =
+  Js.log a;
+  a
+
+let log2 a b =
+  Js.log2 a b;
+  b
+
+let log3 a b c =
+  Js.log3 a b c;
+  c
