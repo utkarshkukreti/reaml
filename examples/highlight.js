@@ -1,4 +1,4 @@
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/core';
 import ocaml from 'highlight.js/lib/languages/ocaml';
 import javascript from 'highlight.js/lib/languages/javascript';
 

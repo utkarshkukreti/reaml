@@ -14,7 +14,7 @@
     "postinstall": "cd ppx && node copy.js",
     "start": "npm-run-all -s build:rake build:bsb -p start:bsb start:parcel",
     "start:bsb": "bsb -make-world -w",
-    "start:parcel": "parcel -d .cache/dev examples/index.html",
+    "start:parcel": "parcel serve examples/index.html",
     "build": "run-s clean build:rake build:bsb test build:parcel",
     "build:rake": "rake && cd examples && rake",
     "build:bsb": "bsb -make-world",
@@ -22,7 +22,7 @@
     "test": "jest",
     "deploy": "run-s build deploy:netlify",
     "deploy:netlify": "netlify deploy --dir dist --prod --open --site 5d641476-5eb1-4c3b-b7c5-3aea4e66bc0d",
-    "clean": "rimraf .cache dist && bsb -clean-world",
+    "clean": "rimraf dist && bsb -clean-world",
     "release": "make release"
   },
   "dependencies": {
@@ -34,7 +34,7 @@
     "highlight.js": "^10.0.3",
     "jest": "^26.0.1",
     "npm-run-all": "^4.1.5",
-    "parcel-bundler": "^1.12.4",
+    "parcel": "^2.0.0-nightly.275",
     "preact": "^10.4.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
