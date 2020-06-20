@@ -26,15 +26,15 @@
     "release": "make release"
   },
   "dependencies": {
-    "bs-webapi": "^0.15.9"
+    "bs-webapi": "^0.16.0"
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.5.1",
     "bs-platform": "^7.3.2",
-    "highlight.js": "^10.0.3",
+    "highlight.js": "^10.1.1",
     "jest": "^26.0.1",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.0-nightly.275",
+    "parcel": "^2.0.0-beta.1",
     "preact": "^10.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
