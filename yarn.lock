@@ -2714,10 +2714,10 @@ browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.6.6, browserslist@^4.
     node-releases "^1.1.53"
     pkg-up "^2.0.0"
 
-bs-platform@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-8.0.1.tgz#05d78492774c2f7e9b424a30eabe4f424fa951ae"
-  integrity sha512-zVIlJl1mkQ2DqhPyZmgbpTDyFHXtryUA6nJa6Q1DsLof0t5EbdNfH4UGT219YhiS7+m0xyEVVHPJIPHNZlssHQ==
+bs-platform@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-8.0.2.tgz#8caf775c6c6fcde57ebb12f9efacd346951aeb45"
+  integrity sha512-2vHnyxCd4m5QYG/hxUGsevOqEkpqL+chmjV7I3yz9NT2lEtF6RafpUj30myQqdpDcIIhLja3PCkNq+ZVNSsXQA==
 
 bs-webapi@^0.16.0:
   version "0.16.0"
