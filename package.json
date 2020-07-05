@@ -26,22 +26,22 @@
     "release": "make release"
   },
   "dependencies": {
-    "bs-webapi": "^0.16.0"
+    "bs-webapi": "^0.17.0"
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.5.1",
-    "bs-platform": "^8.0.2",
+    "bs-platform": "^8.0.3",
     "highlight.js": "^10.1.1",
     "jest": "^26.1.0",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.0-beta.1",
-    "preact": "^10.4.4",
+    "parcel": "^2.0.0-nightly.322",
+    "preact": "^10.4.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rimraf": "^3.0.2"
   },
   "peerDependencies": {
-    "bs-platform": "^8.0.2",
+    "bs-platform": "^8.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
