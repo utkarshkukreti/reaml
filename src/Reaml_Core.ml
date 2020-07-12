@@ -258,14 +258,14 @@ let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionCompon
 
 (* Create Recursive Component *)
 let recursiveComponent
-    ?memo:(memo_ = false)
+    ?(memo = false)
     ~(name : string)
     (fn : 'props -> 'props functionComponent -> vnode)
     : 'props functionComponent
   =
   let make = ref (fun _ -> null) in
   let fn props = fn props !make in
-  make := component ~memo:memo_ ~name fn;
+  make := component ~memo ~name fn;
   !make
 
 (* Portal *)
