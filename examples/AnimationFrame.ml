@@ -5,7 +5,7 @@ let[@reaml.hook] use (enabled, callback) =
   let[@reaml] () =
     R.useEffect
       (fun () ->
-        R.Ref.write callbackRef callback;
+        R.Ref.set callbackRef callback;
         None)
       (R._1 callback)
   in
@@ -16,7 +16,7 @@ let[@reaml.hook] use (enabled, callback) =
         let rec loop t =
           if !isRunning
           then (
-            (R.Ref.read callbackRef) t;
+            (R.Ref.get callbackRef) t;
             Webapi.requestAnimationFrame loop)
           else ()
         in

@@ -83,8 +83,8 @@ end
 module Ref = struct
   type 'a t
 
-  external read : 'a t -> 'a = "current" [@@bs.get]
-  external write : 'a t -> 'a -> unit = "current" [@@bs.set]
+  external get : 'a t -> 'a = "current" [@@bs.get]
+  external set : 'a t -> 'a -> unit = "current" [@@bs.set]
 end
 
 (* Hooks *)

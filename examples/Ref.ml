@@ -5,7 +5,7 @@ module Ref = struct
     let[@reaml] show, setShow = R.useState true in
     let[@reaml] inputRef = R.useRef None in
     let focus () =
-      match R.Ref.read inputRef with
+      match R.Ref.get inputRef with
       | Some el ->
         Webapi.Dom.(
           (match Element.asHtmlElement el with
@@ -17,7 +17,7 @@ module Ref = struct
       [
         R.button [ R.onClick (fun _ -> setShow (not show)) ] [ R.string "Toggle" ];
         R.button [ R.onClick (fun _ -> focus ()) ] [ R.string "Focus" ];
-        (if show then R.input [ R.ref (R.Ref.write inputRef) ] [] else R.null);
+        (if show then R.input [ R.ref (R.Ref.set inputRef) ] [] else R.null);
       ]
 end
 
