@@ -79,6 +79,8 @@ module Context = struct
     createComponentElement context.provider { value; children = vnode }
 end
 
+let createContext = Context.make
+
 (* Ref *)
 module Ref = struct
   type 'a t
