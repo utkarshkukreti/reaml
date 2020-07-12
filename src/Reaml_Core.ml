@@ -56,12 +56,13 @@ external memo : 'a component -> 'a component = "memo" [@@bs.module "react"]
 
 let _0 = Some ([||] : any array)
 let _1 a = Some [| any a |]
-let _2 a b = Some [| any a; any b |]
-let _3 a b c = Some [| any a; any b; any c |]
-let _4 a b c d = Some [| any a; any b; any c; any d |]
-let _5 a b c d e = Some [| any a; any b; any c; any d; any e |]
-let _6 a b c d e f = Some [| any a; any b; any c; any d; any e; any f |]
-let _7 a b c d e f g = Some [| any a; any b; any c; any d; any e; any f; any g |]
+
+external _2 : 'a * 'b -> any array option = "%identity"
+external _3 : 'a * 'b * 'c -> any array option = "%identity"
+external _4 : 'a * 'b * 'c * 'd -> any array option = "%identity"
+external _5 : 'a * 'b * 'c * 'd * 'e -> any array option = "%identity"
+external _6 : 'a * 'b * 'c * 'd * 'e * 'f -> any array option = "%identity"
+external _7 : 'a * 'b * 'c * 'd * 'e * 'f * 'g -> any array option = "%identity"
 
 (* Context *)
 module Context = struct
