@@ -75,7 +75,7 @@ module Context = struct
 
   external make : 'a -> 'a t = "createContext" [@@bs.module "react"]
 
-  let provide (context : 'a t) (value : 'a) vnode =
+  let provide context value vnode =
     createComponentElement context.provider { value; children = vnode }
 end
 
@@ -108,7 +108,7 @@ external useReducer
   = "useReducer"
   [@@bs.module "react"]
 
-let useState : 'a -> undefined -> 'a * ('a -> unit) =
+let useState =
   let reducer _state action = action in
   fun state undefined -> useReducer reducer state undefined
 
@@ -189,7 +189,7 @@ end = struct
   let class_ name = Class name
   let list list = List list
 
-  let toDict (attrs : t list) =
+  let toDict attrs =
     let return = Js.Dict.empty () in
     let style = Js.Dict.empty () in
     let hasStyle = ref false in
@@ -226,11 +226,8 @@ let dangerouslySetInnerHtml html = property "dangerouslySetInnerHTML" { __html =
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let elementArray name attrs (children : vnode array) =
-  createElement name (Attr.toDict attrs) children
-
-let element name attrs (children : vnode list) =
-  elementArray name attrs (Belt.List.toArray children)
+let elementArray name attrs children = createElement name (Attr.toDict attrs) children
+let element name attrs children = elementArray name attrs (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
@@ -240,16 +237,14 @@ external float : float -> vnode = "%identity"
 (* Create From List/Array *)
 external array : vnode array -> vnode = "%identity"
 
-let list (list : vnode list) = array (Belt.List.toArray list)
+let list list = array (Belt.List.toArray list)
 
 (* Create a Fragment *)
-let fragmentArray (array : vnode array) =
-  createVariadicComponentElement _fragment () array
-
-let fragment (list : vnode list) = fragmentArray (Belt.List.toArray list)
+let fragmentArray array = createVariadicComponentElement _fragment () array
+let fragment list = fragmentArray (Belt.List.toArray list)
 
 (* Create Component *)
-let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionComponent)
+let component ?memo:(memo_ = false) ~name (fn : 'props functionComponent)
     : 'props functionComponent
   =
   setDisplayName fn name;
@@ -257,10 +252,7 @@ let component ?memo:(memo_ = false) ~(name : string) (fn : 'props functionCompon
   fun props -> createComponentElement fn props
 
 (* Create Recursive Component *)
-let recursiveComponent
-    ?memo
-    ~(name : string)
-    (fn : 'props -> 'props functionComponent -> vnode)
+let recursiveComponent ?memo ~name (fn : 'props -> 'props functionComponent -> vnode)
     : 'props functionComponent
   =
   let make = ref (fun _ -> null) in
