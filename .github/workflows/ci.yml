@@ -1,4 +1,4 @@
-name: Build
+name: CI
 
 on: push
 
@@ -19,6 +19,9 @@ jobs:
       - run: npm install -g esy@latest
       - run: make
         working-directory: ppx
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
       - uses: actions/upload-artifact@v1
         with:
           name: ${{ matrix.os }}.exe
