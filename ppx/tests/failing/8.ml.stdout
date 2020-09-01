@@ -1,2 +1,1 @@
-[%%ocaml.error ;;"[@reaml.componnt] occurs in an inappropriate place"
-  ;;""]
+[%%ocaml.error "[@reaml.componnt] occurs in an inappropriate place"]

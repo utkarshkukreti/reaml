@@ -1,3 +1,2 @@
 [%%ocaml.error
-  ;;"`@reaml.component` must be followed with a string - the component's name"
-  ;;""]
+  "`@reaml.component` must be followed with a string - the component's name"]
