@@ -14,15 +14,15 @@ type props = {
 external _foo : props -> Reaml.vnode = "foo"[@@bs.val ]
 let _foo props = Reaml.createComponentElement _foo props
 let _foo =
-  Reaml.component ~name:"Foo"
-    (fun () ->
-       Js.log "foo";
-       (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
+  let rec __foo () =
+    Js.log "foo";
+    (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
+  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
 let _foo =
-  Reaml.component ~memo:true ~name:"Foo"
-    (fun () ->
-       Js.log "foo";
-       (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ()))
+  let rec __foo () =
+    Js.log "foo";
+    (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
+  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
 let useThing _ (_ : Reaml.undefined) =
   let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in
@@ -31,25 +31,23 @@ let useThing _ (_ : Reaml.undefined) =
 type foo = {
   foo: string }
 let _foo =
-  Reaml.recursiveComponent ~name:"Foo"
-    (fun { foo = _ } ->
-       fun foo ->
-         let (_count, _setCount) = Reaml.useState () Reaml.undefined in
-         let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
-         let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
+  let rec __foo { foo = _ } =
+    let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+    let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+    let (_, _) = useThing () Reaml.undefined in _foo { foo = "foo" }
+  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
 let _foo =
-  Reaml.recursiveComponent ~memo:true ~name:"Foo"
-    (fun { foo = _ } ->
-       fun foo ->
-         let (_count, _setCount) = Reaml.useState () Reaml.undefined in
-         let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
-         let (_, _) = useThing () Reaml.undefined in foo { foo = "foo" })
+  let rec __foo { foo = _ } =
+    let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+    let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+    let (_, _) = useThing () Reaml.undefined in _foo { foo = "foo" }
+  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
 let _foo =
-  Reaml.component ~name:"Foo"
-    (fun () ->
-       let (_count, _setCount) = Reaml.useState () Reaml.undefined in
-       let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
-       let (_, _) = useThing () Reaml.undefined in ())
+  let rec __foo () =
+    let (_count, _setCount) = Reaml.useState () Reaml.undefined in
+    let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
+    let (_, _) = useThing () Reaml.undefined in ()
+  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
 module Counter =
   struct
     type props = {

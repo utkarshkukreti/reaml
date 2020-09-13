@@ -29,6 +29,14 @@ external createElement : string -> any Js.Dict.t -> vnode array -> vnode = "crea
 external createComponentElement : 'a component -> 'a -> vnode = "createElement"
   [@@bs.module "react"]
 
+(* Create a function component element vnode *)
+external createFunctionComponentElement
+  :  'a functionComponent ->
+  'a ->
+  vnode
+  = "createElement"
+  [@@bs.module "react"]
+
 (* A component which requires variadic arguments *)
 type ('props, 'child) variadicComponent
 

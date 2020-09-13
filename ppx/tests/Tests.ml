@@ -32,17 +32,17 @@ let[@reaml.hook] useThing _ =
 
 type foo = { foo : string }
 
-let[@reaml.component.recursive "Foo"] _foo { foo = _ } foo =
+let[@reaml.component.recursive "Foo"] _foo { foo = _ } =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
-  foo { foo = "foo" }
+  _foo { foo = "foo" }
 
-let[@reaml.component.recursive.memo "Foo"] _foo { foo = _ } foo =
+let[@reaml.component.recursive.memo "Foo"] _foo { foo = _ } =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
-  foo { foo = "foo" }
+  _foo { foo = "foo" }
 
 (* Mainly for ReasonML *)
 let[@reaml.component "Foo"] _foo () =

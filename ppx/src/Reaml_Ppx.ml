@@ -99,7 +99,7 @@ let mapper _ _ =
         check_value_binding
           (match value_binding with
           | {
-           pvb_pat;
+           pvb_pat = { ppat_desc = Ppat_var { txt = ident } } as pvb_pat;
            pvb_expr = { pexp_desc = Pexp_fun (Nolabel, None, args, expr); pexp_loc };
            pvb_loc;
            pvb_attributes =
@@ -162,32 +162,20 @@ let mapper _ _ =
                      | _ -> ())
               | _ -> ()
             in
-            let inner, fn =
-              match txt with
-              | "reaml.component" | "reaml.component.memo" ->
-                ( Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr),
-                  [%expr Reaml.component] )
-              | "reaml.component.recursive" | "reaml.component.recursive.memo" ->
-                (match expr with
-                | {
-                 pexp_desc = Pexp_fun (Nolabel, None, args', expr);
-                 pexp_loc = pexp_loc_2;
-                } ->
-                  ( Exp.fun_ ~loc:pexp_loc Nolabel None args
-                      (Exp.fun_ ~loc:pexp_loc_2 Nolabel None args' (rewrite_let expr)),
-                    [%expr Reaml.recursiveComponent] )
-                | _ ->
-                  raise
-                    (Location.Error
-                       (Location.error ~loc:pexp_loc
-                          "a recursive component should take exactly 2 arguments")))
-              | _ ->
-                raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
+            let pat_var = Pat.var { txt = ident; loc = Location.none } in
+            let pat__var = Pat.var { txt = "_" ^ ident; loc = Location.none } in
+            let exp_var = Exp.ident { txt = Lident ident; loc = Location.none } in
+            let exp__var =
+              Exp.ident { txt = Lident ("_" ^ ident); loc = Location.none }
             in
             let pvb_expr =
-              if Base.String.is_substring txt ~substring:".memo"
-              then [%expr [%e fn] ~memo:true ~name:[%e name] [%e inner]]
-              else [%expr [%e fn] ~name:[%e name] [%e inner]]
+              [%expr
+                let rec [%p pat__var] =
+                  [%e Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr)]
+                and [%p pat_var] =
+                 fun props -> Reaml.createFunctionComponentElement [%e exp__var] props
+                in
+                [%e exp_var]]
             in
             Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
           | {
