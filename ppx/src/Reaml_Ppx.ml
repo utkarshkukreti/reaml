@@ -222,18 +222,11 @@ let mapper _ _ =
                  [
                    Vb.mk ~loc ~attrs:[]
                      (Pat.var ~loc { txt; loc })
-                     (Exp.fun_ ~loc Nolabel None
-                        (Pat.var ~loc { txt = "props"; loc })
-                        (Exp.apply ~loc
-                           (Exp.ident ~loc
-                              {
-                                txt = Ldot (Lident "Reaml", "createComponentElement");
-                                loc;
-                              })
-                           [
-                             Nolabel, Exp.ident ~loc { txt = Lident txt; loc };
-                             Nolabel, Exp.ident ~loc { txt = Lident "props"; loc };
-                           ]));
+                     [%expr
+                       fun props ->
+                         Reaml.createComponentElement
+                           [%e Exp.ident ~loc { txt = Lident txt; loc }]
+                           props];
                  ]
              in
              let s =
