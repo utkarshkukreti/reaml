@@ -198,12 +198,7 @@ let mapper _ _ =
           } ->
             let pvb_expr =
               Exp.fun_ Nolabel None args
-                (Exp.fun_ ~loc:pexp_loc Nolabel None
-                   (Pat.constraint_ (Pat.any ())
-                      (Typ.constr
-                         { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none }
-                         []))
-                   (rewrite_let expr))
+                [%expr fun (_ : Reaml.undefined) -> [%e rewrite_let expr]]
             in
             Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
           | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding));
