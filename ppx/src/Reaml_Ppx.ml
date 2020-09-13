@@ -203,8 +203,7 @@ let mapper _ _ =
             Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
           | _ -> Ast_mapper.default_mapper.value_binding mapper value_binding));
     structure =
-      (let isReamlComponent (a : Parsetree.attribute) =
-         match a with
+      (let isReamlComponent = function
          | { attr_name = { txt = "reaml.component" } } -> true
          | _ -> false
        in
