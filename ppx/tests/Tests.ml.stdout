@@ -17,12 +17,14 @@ let _foo =
   let rec __foo () =
     Js.log "foo";
     (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
-  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
+  and _foo props = Reaml.createFunctionComponentElement __foo props in
+  Reaml.setDisplayName __foo "Foo"; _foo
 let _foo =
   let rec __foo () =
     Js.log "foo";
     (let (_count, _setCount) = Reaml.useState () Reaml.undefined in ())
-  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
+  and _foo props = Reaml.createFunctionComponentElement __foo props in
+  Reaml.setDisplayName __foo "Foo"; _foo
 let useThing _ (_ : Reaml.undefined) =
   let (count, _setCount) = Reaml.useState () Reaml.undefined in
   let () = Js.log "in useThing!" in
@@ -35,19 +37,22 @@ let _foo =
     let (_count, _setCount) = Reaml.useState () Reaml.undefined in
     let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
     let (_, _) = useThing () Reaml.undefined in _foo { foo = "foo" }
-  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
+  and _foo props = Reaml.createFunctionComponentElement __foo props in
+  Reaml.setDisplayName __foo "Foo"; _foo
 let _foo =
   let rec __foo { foo = _ } =
     let (_count, _setCount) = Reaml.useState () Reaml.undefined in
     let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
     let (_, _) = useThing () Reaml.undefined in _foo { foo = "foo" }
-  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
+  and _foo props = Reaml.createFunctionComponentElement __foo props in
+  Reaml.setDisplayName __foo "Foo"; _foo
 let _foo =
   let rec __foo () =
     let (_count, _setCount) = Reaml.useState () Reaml.undefined in
     let (_value, _dispatch) = Reaml.useReducer () () Reaml.undefined in
     let (_, _) = useThing () Reaml.undefined in ()
-  and _foo props = Reaml.createFunctionComponentElement __foo props in _foo
+  and _foo props = Reaml.createFunctionComponentElement __foo props in
+  Reaml.setDisplayName __foo "Foo"; _foo
 module Counter =
   struct
     type props = {

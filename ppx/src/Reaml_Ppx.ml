@@ -118,7 +118,7 @@ let mapper _ _ =
                };
              ];
           } ->
-            let name =
+            let display_name =
               match attr_payload with
               | PStr
                   [
@@ -175,6 +175,7 @@ let mapper _ _ =
                 and [%p pat_var] =
                  fun props -> Reaml.createFunctionComponentElement [%e exp__var] props
                 in
+                Reaml.setDisplayName [%e exp__var] [%e display_name];
                 [%e exp_var]]
             in
             Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
