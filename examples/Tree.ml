@@ -39,4 +39,4 @@ let main =
             ] );
     }
 
-let () = main |> R.renderTo "main"
+let () = R.div [ R.style "userSelect" "none" ] [ main ] |> R.renderTo "main"
