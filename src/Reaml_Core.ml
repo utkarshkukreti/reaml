@@ -249,23 +249,6 @@ let list list = array (Belt.List.toArray list)
 let fragmentArray array = createVariadicComponentElement _fragment () array
 let fragment list = fragmentArray (Belt.List.toArray list)
 
-(* Create Component *)
-let component ?memo:(memo_ = false) ~name (fn : 'props functionComponent)
-    : 'props functionComponent
-  =
-  setDisplayName fn name;
-  let fn = if memo_ then memo (functionComponent fn) else functionComponent fn in
-  fun props -> createComponentElement fn props
-
-(* Create Recursive Component *)
-let recursiveComponent ?memo ~name (fn : 'props -> 'props functionComponent -> vnode)
-    : 'props functionComponent
-  =
-  let make = ref (fun _ -> null) in
-  let fn props = fn props !make in
-  make := component ?memo ~name fn;
-  !make
-
 (* Portal *)
 module Portal = struct
   external make : vnode -> Dom.element -> vnode = "createPortal" [@@bs.module "react-dom"]
