@@ -76,13 +76,7 @@ let rec rewrite_let = function
             ],
             expr );
     } ->
-    let args =
-      args
-      @ [
-          ( Nolabel,
-            Exp.ident { txt = Ldot (Lident "Reaml", "undefined"); loc = Location.none } );
-        ]
-    in
+    let args = args @ [ Nolabel, [%expr Reaml.undefined] ] in
     Exp.let_ recursive
       [
         Vb.mk ~loc:pvb_loc ~attrs:[]
@@ -171,7 +165,8 @@ let mapper _ _ =
             let inner, fn =
               match txt with
               | "reaml.component" | "reaml.component.memo" ->
-                Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr), "component"
+                ( Exp.fun_ ~loc:pexp_loc Nolabel None args (rewrite_let expr),
+                  [%expr Reaml.component] )
               | "reaml.component.recursive" | "reaml.component.recursive.memo" ->
                 (match expr with
                 | {
@@ -180,7 +175,7 @@ let mapper _ _ =
                 } ->
                   ( Exp.fun_ ~loc:pexp_loc Nolabel None args
                       (Exp.fun_ ~loc:pexp_loc_2 Nolabel None args' (rewrite_let expr)),
-                    "recursiveComponent" )
+                    [%expr Reaml.recursiveComponent] )
                 | _ ->
                   raise
                     (Location.Error
@@ -190,17 +185,9 @@ let mapper _ _ =
                 raise (Location.Error (Location.error ~loc:pexp_loc "this can't happen"))
             in
             let pvb_expr =
-              Exp.apply
-                (Exp.ident { txt = Ldot (Lident "Reaml", fn); loc = Location.none })
-                (List.append
-                   (if Base.String.is_substring txt ~substring:".memo"
-                   then
-                     [
-                       ( Asttypes.Labelled "memo",
-                         Exp.construct { txt = Lident "true"; loc = Location.none } None );
-                     ]
-                   else [])
-                   [ Labelled "name", name; Nolabel, inner ])
+              if Base.String.is_substring txt ~substring:".memo"
+              then [%expr [%e fn] ~memo:true ~name:[%e name] [%e inner]]
+              else [%expr [%e fn] ~name:[%e name] [%e inner]]
             in
             Vb.mk ~loc:pvb_loc pvb_pat pvb_expr
           | {

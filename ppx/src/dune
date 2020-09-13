@@ -3,6 +3,6 @@
   (public_name Reaml_Ppx_Bin.lib)
   (kind ppx_rewriter)
   (libraries ppx_tools_versioned ocaml-migrate-parsetree base)
-  (preprocess (pps ppx_tools_versioned.metaquot_406))
+  (preprocess (pps ppx_tools_versioned.metaquot_410))
   (flags
     (:standard -w -9)))
