@@ -105,14 +105,7 @@ let mapper _ _ =
            pvb_attributes =
              [
                {
-                 attr_name =
-                   {
-                     txt =
-                       ( "reaml.component"
-                       | "reaml.component.memo"
-                       | "reaml.component.recursive"
-                       | "reaml.component.recursive.memo" ) as txt;
-                   };
+                 attr_name = { txt = ("reaml.component" | "reaml.component.memo") as txt };
                  attr_payload;
                  attr_loc;
                };

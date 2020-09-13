@@ -32,13 +32,13 @@ let[@reaml.hook] useThing _ =
 
 type foo = { foo : string }
 
-let[@reaml.component.recursive "Foo"] _foo { foo = _ } =
+let[@reaml.component "Foo"] _foo { foo = _ } =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
   _foo { foo = "foo" }
 
-let[@reaml.component.recursive.memo "Foo"] _foo { foo = _ } =
+let[@reaml.component.memo "Foo"] _foo { foo = _ } =
   let[@reaml] _count, _setCount = Reaml.useState () in
   let[@reaml] _value, _dispatch = Reaml.useReducer () () in
   let[@reaml] _, _ = useThing () in
