@@ -25,6 +25,14 @@ external functionComponent : 'props functionComponent -> 'props component = "%id
 external createElement : string -> any Js.Dict.t -> vnode array -> vnode = "createElement"
   [@@bs.variadic] [@@bs.module "react"]
 
+(* Create a raw element vnode with the jsx-runtime *)
+external jsxElement : string -> any Js.Dict.t -> vnode = "jsx"
+  [@@bs.module "react/jsx-runtime"]
+
+(* Create a keyed raw element vnode with the jsx-runtime *)
+external jsxElementWithKey : string -> any Js.Dict.t -> string -> vnode = "jsx"
+  [@@bs.module "react/jsx-runtime"]
+
 (* Create a raw component element vnode *)
 external createComponentElement : 'a component -> 'a -> vnode = "createElement"
   [@@bs.module "react"]
@@ -213,8 +221,6 @@ let style = Attr.style
 let class_ = Attr.class_
 let data name value = property ("data-" ^ name) value
 let aria name value = property ("aria-" ^ name) value
-let key (value : string) = property "key" value
-let keyInt (value : int) = property "key" value
 
 type dangerouslySetInnerHtml = { __html : string }
 
@@ -224,8 +230,20 @@ let dangerouslySetInnerHtml html = property "dangerouslySetInnerHTML" { __html =
 external null : vnode = "#null"
 
 (* Create Element Node *)
-let elementArray name attrs children = createElement name (Attr.toDict attrs) children
+let elementArray name attrs (children : vnode array) =
+  let props = Attr.toDict attrs in
+  if Js.Array.length children > 0 then Js.Dict.set props "children" (any children) else ();
+  jsxElement name props
+
+let elementWithKeyArray name key attrs (children : vnode array) =
+  let props = Attr.toDict attrs in
+  if Js.Array.length children > 0 then Js.Dict.set props "children" (any children) else ();
+  jsxElementWithKey name props key
+
 let element name attrs children = elementArray name attrs (Belt.List.toArray children)
+
+let elementWithKey name key attrs children =
+  elementWithKeyArray name key attrs (Belt.List.toArray children)
 
 (* Create Text Node *)
 external string : string -> vnode = "%identity"
